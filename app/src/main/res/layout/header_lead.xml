@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/titleLead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Lead"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_margin="@dimen/start_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--Serch bar-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/serch_bar_Lead"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleLead"
+        android:background="@drawable/chip_bg"
+        android:backgroundTint="@color/bg_search"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="@dimen/start_margin"
+        app:layout_constraintEnd_toStartOf="@id/filter_button">
+
+        <!--Icon-->
+        <ImageView
+            android:id="@+id/iconSearch"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_search"
+            android:contentDescription="@null"
+            app:tint="@color/color_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!--Input search-->
+        <EditText
+            android:id="@+id/text_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:hint="@string/TextSearch"
+            android:background="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iconSearch"
+            android:padding="3dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/filter_button"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/ic_sliders"
+        android:contentDescription="@string/desc_Search"
+        android:background="@drawable/chip_bg"
+        android:backgroundTint="@color/icon_search"
+        app:layout_constraintTop_toTopOf="@id/serch_bar_Lead"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/serch_bar_Lead"/>
+
+    <!--Chip scroll-->
+    <HorizontalScrollView
+        android:id="@+id/chip_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_margin="@dimen/start_margin"
+        app:layout_constraintTop_toBottomOf="@id/serch_bar_Lead"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/chip1"
+                android:text="@string/newLead"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_margin="5dp"
+                android:textSize="11sp"
+                android:backgroundTint="@color/icon_search"
+                android:background="@drawable/chip_bg"
+                android:textColor="@color/seemore_color"/>
+
+            <TextView
+                android:id="@+id/chip2"
+                android:text="@string/currentLead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:layout_margin="5dp"
+                android:background="@drawable/chip_bg"
+                android:backgroundTint="@color/bg_search"
+                android:textColor="@color/lead_not_choose"/>
+
+            <TextView
+                android:id="@+id/chip3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Lead15day"
+                android:layout_margin="5dp"
+                android:textSize="11sp"
+                android:backgroundTint="@color/bg_lead_15"
+                android:textColor="@color/text_lead_15"
+                android:background="@drawable/chip_bg"
+                />
+
+            <TextView
+                android:id="@+id/chip4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:textSize="11sp"
+                android:text="@string/Lead30day"
+                android:textColor="@color/lead_not_choose"
+                android:backgroundTint="@color/bg_search"
+                android:background="@drawable/chip_bg"/>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
