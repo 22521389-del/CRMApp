@@ -113,7 +113,7 @@
                 android:id="@+id/email_infor"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/heigh_et"
-                android:hint="@string/email_infor"
+                android:hint="@string/email"
                 android:textSize="@dimen/text16"
                 app:layout_constraintTop_toBottomOf="@id/phone_infor"
                 app:layout_constraintStart_toStartOf="parent"

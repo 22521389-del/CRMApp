@@ -53,6 +53,8 @@ public class detailLead extends Fragment {
         TextView tvUser = view.findViewById(R.id.tv_user);
         TextView tvcompany = view.findViewById(R.id.tv_company);
         ImageView im_back = view.findViewById(R.id.iv_back);
+
+        //back to lead page
         im_back.setOnClickListener(v->{
             requireActivity().finish();
         });

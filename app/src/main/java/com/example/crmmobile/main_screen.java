@@ -85,7 +85,7 @@ public class main_screen extends Fragment {
                     new item_module("Hóa đơn", R.drawable.bill),
                     new item_module("Hợp đồng", R.drawable.contract),
                     new item_module("Báo cáo", R.drawable.bar_chart),
-                    new item_module("Cơ hội", R.drawable.marketing_strategy),
+                    new item_module("Cơ hội", R.drawable.ic_target),
                     new item_module("CSKH", R.drawable.customer_care)
         );
 

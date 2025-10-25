@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.crmmobile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,8 +10,6 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import com.example.app.R;
 
 public class FragmentKhac extends Fragment {
 
@@ -60,10 +58,10 @@ public class FragmentKhac extends Fragment {
     private void toggleSection(LinearLayout layout, ImageView icon) {
         if (layout.getVisibility() == View.GONE) {
             layout.setVisibility(View.VISIBLE);
-            icon.setImageResource(R.drawable.ic_expand_less); // mũi tên lên
+            icon.setImageResource(R.drawable.ic_arrow_up); // mũi tên lên
         } else {
             layout.setVisibility(View.GONE);
-            icon.setImageResource(R.drawable.ic_expand_more); // mũi tên xuống
+            icon.setImageResource(R.drawable.ic_arrow_down); // mũi tên xuống
         }
     }
 }

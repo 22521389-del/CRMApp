@@ -1,14 +1,7 @@
 <resources>
-    <string name="app_name">CRMMobile</string>
     <string name="UserIcon">Settings</string>
-    <string name="Lead">Lead</string>
     <string name="TextSearch">Tìm kiếm Lead</string>
     <string name="desc_Search">Search icon</string>
-    <string name="Home">Trang chủ</string>
-    <string name="Order">Đơn hàng</string>
-    <string name="Calendar">Lịch</string>
-    <string name="Notify">Thông báo</string>
-    <string name="Menu">Thêm</string>
     <string name="newLead">Lead mới</string>
     <string name="currentLead">Lead tạo hôm nay</string>
     <string name="Lead15day">Lead vượt quá 15 ngày</string>
@@ -38,7 +31,6 @@
     <string name="last_name">Họ</string>
     <string name="first_name">Tên </string>
     <string name="phone_infor"> Số điện thoại di động</string>
-    <string name="email_infor">Email</string>
     <string name="sex_infor">Giới tính</string>
     <string name="birthday">Ngày sinh</string>
     <string name="state_infor">Tình trạng</string>
@@ -46,7 +38,6 @@
     <string name="another_email">Email khác</string>
     <string name="another_phone">Số điện thoại khác</string>
     <string name="abort">Hủy bỏ</string>
-    <string name="save">Lưu</string>
     <string name="company_infor">Thông tin công ty</string>
     <string name="tax_code">Mã số thuế</string>
     <string name="name_company">Tên công ty</string>

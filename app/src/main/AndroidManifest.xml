@@ -18,6 +18,9 @@
         <activity android:name=".QuoteDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
+        <activity android:name=".OrderDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CRMMobile"/>
 
         <activity
             android:name=".MainActivity"

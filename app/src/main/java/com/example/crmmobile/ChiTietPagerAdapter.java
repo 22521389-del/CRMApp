@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.crmmobile;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

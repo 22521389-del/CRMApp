@@ -6,7 +6,6 @@
     <color name="gray1">#888888</color>
     <color name="white1">#E5E5E5</color>
     <color name="white2">#CCCCCC</color>
-    <color name="blue">#0000FF</color>
     <color name="blue1">#F0FFFF</color>
     <color name="blue2">#0096FF</color>
     <color name="blue3">#89CFF0</color>
@@ -26,5 +25,4 @@
     <color name="active_add">#3B72F2</color>
     <color name="icon_infor">#7E8A9A</color>
     <color name="bg_active_icon">#F2F5F8</color>
-    <color name="red">#FF0000</color>
 </resources>

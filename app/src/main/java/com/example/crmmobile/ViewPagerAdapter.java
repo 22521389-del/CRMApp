@@ -9,6 +9,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 public class ViewPagerAdapter extends FragmentStateAdapter {
     public static final int TAB_HOME = 0;
     public static final int TAB_LEAD = 1;
+
+    public static final int TAB_ORDER = 2;
     public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
@@ -29,6 +31,8 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
                 return new main_screen();
             case TAB_LEAD:
                 return new leadFragment();
+            case TAB_ORDER:
+                return new OrderFragment();
             default:
                 return new main_screen();
 
@@ -37,6 +41,6 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }

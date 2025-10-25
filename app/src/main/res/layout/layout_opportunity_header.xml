@@ -16,7 +16,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_arrow_back"
+        android:src="@drawable/arrow_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +40,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/filter_button"
+        android:src="@drawable/ic_sliders"
+        app:tint="@color/icon_infor"
         android:contentDescription="@string/opportunity_filter"
         android:background="@drawable/chip_bg"
         android:backgroundTint="@color/pastel_blue_light"

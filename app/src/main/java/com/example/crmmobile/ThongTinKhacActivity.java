@@ -1,4 +1,4 @@
-package com.example.crm;
+package com.example.crmmobile;
 
 import android.content.Intent;
 import android.os.Bundle;

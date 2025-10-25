@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.crmmobile;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -39,9 +39,9 @@ public class TaiLieuAdapter extends RecyclerView.Adapter<TaiLieuAdapter.ViewHold
         if (taiLieu.getTenFile().endsWith(".pdf")) {
             iconRes = R.drawable.pdf;
         } else if (taiLieu.getTenFile().endsWith(".xlsx") || taiLieu.getTenFile().endsWith(".xls")) {
-            iconRes = R.drawable.excel;
+            iconRes = R.drawable.ic_excel;
         } else {
-            iconRes = R.drawable.files;
+            iconRes = R.drawable.ic_files;
         }
 
         holder.imgFileType.setImageResource(iconRes);

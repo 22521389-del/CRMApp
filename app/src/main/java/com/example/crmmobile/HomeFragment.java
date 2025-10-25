@@ -1,4 +1,4 @@
-package com.example.crmapp;
+package com.example.crmmobile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,11 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
-
-import com.example.crmapp.AchievementAdapter;
-import com.example.crmapp.QuickMenuAdapter;
-import com.example.crmapp.Achievement;
-import com.example.crmapp.QuickMenuItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;

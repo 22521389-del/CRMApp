@@ -29,7 +29,6 @@ public class leadFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_lead, container, false);
 
         recyclerLead = view.findViewById(R.id.LeadRecycler);
-        //bottomNavigationView = view.findViewById(R.id.nav_footer);
 
         recyclerLead.setLayoutManager(new LinearLayoutManager(getContext()));
         leadList = new ArrayList<>();
@@ -42,7 +41,7 @@ public class leadFragment extends Fragment {
 
         adapter = new AdapterLead(leadList, lead -> {
             Fragment activefragment = new activate_choose();
-
+            //open active chose
             BottomNavigationView navFooter = requireActivity().findViewById(R.id.nav_footer);
             FrameLayout contain = requireActivity().findViewById(R.id.main_container);
             ViewPager2 viewPager = requireActivity().findViewById(R.id.viewPager);

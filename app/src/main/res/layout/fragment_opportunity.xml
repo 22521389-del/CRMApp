@@ -20,7 +20,7 @@
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/layout_opportunity_head"
-        app:layout_constraintBottom_toTopOf="@id/nav_footer"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -39,20 +39,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Footer -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:menu="@menu/menu_footer"
-        app:labelVisibilityMode="labeled"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <!-- Nút thêm -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add_opportunity"
@@ -63,7 +49,7 @@
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/blue_primary"
         app:tint="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/nav_footer"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Bubble form nổi, phủ toàn màn -->

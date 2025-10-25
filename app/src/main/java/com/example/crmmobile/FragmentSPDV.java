@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.crmmobile;
 
 import android.app.Activity;
 import android.os.Bundle;

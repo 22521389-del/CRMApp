@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.crmmobile;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,7 +24,7 @@ public class OrderDetailPagerAdapter extends FragmentStateAdapter {
             case "Tổng quan":
                 return new TongQuanFragment();
             case "Chi tiết":
-                return new FragmentChiTiet(); // ✅ tab "Chi tiết"
+                return new FragmentChiTiet(); //tab "Chi tiết"
             default:
                 return new EmptyFragment();
         }

@@ -1,4 +1,4 @@
-package com.example.app;
+package com.example.crmmobile;
 
 public class TaiLieu {
     private String tenFile;
@@ -25,11 +25,11 @@ public class TaiLieu {
         if (lower.endsWith(".pdf")) {
             return R.drawable.pdf;     // icon PDF
         } else if (lower.endsWith(".xlsx") || lower.endsWith(".xls")) {
-            return R.drawable.excel;   // icon Excel
+            return R.drawable.ic_excel;   // icon Excel
         } else if (lower.endsWith(".docx") || lower.endsWith(".doc")) {
             return R.drawable.addfile;    // icon Word
         } else {
-            return R.drawable.files;    // icon mặc định
+            return R.drawable.ic_files;    // icon mặc định
         }
     }
 

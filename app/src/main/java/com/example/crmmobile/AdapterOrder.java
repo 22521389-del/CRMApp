@@ -6,21 +6,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+
 import java.util.List;
 
-public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
+public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.OrderViewHolder> {
 
     private List<Order> orders;
     private Context context;
 
-    public OrderAdapter(List<Order> orders, Context context) {
-        this.orders = orders;
+    private onItemViewClickListener itemViewClickListener;
+
+    public interface onItemViewClickListener{
+        void onItemClickListener(Order order);
+    }
+
+    public AdapterOrder(Context context, List<Order> orders, onItemViewClickListener itemViewClickListener) {
         this.context = context;
+        this.orders = orders;
+        this.itemViewClickListener = itemViewClickListener;
     }
 
     @NonNull
@@ -37,25 +48,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.tvOrderCode.setText(order.getOrderCode());
         holder.tvCompany.setText(order.getCompany());
 
-        // ✅ Khi click vào item — mở màn chi tiết (OrderDetailActivity)
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, OrderDetailActivity.class);
-
-            // Gửi thông tin đơn hàng qua (nếu cần hiển thị ở tab Tổng quan)
-            intent.putExtra("orderCode", order.getOrderCode());
-            intent.putExtra("company", order.getCompany());
-            intent.putExtra("date", order.getDate());
-
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
+            if(itemViewClickListener != null){
+                itemViewClickListener.onItemClickListener(order);
+            }
         });
 
-        // ✅ Khi click vào nút 3 chấm — mở bottom sheet
-//        holder.btnMore.setOnClickListener(v -> {
-//            if (context instanceof MainActivity) {
-//                ((MainActivity) context).showBottomSheet();
-//            }
-//        });
+        // Khi click vào nút 3 chấm — mở bottom sheet
+        holder.btnMore.setOnClickListener(v -> showBottomSheet());
     }
 
     @Override
@@ -74,6 +74,52 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             btnMore = itemView.findViewById(R.id.btnMore);
         }
     }
+
+    public void showBottomSheet() {
+        BottomSheetDialog dialog = new BottomSheetDialog(context);
+
+        //Sửa dòng này
+        View view = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_actions, null, false);
+
+        LinearLayout layoutActions = view.findViewById(R.id.layoutActions);
+
+        addActionItem(layoutActions, R.drawable.ic_pin, "Ghim", () ->
+                Toast.makeText(context, "Đã ghim đơn hàng", Toast.LENGTH_SHORT).show());
+        addActionItem(layoutActions, R.drawable.ic_cached, "Chuyển thành hóa đơn", () ->
+                Toast.makeText(context, "Chuyển hóa đơn thành công", Toast.LENGTH_SHORT).show());
+
+        addActionItem(layoutActions, R.drawable.ic_files, "Xuất file PDF", () ->
+                Toast.makeText(context, "Xuất file PDF...", Toast.LENGTH_SHORT).show());
+        addActionItem(layoutActions, R.drawable.ic_forward_email, "Gửi email kèm file PDF", () ->
+                Toast.makeText(context, "Gửi thành công", Toast.LENGTH_SHORT).show());
+        addActionItem(layoutActions, R.drawable.ic_copy, "Nhân đôi", () ->
+                Toast.makeText(context, "Nhân đôi thành công", Toast.LENGTH_SHORT).show());
+
+        addActionItem(layoutActions, R.drawable.ic_cancel, "Hủy đơn hàng", () ->
+                Toast.makeText(context, "Đơn hàng đã bị hủy", Toast.LENGTH_SHORT).show());
+
+        view.findViewById(R.id.btnClose).setOnClickListener(v -> dialog.dismiss());
+
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    // 🔹 Hàm tạo 1 item_action
+    private void addActionItem(LinearLayout parent, int iconRes, String text, Runnable onClick) {
+        View itemView = LayoutInflater.from(context).inflate(R.layout.item_action, parent, false);
+        ImageView icon = itemView.findViewById(R.id.actionIcon);
+        TextView label = itemView.findViewById(R.id.actionText);
+        icon.setImageResource(iconRes);
+        label.setText(text);
+
+        itemView.setOnClickListener(v -> {
+            onClick.run();
+        });
+
+        parent.addView(itemView);
+    }
+
+
 }
 
 

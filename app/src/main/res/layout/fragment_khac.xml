@@ -43,7 +43,7 @@
                         android:id="@+id/icon_contract"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_expand_more" />
+                        android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -186,7 +186,7 @@
                         android:id="@+id/icon_related"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_expand_more" />
+                        android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -281,7 +281,7 @@
                         android:id="@+id/icon_invoice"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_expand_more" />
+                        android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
 
                 <!-- Nội dung -->
@@ -424,7 +424,7 @@
                         android:id="@+id/icon_invoice_periodic"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_expand_more" />
+                        android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
 
                 <LinearLayout

@@ -1,64 +1,68 @@
 package com.example.crmmobile;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link OrderFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class OrderFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    RecyclerView rv_order;
+    List<Order> orderList;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    AdapterOrder adapterOrder;
 
     public OrderFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment OrderFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static OrderFragment newInstance(String param1, String param2) {
         OrderFragment fragment = new OrderFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_order, container, false);
+        View view =  inflater.inflate(R.layout.fragment_order, container, false);
+        rv_order = view.findViewById(R.id.recyclerOrders);
+
+        rv_order.setLayoutManager(new LinearLayoutManager(getContext()));
+        orderList = new ArrayList<>();
+
+        orderList.add(new Order("SO00109", "Công ty TNHH CloudGO", "2.139.000 đ", "30/07/2024", "Chưa thanh toán", "Mới"));
+        orderList.add(new Order("SO00110", "Công ty ABC", "5.000.000 đ", "01/08/2024", "Đã thanh toán", "Đã giao"));
+        orderList.add(new Order("SO00111", "Công ty XYZ", "3.500.000 đ", "02/08/2024", "Đang xử lý", "ĐH B2C"));
+        orderList.add(new Order("SO00111", "Công ty XYZ", "3.500.000 đ", "02/08/2024", "Đang xử lý", "ĐH B2C"));
+
+        adapterOrder = new AdapterOrder(requireContext(),orderList,order -> {
+            Intent intent = new Intent(getContext(), OrderDetailActivity.class);
+
+            // Gửi thông tin đơn hàng qua (nếu cần hiển thị ở tab Tổng quan)
+            intent.putExtra("orderCode", order.getOrderCode());
+            intent.putExtra("company", order.getCompany());
+            intent.putExtra("date", order.getDate());
+
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
+        rv_order.setAdapter(adapterOrder);
+        return view;
     }
 }

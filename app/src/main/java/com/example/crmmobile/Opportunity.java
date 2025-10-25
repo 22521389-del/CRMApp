@@ -1,4 +1,4 @@
-package com.example.crmapp;
+package com.example.crmmobile;
 
 public class Opportunity {
     private String title;

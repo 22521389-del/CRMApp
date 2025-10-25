@@ -442,7 +442,7 @@
                     android:layout_marginTop="@dimen/margin_basex3">
 
                     <TextView
-                        android:id="@+id/email"
+                        android:id="@+id/tv_email"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -767,7 +767,7 @@
                     android:layout_marginTop="@dimen/margin_basex3">
 
                     <TextView
-                        android:id="@+id/nguoiphutrach"
+                        android:id="@+id/tv_nguoiphutrach"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

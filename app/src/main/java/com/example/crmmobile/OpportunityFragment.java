@@ -1,4 +1,4 @@
-package com.example.crmapp;
+package com.example.crmmobile;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -7,12 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +30,9 @@ public class OpportunityFragment extends Fragment {
     private View btnOpportunityBack;       // Nút quay lại trong form
     private RecyclerView rvOpportunityBody;
     private OpportunityAdapter opportunityAdapter;
+
+    BottomNavigationView bottomNav;
+    private ScrollView bodyscroll;
 
     @SuppressLint("WrongViewCast")
     @Nullable
@@ -43,7 +52,8 @@ public class OpportunityFragment extends Fragment {
         AutoCompleteTextView etContact = layoutOpportunityForm.findViewById(R.id.et_contact);
         AutoCompleteTextView spSalesStage = layoutOpportunityForm.findViewById(R.id.sp_sales_stage);
         AutoCompleteTextView spSuccessRate = layoutOpportunityForm.findViewById(R.id.sp_success_rate);
-
+        bottomNav = requireActivity().findViewById(R.id.nav_footer);
+        bodyscroll = view.findViewById(R.id.scroll_body);
 
         // Setup RecyclerView
         rvOpportunityBody.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -51,26 +61,35 @@ public class OpportunityFragment extends Fragment {
         rvOpportunityBody.setAdapter(opportunityAdapter);
 
         // Nút Back trong form
-        btnOpportunityBack = layoutOpportunityForm.findViewById(R.id.btn_opportunity_back);
+        btnOpportunityBack = view.findViewById(R.id.btn_opportunity_back);
+        ImageButton btnOpportunityFormBack = layoutOpportunityForm.findViewById(R.id.btn_opportunity_back);
 
         // ---- Xử lý mở form ----
-        View.OnClickListener openForm = v -> layoutOpportunityForm.setVisibility(View.VISIBLE);
-
-        // ---- Xử lý đóng form ----
-        View.OnClickListener closeForm = v -> layoutOpportunityForm.setVisibility(View.GONE);
+//        View.OnClickListener openForm = v -> layoutOpportunityForm.setVisibility(View.VISIBLE);
 
         // Áp dụng listener cho cả 2 nút mở
-        btnAddOpportunity.setOnClickListener(openForm);
-        if (btnAddOpportunityBody != null) {
-            btnAddOpportunityBody.setOnClickListener(openForm);
-        }
+//        btnAddOpportunity.setOnClickListener(openForm);
+//        if (btnAddOpportunityBody != null) {
+//            btnAddOpportunityBody.setOnClickListener(openForm);
+//        }
+        btnAddOpportunity.setOnClickListener(v->{
+            layoutOpportunityForm.setVisibility(View.VISIBLE);
+            bottomNav.setVisibility(View.GONE);
+            bodyscroll.setVisibility(View.GONE);
+            btnAddOpportunity.setVisibility(View.GONE);
+        });
 
         // Áp dụng listener cho nút back
-        if (btnOpportunityBack != null) {
-            btnOpportunityBack.setOnClickListener(closeForm);
-        } else {
-            System.out.println("btn_opportunity_back NOT FOUND!");
-        }
+        btnOpportunityBack.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
+        // ---- Xử lý đóng form ----
+        btnOpportunityFormBack.setOnClickListener(v -> {
+            layoutOpportunityForm.setVisibility(View.GONE);
+            bottomNav.setVisibility(View.VISIBLE);
+            bodyscroll.setVisibility(View.VISIBLE);
+            btnAddOpportunity.setVisibility(View.VISIBLE);
+        });
 
         // dropdown for item_opportunity_info
         String[] companies = {"Google", "Microsoft", "Apple", "Meta"};
@@ -82,9 +101,6 @@ public class OpportunityFragment extends Fragment {
         etContact.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, contacts));
         spSalesStage.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, stages));
         spSuccessRate.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, rates));
-
-
-
 
 
 

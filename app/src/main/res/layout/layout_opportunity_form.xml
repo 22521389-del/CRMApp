@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#CCFFFFFF"
     android:elevation="16dp"
-    android:visibility="gone">
+    >
 
     <!-- Header -->
     <include
@@ -22,7 +22,7 @@
     <!-- Scroll body -->
     <ScrollView
         android:id="@+id/scroll_opportunity_info"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/item_opportunity_header"
@@ -46,7 +46,7 @@
     <include
         android:id="@+id/item_opportunity_footer"
         layout="@layout/item_opportunity_footer"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -65,6 +65,10 @@ public class MainActivity extends AppCompatActivity implements main_screen.onMod
                 viewPager2.setCurrentItem(1);
                 return true;
             }
+            else if (item.getItemId() == R.id.nav_order){
+                viewPager2.setCurrentItem(2);
+                return true;
+            }
             return false;
         });
 
@@ -83,18 +87,30 @@ public class MainActivity extends AppCompatActivity implements main_screen.onMod
         if(moduleName.equals("Báo giá")){
             Fragment quoteFragment = new QuoteFragment();
 
-
             getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_container, quoteFragment)
                 .addToBackStack(null)
                 .commit();
+            findViewById(R.id.viewPager).setVisibility(View.GONE); //hide viewpager2
+            findViewById(R.id.main_container).setVisibility(View.VISIBLE);
+
+            navFooter.getMenu().findItem(R.id.nav_menu).setChecked(true);
+            }
+        if(moduleName.equals("Cơ hội")){
+            Fragment opportunityFragment = new OpportunityFragment();
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_container, opportunityFragment)
+                    .addToBackStack(null)
+                    .commit();
+
             findViewById(R.id.viewPager).setVisibility(View.GONE);
             findViewById(R.id.main_container).setVisibility(View.VISIBLE);
 
-            BottomNavigationView navigationView = findViewById(R.id.nav_footer);
-            navigationView.getMenu().findItem(R.id.nav_menu).setChecked(true);
-            }
+            navFooter.getMenu().findItem(R.id.nav_menu).setChecked(true);
+        }
     }
 
 }
