@@ -6,20 +6,20 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-public class ViewPagerAdapter extends FragmentStateAdapter {
+public class AdapterViewPager extends FragmentStateAdapter {
     public static final int TAB_HOME = 0;
     public static final int TAB_LEAD = 1;
 
     public static final int TAB_ORDER = 2;
-    public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+    public AdapterViewPager(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
 
-    public ViewPagerAdapter(@NonNull Fragment fragment) {
+    public AdapterViewPager(@NonNull Fragment fragment) {
         super(fragment);
     }
 
-    public ViewPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+    public AdapterViewPager(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
 

@@ -80,7 +80,7 @@ public class main_screen extends Fragment {
 
         itemModules = Arrays.asList(
                     new item_module("Tổ chức", R.drawable.office_building),
-                    new item_module("Cá nhân ", R.drawable.ic_person),
+                    new item_module("Liên hệ", R.drawable.ic_person),
                     new item_module("Báo giá", R.drawable.quote_request),
                     new item_module("Hóa đơn", R.drawable.bill),
                     new item_module("Hợp đồng", R.drawable.contract),
@@ -102,28 +102,10 @@ public class main_screen extends Fragment {
         //Init adapter
         adapter = new Module_Adapter(itemModules, position->{
             String selected = itemModules.get(position).getName().trim();
-//            Toast.makeText(getContext(), "Selected: " + itemModules.get(position).getName(), Toast.LENGTH_SHORT).show();
-//
-//            if(selected.equals("Báo giá")){
-//                Fragment quoteFragment = new QuoteFragment();
-//
-//                ViewPager2 viewPager2 = requireActivity().findViewById(R.id.viewPager);
-//                FrameLayout maincontainer = requireActivity().findViewById(R.id.main_container);
-//                viewPager2.setVisibility(View.GONE);
-//                maincontainer.setVisibility(View.VISIBLE);
-//
-//                requireActivity().getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .replace(R.id.main_container, quoteFragment)
-//                        .addToBackStack(null)
-//                        .commit();
-//            }
             if(itemModuleSelectedListener != null){
                 itemModuleSelectedListener.onModuleSelectedListener(selected);
             }
         });
-
-        
 
         //Assign adapter
         rl_module.setAdapter(adapter);

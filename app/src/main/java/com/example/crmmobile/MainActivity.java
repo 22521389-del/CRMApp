@@ -1,9 +1,9 @@
 package com.example.crmmobile;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,25 +11,10 @@ import android.view.View;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.crmmobile.databinding.ActivityMainBinding;
-
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.ListView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements main_screen.onModuleItemSelectedListener{
     private ViewPager2 viewPager2;
@@ -45,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements main_screen.onMod
         navFooter = findViewById(R.id.nav_footer);
         container = findViewById(R.id.main_container);
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        AdapterViewPager adapter = new AdapterViewPager(this);
         viewPager2.setAdapter(adapter);
 
         navFooter.setOnItemSelectedListener(item->{
@@ -78,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements main_screen.onMod
             if(current == null){
                 viewPager2.setVisibility(View.VISIBLE);
                 container.setVisibility(View.GONE);
+
+                navFooter.getMenu().findItem(R.id.nav_home).setChecked(true);//footer nav back to home tab
             }
         });
     }
@@ -111,6 +98,14 @@ public class MainActivity extends AppCompatActivity implements main_screen.onMod
 
             navFooter.getMenu().findItem(R.id.nav_menu).setChecked(true);
         }
-    }
+        if(moduleName.equals("Liên hệ")){
+            Intent intent = new Intent(MainActivity.this, ThongTinNguoiLienHeActivity.class);
+            startActivity(intent);
+        }
 
+        if(moduleName.equals("Tổ chức")){
+            Intent intent = new Intent(MainActivity.this, TaoCongTyActivity.class);
+            startActivity(intent);
+        }
+    }
 }
