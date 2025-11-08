@@ -40,6 +40,13 @@
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
 
+        <activity
+            android:name=".OpportunityDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CRMMobile" />
+        <activity android:name=".OpportunityFormActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CRMMobile"/>
 
         <activity
             android:name=".MainActivity"

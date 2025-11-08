@@ -1,130 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/surface_white">
+    android:padding="16dp">
 
-    <!-- Opportunity Name -->
-    <TextView
-        android:id="@+id/tv_opportunity_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/opportunity_detail_title"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/text_primary" />
+        <!-- Toolbar -->
+        <include layout="@layout/item_opportunity_detail_toolbar" />
 
-    <!-- Company Name -->
-    <TextView
-        android:id="@+id/tv_company_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="16sp"
-        android:textColor="@color/text_secondary"
-        android:layout_marginTop="4dp" />
+        <!-- Thông tin cơ hội -->
+        <include layout="@layout/item_opportunity_detail_info_header" />
 
-    <!-- Opportunity Value and Status -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp">
+        <!-- Người tạo / phụ trách -->
+        <include layout="@layout/item_opportunity_detail_owner" />
 
-        <TextView
-            android:id="@+id/tv_opportunity_value"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=""
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/primary" />
-
-        <TextView
-            android:id="@+id/tv_opportunity_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/status_hot"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:background="@drawable/bg_status_hot"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp" />
-
-    </LinearLayout>
-
-    <!-- Sales Pipeline Steps -->
-    <include
-        layout="@layout/layout_sales_pipeline"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
-
-    <!-- Creator and Responsible Person -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_creator_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_creator"
-                android:textSize="12sp"
-                android:textColor="@color/text_hint" />
-
-            <TextView
-                android:id="@+id/tv_creator_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="14sp"
-                android:textColor="@color/text_primary" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_responsible_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_responsible"
-                android:textSize="12sp"
-                android:textColor="@color/text_hint" />
-
-            <TextView
-                android:id="@+id/tv_responsible_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="14sp"
-                android:textColor="@color/text_primary" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <!-- Tab Navigation -->
-    <include
-        layout="@layout/layout_opportunity_tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
+        <!-- Thanh tiến trình pipeline -->
+        <include layout="@layout/item_opportunity_detail_pipeline" />
 
 </LinearLayout>
