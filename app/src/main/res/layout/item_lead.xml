@@ -18,8 +18,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingHorizontal="16dp"
-        android:paddingVertical="14dp"
-        >
+        android:paddingVertical="14dp">
 
         <!--Name-->
         <LinearLayout
@@ -33,7 +32,6 @@
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:foregroundGravity="center"
                 android:src="@drawable/ic_user"
                 android:contentDescription="@null"
                 app:tint="@color/color_icon"

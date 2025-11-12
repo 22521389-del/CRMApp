@@ -62,16 +62,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/top_padding"
-            >
+            android:layout_marginTop="@dimen/top_padding">
 
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_margin="@dimen/margin_icon"
                 android:src="@drawable/building"
-                app:tint="@color/color_icon"
-                />
+                app:tint="@color/color_icon" />
 
             <TextView
                 android:id="@+id/tv_Company"
@@ -91,8 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/top_padding"
-            >
+            android:layout_marginTop="@dimen/top_padding">
 
             <ImageView
                 android:layout_width="16dp"
