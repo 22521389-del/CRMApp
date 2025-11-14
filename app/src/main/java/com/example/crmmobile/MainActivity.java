@@ -104,8 +104,18 @@ public class MainActivity extends AppCompatActivity implements main_screen.onMod
         }
 
         if(moduleName.equals("Tổ chức")){
-            Intent intent = new Intent(MainActivity.this, TaoCongTyActivity.class);
-            startActivity(intent);
+            Fragment toChucFragment  = new ToChucFragment() ;
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_container, toChucFragment)
+                    .addToBackStack(null)
+                    .commit();
+
+            findViewById(R.id.viewPager).setVisibility(View.GONE);
+            findViewById(R.id.main_container).setVisibility(View.VISIBLE);
+
+            navFooter.getMenu().findItem(R.id.nav_menu).setChecked(true);
         }
     }
 }

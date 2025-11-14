@@ -145,27 +145,6 @@
                     android:background="@android:color/transparent"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Loại công ty -->
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/loai_cong_ty"
-                android:layout_marginBottom="15dp"
-                app:endIconMode="dropdown_menu"
-                android:background="@drawable/rounded_input_box">
-
-                <AutoCompleteTextView
-                    android:id="@+id/actLoaiCongTy"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:textSize="16sp"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
-                    android:background="@android:color/transparent" />
-            </com.google.android.material.textfield.TextInputLayout>
-
             <!-- Ngành nghề -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -185,47 +164,6 @@
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
                     android:background="@android:color/transparent"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Nguồn -->
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/nguon"
-                android:layout_marginBottom="15dp"
-                app:endIconMode="dropdown_menu"
-                android:background="@drawable/rounded_input_box">
-
-                <AutoCompleteTextView
-                    android:id="@+id/actNguon"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:textSize="16sp"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
-                    android:background="@android:color/transparent" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Fax -->
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/fax"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/rounded_input_box">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtFax"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:textSize="16sp"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
-                    android:background="@android:color/transparent" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </LinearLayout>
