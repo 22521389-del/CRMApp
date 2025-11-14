@@ -5,12 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class ThongTinCongTyFragment extends Fragment {
+public class TaoCongTyThongTinCongTyFragment extends Fragment {
 
     private View groupThongTinCongTy;
     private ImageView btnToggleThongTinCongTy;
@@ -21,7 +20,7 @@ public class ThongTinCongTyFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_thongtincongty, container, false);
+        View view = inflater.inflate(R.layout.fragment_taocongty_thongtincongty, container, false);
 
         // Ánh xạ view
         groupThongTinCongTy = view.findViewById(R.id.groupThongTinCongTy);
