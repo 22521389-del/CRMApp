@@ -21,10 +21,7 @@
         <activity android:name=".OrderDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
-        <activity android:name=".ThongTinNguoiLienHeActivity"
-            android:exported="false"
-            android:theme="@style/Theme.CRMMobile"/>
-        <activity android:name=".ThongTinKhacActivity"
+        <activity android:name=".TaoBaoGiaActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
         <activity android:name=".TinhTrangDonHangActivity"
@@ -33,7 +30,7 @@
         <activity android:name=".TinhTrangThanhToanActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
-        <activity android:name=".HienThiNguoiLienHeActivity"
+        <activity android:name=".ThongTinLienHeActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
         <activity android:name=".TaoCongTyActivity"
@@ -45,6 +42,14 @@
             android:exported="false"
             android:theme="@style/Theme.CRMMobile" />
         <activity android:name=".OpportunityFormActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CRMMobile"/>
+
+        <activity android:name=".TongQuanCongTyActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CRMMobile"/>
+
+        <activity android:name=".ChiTietToChucActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
 

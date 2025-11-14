@@ -45,56 +45,69 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--Serch bar-->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/serch_bar_Quote"
-        android:layout_width="0dp"
+    <!--Search bar-->
+    <LinearLayout
+        android:id="@+id/ll_searchbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/chip_bg"
-        android:backgroundTint="@color/bg_search"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/cl_quote"
         android:layout_marginTop="10dp"
         android:layout_marginStart="@dimen/start_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_quote"
-        app:layout_constraintEnd_toStartOf="@id/filter_button">
+        android:layout_marginEnd="10dp">
 
-        <!--Icon-->
-        <ImageView
-            android:id="@+id/iconSearch"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_search"
-            android:contentDescription="@null"
-            app:tint="@color/color_icon"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <!--Input search-->
-        <EditText
-            android:id="@+id/text_search"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/search_bar_Quote"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:hint="@string/search_quote"
-            android:background="@null"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iconSearch"
-            android:padding="3dp"/>
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_chip"
+            android:backgroundTint="@color/bg_search"
+            android:layout_marginStart="@dimen/start_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/filter_button">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <!--Icon-->
+            <ImageView
+                android:id="@+id/iconSearch"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_search"
+                android:contentDescription="@null"
+                app:tint="@color/color_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
-    <ImageView
-        android:id="@+id/filter_button"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:src="@drawable/ic_sliders"
-        android:contentDescription="@string/desc_Search"
-        android:background="@drawable/chip_bg"
-        android:backgroundTint="@color/icon_search"
-        app:layout_constraintTop_toTopOf="@id/serch_bar_Quote"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@id/serch_bar_Quote"/>
+            <!--Input search-->
+            <EditText
+                android:id="@+id/text_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:hint="@string/search_quote"
+                android:textColorHint="@color/lead_not_choose"
+                android:background="@null"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iconSearch"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/filter_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_sliders"
+            android:contentDescription="@string/desc_Search"
+            android:background="@drawable/bg_filter"
+            android:backgroundTint="@color/icon_search"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@id/search_bar_Quote"/>
+
+    </LinearLayout>
 
     <!--Chip scroll-->
     <HorizontalScrollView
@@ -103,7 +116,7 @@
         android:layout_height="wrap_content"
         android:scrollbars="none"
         android:layout_margin="@dimen/start_margin"
-        app:layout_constraintTop_toBottomOf="@id/serch_bar_Quote"
+        app:layout_constraintTop_toBottomOf="@id/ll_searchbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -120,7 +133,7 @@
                 android:layout_margin="5dp"
                 android:textSize="11sp"
                 android:backgroundTint="@color/icon_search"
-                android:background="@drawable/chip_bg"
+                android:background="@drawable/bg_chip"
                 android:textColor="@color/seemore_color"/>
 
             <TextView
@@ -130,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="11sp"
                 android:layout_margin="5dp"
-                android:background="@drawable/chip_bg"
+                android:background="@drawable/bg_chip"
                 android:backgroundTint="@color/bg_search"
                 android:textColor="@color/lead_not_choose"/>
 
@@ -143,7 +156,7 @@
                 android:textSize="11sp"
                 android:backgroundTint="@color/bg_lead_15"
                 android:textColor="@color/text_lead_15"
-                android:background="@drawable/chip_bg"
+                android:background="@drawable/bg_chip"
                 />
 
 
