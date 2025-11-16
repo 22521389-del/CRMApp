@@ -80,7 +80,7 @@ public class main_screen extends Fragment {
 
         itemModules = Arrays.asList(
                     new item_module("Tổ chức", R.drawable.office_building),
-                    new item_module("Liên hệ", R.drawable.ic_person),
+                    new item_module("Cá nhân", R.drawable.ic_person),
                     new item_module("Báo giá", R.drawable.quote_request),
                     new item_module("Hóa đơn", R.drawable.bill),
                     new item_module("Hợp đồng", R.drawable.contract),
