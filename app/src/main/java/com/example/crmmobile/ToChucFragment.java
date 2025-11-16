@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,7 @@ public class ToChucFragment extends Fragment
     private RecyclerView recyclerView;
     private ToChucAdapter adapter;
     private List<ToChuc> toChucList;
+    private ImageButton btnBack;
 
     private int selectedPosition = -1;
     private ToChuc selectedToChuc = null;
@@ -35,6 +37,14 @@ public class ToChucFragment extends Fragment
 
         View view = inflater.inflate(R.layout.layout_tochuc, container, false);
         Log.d(TAG, "Fragment onCreateView CALLED");
+        btnBack = view.findViewById(R.id.btn_organization_back);
+
+        btnBack.setOnClickListener(v -> {
+            if(isAdded()){
+                requireActivity().finish();
+            }
+
+        });
 
         // === NÚT FAB ===
         com.google.android.material.floatingactionbutton.FloatingActionButton fab_add =

@@ -71,7 +71,7 @@
                 android:id="@+id/layoutquanhuyen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/quan"
+                android:hint="@string/district"
                 android:background="@drawable/rounded_input_box"
                 android:layout_marginTop="@dimen/margin_basex2">
 
@@ -89,7 +89,7 @@
                 android:id="@+id/layouttinhtp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/tinh"
+                android:hint="@string/province"
                 android:background="@drawable/rounded_input_box"
                 android:layout_marginTop="@dimen/margin_basex2">
 
@@ -107,7 +107,7 @@
                 android:id="@+id/layoutquocgia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/quocgia"
+                android:hint="@string/nation"
                 android:background="@drawable/rounded_input_box"
                 android:layout_marginTop="@dimen/margin_basex2">
 
@@ -128,7 +128,7 @@
                 android:id="@+id/thongtinmota"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/thongtinmota"
+                android:text="@string/descrip_information"
                 android:textSize="@dimen/text_large"
                 android:textStyle="bold"
                 android:drawablePadding="8dp"
@@ -147,7 +147,7 @@
                 android:id="@+id/layoutttmota"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/mota"
+                android:hint="@string/description"
                 android:background="@drawable/rounded_input_box"
                 android:layout_marginTop="@dimen/margin_basex2">
 
@@ -255,7 +255,7 @@
             android:layout_marginEnd="8dp"
             android:backgroundTint="@color/xamtrang"
             android:textColor="@color/chuxanh"
-            android:text="@string/btnhuy"
+            android:text="@string/cancel"
             android:paddingVertical="8dp"
             android:textSize="@dimen/text_small"/>
 

@@ -223,7 +223,7 @@
             android:paddingVertical="8dp">
 
             <TextView
-                android:text="@string/thong_tin_mo_ta"
+                android:text="@string/descrip_information"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_width="0dp"
@@ -246,7 +246,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:hint="@string/mo_ta"
+                android:hint="@string/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_input_box">

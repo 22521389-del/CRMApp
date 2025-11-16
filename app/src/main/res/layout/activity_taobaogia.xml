@@ -75,7 +75,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/huy"
+            android:text="@string/cancel"
             android:textSize="16sp"
             android:backgroundTint="#EDF2FD"
             android:textColor="@color/blue" />
@@ -89,7 +89,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/luu"
+            android:text="@string/save"
             android:textSize="16sp"
             android:backgroundTint="@color/blue" />
     </LinearLayout>

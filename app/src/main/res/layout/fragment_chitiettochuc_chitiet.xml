@@ -81,15 +81,15 @@
                 </LinearLayout>
 
                 <RelativeLayout style="@style/DetailRowLayout">
-                    <TextView style="@style/DetailLabel" android:text="@string/quan_huyen" />
+                    <TextView style="@style/DetailLabel" android:text="@string/district" />
                     <TextView style="@style/DetailValue" android:text="TP. Thủ Đức" />
                 </RelativeLayout>
                 <RelativeLayout style="@style/DetailRowLayout">
-                    <TextView style="@style/DetailLabel" android:text="@string/tinh_tp" />
+                    <TextView style="@style/DetailLabel" android:text="@string/province" />
                     <TextView style="@style/DetailValue" android:text="TP. Hồ Chí Minh" />
                 </RelativeLayout>
                 <RelativeLayout style="@style/DetailRowLayout">
-                    <TextView style="@style/DetailLabel" android:text="@string/quoc_gia" />
+                    <TextView style="@style/DetailLabel" android:text="@string/nation" />
                     <TextView style="@style/DetailValue" android:text="Việt Nam" />
                 </RelativeLayout>
             </LinearLayout>
@@ -97,7 +97,7 @@
 
         <LinearLayout style="@style/DetailSectionContainer">
             <RelativeLayout android:id="@+id/section_mo_ta" style="@style/DetailSectionHeader">
-                <TextView style="@style/DetailSectionTitle" android:text="@string/thong_tin_mo_ta" />
+                <TextView style="@style/DetailSectionTitle" android:text="@string/descrip_information" />
                 <ImageView android:id="@+id/toggle_mo_ta" style="@style/DetailSectionToggleIcon" />
             </RelativeLayout>
             <LinearLayout
@@ -107,7 +107,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout style="@style/DetailRowLayout.Vertical">
-                    <TextView style="@style/DetailLabel" android:text="@string/mo_ta" />
+                    <TextView style="@style/DetailLabel" android:text="@string/description" />
                     <TextView
                         style="@style/DetailValue.FullWidth"
                         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />

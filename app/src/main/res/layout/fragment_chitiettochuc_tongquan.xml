@@ -24,19 +24,19 @@
             <!-- Cột 1: Cuộc gọi -->
             <LinearLayout style="@style/StatItem">
                 <TextView style="@style/StatValue" android:text="36" />
-                <TextView style="@style/StatLabel" android:text="@string/cuoc_goi" />
+                <TextView style="@style/StatLabel" android:text="@string/num_calls" />
             </LinearLayout>
             <View style="@style/VerticalDivider" />
             <!-- Cột 2: Cuộc họp -->
             <LinearLayout style="@style/StatItem">
                 <TextView style="@style/StatValue" android:text="21" />
-                <TextView style="@style/StatLabel" android:text="@string/cuoc_hop" />
+                <TextView style="@style/StatLabel" android:text="@string/num_meeting" />
             </LinearLayout>
             <View style="@style/VerticalDivider" />
             <!-- Cột 3: Công việc -->
             <LinearLayout style="@style/StatItem">
                 <TextView style="@style/StatValue" android:text="30" />
-                <TextView style="@style/StatLabel" android:text="@string/cong_viec" />
+                <TextView style="@style/StatLabel" android:text="@string/num_job" />
             </LinearLayout>
         </LinearLayout>
 

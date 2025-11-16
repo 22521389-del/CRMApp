@@ -61,7 +61,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/hovatendem"
+                        android:text="@string/firt_name"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/text_small"/>
 
@@ -255,7 +255,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/quan"
+                        android:text="@string/district"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/text_small"/>
 
@@ -279,7 +279,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/tinh"
+                        android:text="@string/province"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/text_small"/>
 
@@ -307,7 +307,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
                     android:gravity="center_vertical"
-                    android:text="@string/thongtinmota"
+                    android:text="@string/descrip_information"
                     android:textSize="@dimen/text_large"
                     android:textStyle="bold"
                     android:background="?attr/selectableItemBackground"
@@ -324,7 +324,7 @@
                     android:id="@+id/mota"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/mota"
+                    android:text="@string/description"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/text_small"
                     android:layout_marginTop="@dimen/margin_basex3"/>
@@ -510,7 +510,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/ngaytao"
+                        android:text="@string/ngay_tao"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/text_small"/>
 
@@ -534,7 +534,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/ngaysua"
+                        android:text="@string/ngay_sua"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/text_small"/>
 

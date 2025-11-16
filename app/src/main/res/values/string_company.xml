@@ -9,14 +9,9 @@
     <string name="dien_thoai">Điện thoại</string>
     <string name="email">Email</string>
     <string name="nganh_nghe">Ngành nghề</string>
-    <string name="huy">Hủy</string>
-    <string name="luu">Lưu</string>
     <string name="toggle_section">Ẩn/hiện thông tin</string>
     <string name="thong_tin_dia_chi">Thông tin địa chỉ</string>
     <string name ="dia_chi">Địa chỉ</string>
-    <string name ="quan_huyen">Quận huyện</string>
-    <string name ="tinh_tp">Tỉnh/TP</string>
-    <string name ="quoc_gia">Quốc gia</string>
     <string name="thong_tin_mua_hang">Thông tin mua hàng</string>
     <string name="tinh_trang_mua_hang">Tình trạng mua hàng</string>
     <string name="so_don_hang_da_mua">Số đơn hàng đã mua</string>
@@ -33,8 +28,6 @@
     <string name="thong_tin_lien_quan">Thông tin liên quan</string>
     <string name="co_hoi">Cơ hội</string>
     <string name="dieu_khoan_dieu_kien">Điều khoản và Điều kiện</string>
-    <string name="thong_tin_mo_ta">Thông tin mô tả</string>
-    <string name="mo_ta">Mô tả</string>
     <string name="tao_bao_gia">Tạo Báo giá</string>
     <string name="thong_tin_chung">Thông tin chung</string>
     <string name="san_pham">Sản phẩm</string>
@@ -71,9 +64,6 @@
     <string name="ngay_tao">Ngày tạo</string>
     <string name="ngay_sua">Ngày sửa</string>
     <string name="tao_boi">Tạo bởi</string>
-    <string name="cuoc_goi">Cuộc gọi</string>
-    <string name="cuoc_hop">Cuộc họp</string>
-    <string name="cong_viec">Công việc</string>
     <string name="hoat_dong_da_len_lich">Hoạt động đã lên lịch</string>
     <string name="binh_luan">Bình luận</string>
     <string name="them_binh_luan">Thêm bình luận</string>
