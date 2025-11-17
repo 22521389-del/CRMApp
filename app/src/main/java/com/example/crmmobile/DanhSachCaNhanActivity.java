@@ -2,62 +2,79 @@ package com.example.crmmobile;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import android.widget.Button;
-import android.view.View;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class DanhSachCaNhanActivity extends AppCompatActivity {
 
-    private ImageView icBack;
-    private ImageView icMore;
-    private FloatingActionButton btn_add_contact;
-
-    private ConstraintLayout cardThongTin;
+    private RecyclerView rvCaNhan;
+    private CaNhanAdapter adapter;
+    private ArrayList<CaNhan> caNhanList;
+    private FloatingActionButton btnAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_danhsachcanhan);
 
-        // Ánh xạ view
-        cardThongTin = findViewById(R.id.cardthongtin);
-        icBack = findViewById(R.id.ic_back);
-        icMore = findViewById(R.id.ic_more);
-//        btnAdd = findViewById(R.id.btnAdd);
+        rvCaNhan = findViewById(R.id.rvCaNhan);
+        btnAdd = findViewById(R.id.btn_add_contact);
 
-        icBack.setOnClickListener(v -> {
-            Intent intent = new Intent(DanhSachCaNhanActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
+        caNhanList = new ArrayList<>();
+        adapter = new CaNhanAdapter(caNhanList);
 
-        // Click vào card mở TabActivity
-        cardThongTin.setOnClickListener(v -> {
-            Intent intent = new Intent(DanhSachCaNhanActivity.this, TabActivity.class);
-            startActivity(intent);
-            // Nếu muốn giữ lại màn hình danh sách, bỏ dòng finish()
-            //finish();
-        });
-        btn_add_contact.setOnClickListener(v -> {
+        rvCaNhan.setLayoutManager(new LinearLayoutManager(this));
+        rvCaNhan.setAdapter(adapter);
+
+        btnAdd.setOnClickListener(v -> {
             Intent intent = new Intent(DanhSachCaNhanActivity.this, ThongTinLienHeActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 100);
         });
 
-
-        // Click vào back button
-//        icBack.setOnClickListener(v -> onBackPressed());
-
-        icMore.setOnClickListener(new View.OnClickListener() {
+        adapter.setOnItemClickListener(new CaNhanAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onMoreClick(CaNhan cn) {
                 BottomActionFragment bottomSheet = new BottomActionFragment();
                 bottomSheet.show(getSupportFragmentManager(), "BottomAction");
             }
-        });
 
+            @Override
+            public void onItemClick(CaNhan cn) {
+                Intent intent = new Intent(DanhSachCaNhanActivity.this, TabActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
+            CaNhan cn = new CaNhan();
+
+            // Lấy dữ liệu từ form
+            cn.setHoTen(data.getStringExtra("hoTen"));
+            cn.setCongTy(data.getStringExtra("congTy"));
+
+            // Ngày hiển thị mặc định là ngày hôm nay
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            cn.setNgaySinh(sdf.format(calendar.getTime()));
+
+            // Số cuộc gọi & meeting mặc định = 2
+            cn.setSoCuocGoi(2);
+            cn.setSoMeeting(2);
+
+            adapter.addItem(cn);
+            rvCaNhan.scrollToPosition(caNhanList.size() - 1); // cuộn xuống item mới
+        }
     }
 }
