@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_add_opportunity">
+        app:layout_constraintBottom_toTopOf="@id/btn_add_contact">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -216,27 +216,14 @@
 
     <!-- Nút thêm -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_add_opportunity"
+        android:id="@+id/btn_add_contact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:contentDescription="@string/add_opportunity"
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/blue_primary"
         app:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Form nổi -->
-    <include
-        android:id="@+id/layout_opportunity_form"
-        layout="@layout/layout_opportunity_form"
-        android:visibility="gone"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

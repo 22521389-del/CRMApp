@@ -8,14 +8,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.widget.Button;
 import android.view.View;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 public class DanhSachCaNhanActivity extends AppCompatActivity {
 
     private ImageView icBack;
     private ImageView icMore;
-    private Button btnAdd;
+    private FloatingActionButton btn_add_contact;
+
     private ConstraintLayout cardThongTin;
 
     @Override
@@ -41,13 +42,11 @@ public class DanhSachCaNhanActivity extends AppCompatActivity {
             // Nếu muốn giữ lại màn hình danh sách, bỏ dòng finish()
             //finish();
         });
+        btn_add_contact.setOnClickListener(v -> {
+            Intent intent = new Intent(DanhSachCaNhanActivity.this, ThongTinLienHeActivity.class);
+            startActivity(intent);
+        });
 
-//        btnAdd.setOnClickListener(v -> {
-//            Intent intent = new Intent(DanhSachCaNhanActivity.this, ThongTinLienHeActivity.class);
-//            startActivity(intent);
-//            // Nếu muốn giữ lại màn hình danh sách, bỏ dòng finish()
-//            //finish();
-//        });
 
         // Click vào back button
 //        icBack.setOnClickListener(v -> onBackPressed());
