@@ -36,7 +36,7 @@ public class BottomSheetActionQuote {
         addActionItemQuote(context, layoutAction, R.drawable.ic_loop, "Chuyển thành hóa đơn");
         addActionItemQuote(context, layoutAction, R.drawable.ic_export_pdf, "Xuất file pdf");
         addActionItemQuote(context, layoutAction, R.drawable.ic_forward_email, "Gửi email kèm file pdf");
-        addActionItemQuote(context, layoutAction, R.drawable.ic_copy, "Nhân đôi");
+        addActionItemQuote(context, layoutAction, R.drawable.ic_duplicate, "Nhân đôi");
 
         dialog.setContentView(view);
         dialog.show();

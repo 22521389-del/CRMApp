@@ -80,11 +80,9 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:background="@drawable/rounded_input_box_small"
-                    android:src="@drawable/ic_three_point"
+                    android:src="@drawable/ic_more"
                     android:scaleType="centerInside"
                     android:layout_marginStart="8dp"/>
-
-
 
             </LinearLayout>
 

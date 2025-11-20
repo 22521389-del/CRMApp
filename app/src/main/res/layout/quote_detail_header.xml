@@ -95,7 +95,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_margin="@dimen/start_margin"
-                android:src="@drawable/paper"
+                android:src="@drawable/ic_quote"
                 app:tint="@color/color_icon"
                 android:contentDescription="@null"/>
             <TextView

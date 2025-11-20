@@ -58,9 +58,9 @@
             <ImageView
                 android:id="@+id/iv_dots"
                 android:contentDescription="@null"
-                android:layout_width="20dp"
+                android:layout_width="30dp"
                 android:layout_height="20dp"
-                android:src="@drawable/dots"
+                android:src="@drawable/ic_more_vert"
                 android:foregroundGravity="center"
                 app:tint="@color/gray_dark"
                 />
@@ -82,7 +82,7 @@
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:src="@drawable/building"
+                android:src="@drawable/ic_company"
                 app:tint="@color/color_icon"
                 />
 
@@ -110,7 +110,7 @@
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:src="@drawable/categories"
+                android:src="@drawable/ic_technologi"
                 android:contentDescription="@null"
                 app:tint="@color/color_icon"/>
 
@@ -129,7 +129,7 @@
                 android:contentDescription="@null"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:src="@drawable/briefcase"
+                android:src="@drawable/ic_briefcase"
                 app:tint="@color/color_icon" />
 
             <TextView
@@ -252,11 +252,9 @@
             android:scaleType="centerCrop"
             android:clipToOutline="true"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/ll_date"
+            app:layout_constraintTop_toTopOf="@id/layout_call_chat"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/view_divider"/>
-
-
+            />
         <!-- ĐƯỜNG NGĂN + NÚT TRAO ĐỔI -->
         <View
             android:id="@+id/view_divider"
