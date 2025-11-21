@@ -1,23 +1,28 @@
 package com.example.crmmobile;
 
+
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import android.widget.ImageView;
-import android.content.Intent;
 
-
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class ThongTinLienHeActivity extends AppCompatActivity {
 
     private TextView infoTab, thongTinKhacTab;
     private ImageView icBack;
+    private Button btnLuu, btnHuy;
 
-    private Button btnHuy;
+    private ThongTinNguoiLienHeFragment infoFragment;
+    private ThongTinKhacFragment khacFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,34 +32,52 @@ public class ThongTinLienHeActivity extends AppCompatActivity {
         infoTab = findViewById(R.id.info);
         thongTinKhacTab = findViewById(R.id.thongtinkhac);
         icBack = findViewById(R.id.ic_back);
+        btnLuu = findViewById(R.id.btnLuu);
         btnHuy = findViewById(R.id.btnHuy);
 
-        // Hiển thị fragment mặc định là Thông tin
-        loadFragment(new ThongTinNguoiLienHeFragment());
+        // Khởi tạo fragment
+        infoFragment = new ThongTinNguoiLienHeFragment();
+        khacFragment = new ThongTinKhacFragment();
+
+        // Hiển thị fragment mặc định
+        loadFragment(infoFragment);
         setActiveTab(infoTab, thongTinKhacTab);
 
         infoTab.setOnClickListener(v -> {
-            loadFragment(new ThongTinNguoiLienHeFragment());
+            loadFragment(infoFragment);
             setActiveTab(infoTab, thongTinKhacTab);
         });
 
         thongTinKhacTab.setOnClickListener(v -> {
-            loadFragment(new ThongTinKhacFragment());
+            loadFragment(khacFragment);
             setActiveTab(thongTinKhacTab, infoTab);
         });
 
-        icBack.setOnClickListener(v -> {
-            Intent intent = new Intent(ThongTinLienHeActivity.this, DanhSachCaNhanActivity.class);
-            startActivity(intent);
-            finish();
-        });
+//        // --- Mặc định ngày = hôm nay ---
+//        Calendar calendar = Calendar.getInstance();
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+//        String today = sdf.format(calendar.getTime());
+//        infoFragment.setNgaySinhDefault(today);
 
-        btnHuy.setOnClickListener(v -> {
-            Intent intent = new Intent(ThongTinLienHeActivity.this, DanhSachCaNhanActivity.class);
-            startActivity(intent);
-            finish();
-        });
+        // --- Sự kiện lưu dữ liệu ---
+        btnLuu.setOnClickListener(v -> saveData());
+        icBack.setOnClickListener(v -> finish());
+        btnHuy.setOnClickListener(v -> finish());
+    }
 
+    private void saveData() {
+        // Lấy dữ liệu từ fragment
+        String hoTen = infoFragment.getHoVaTenDem();
+        String congTy = infoFragment.getCongTy();
+        String ngay = infoFragment.getNgaySinh();
+
+        Intent result = new Intent();
+        result.putExtra("hoTen", hoTen);
+        result.putExtra("congTy", congTy);
+        result.putExtra("ngay", ngay);
+
+        setResult(RESULT_OK, result);
+        finish();
     }
 
     private void loadFragment(Fragment fragment) {
@@ -64,10 +87,15 @@ public class ThongTinLienHeActivity extends AppCompatActivity {
     }
 
     private void setActiveTab(TextView active, TextView inactive) {
+        // Reset tất cả tab
+        infoTab.setTextColor(getResources().getColor(R.color.grey));
+        infoTab.setBackgroundResource(android.R.color.transparent);
+
+        thongTinKhacTab.setTextColor(getResources().getColor(R.color.grey));
+        thongTinKhacTab.setBackgroundResource(android.R.color.transparent);
+
+        // Tab đang active
         active.setTextColor(getResources().getColor(R.color.blue));
         active.setBackgroundResource(R.drawable.edittext_line);
-
-        inactive.setTextColor(getResources().getColor(R.color.grey));
-        inactive.setBackgroundResource(android.R.color.transparent);
     }
 }
