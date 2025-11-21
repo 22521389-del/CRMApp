@@ -27,7 +27,7 @@ public class OpportunityBottomSheetHelper {
             dialog.dismiss();
         });
 
-        addActionItem(context, layoutActions, R.drawable.ic_calender_blue, "Thêm hoạt động", () -> {
+        addActionItem(context, layoutActions, R.drawable.ic_calendar, "Thêm hoạt động", () -> {
             Toast.makeText(context, "Thêm hoạt động cho " + item.getTitle(), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });

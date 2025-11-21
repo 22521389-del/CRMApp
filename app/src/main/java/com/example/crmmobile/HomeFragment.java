@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
                 new QuickMenuItem(R.drawable.ic_search, "Tìm kiếm"),
                 new QuickMenuItem(R.drawable.ic_scanner, "Scan Card"),
                 new QuickMenuItem(R.drawable.ic_bar_chart, "Báo cáo"),
-                new QuickMenuItem(R.drawable.ic_list, "Đơn hàng"),
+                new QuickMenuItem(R.drawable.ic_cart, "Đơn hàng"),
                 new QuickMenuItem(R.drawable.ic_arrow_forward, "Thêm")
         );
 

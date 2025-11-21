@@ -80,9 +80,7 @@
     <string name="text_not_available">Chưa có</string>
     <string name="text_processing">Đang xử lý</string>
     <string name="source_phone_call">Gọi điện</string>
-
     <!-- end opportunity detail-->
-
 
     <string name="header_opportunity_title_create">Tạo Cơ hội</string>
     <string name="section_opportunity_info">Thông tin cơ hội</string>
@@ -98,7 +96,6 @@
     <string name="section_opportunity_management">Thông tin quản lý</string>
     <string name="hint_management">Giao cho<font color='#FF0000'>*</font></string>
     <string name="auto_management">Ha Nguyen</string>
-
     <string name="cancel">Hủy</string>
     <string name="save">Lưu</string>
 

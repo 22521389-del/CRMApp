@@ -15,18 +15,18 @@
             android:name=".DetailLeadActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile" />
+        <activity android:name=".ConvertLead_Activity"
+            android:exported="false"
+            android:theme="@style/Theme.CRMMobile"/>
         <activity android:name=".QuoteDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
         <activity android:name=".OrderDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
-<!--        <activity android:name=".ThongTinNguoiLienHeActivity"-->
-<!--            android:exported="false"-->
-<!--            android:theme="@style/Theme.CRMMobile"/>-->
-<!--        <activity android:name=".ThongTinKhacActivity"-->
-<!--            android:exported="false"-->
-<!--            android:theme="@style/Theme.CRMMobile"/>-->
+        <activity android:name=".TaoBaoGiaActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CRMMobile"/>
         <activity android:name=".TinhTrangDonHangActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
@@ -48,13 +48,32 @@
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
 
+        <activity android:name=".TongQuanCongTyActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CRMMobile"/>
+
+        <activity android:name=".ChiTietToChucActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CRMMobile"/>
+
+        <activity android:name=".TabActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CRMMobile"/>
+
+        <activity android:name=".EditLeadActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CRMMobile"/>
+
+        <activity android:name=".MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CRMMobile"/>
+
         <activity
-            android:name=".MainActivity"
+            android:name=".DanhSachCaNhanActivity"
             android:exported="true"
             android:theme="@style/Theme.CRMMobile">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

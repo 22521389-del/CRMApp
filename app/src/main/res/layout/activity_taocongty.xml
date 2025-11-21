@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -26,6 +25,7 @@
             android:contentDescription="@string/back" />
 
         <TextView
+            android:id="@+id/tv_header_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tao_cong_ty"
@@ -39,9 +39,9 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/blue"
-        app:tabSelectedTextColor="@color/blue"
-        app:tabTextColor="@color/gray"
+        app:tabIndicatorColor="#1B74E4"
+        app:tabSelectedTextColor="#1B74E4"
+        app:tabTextColor="#9E9E9E"
         app:tabIndicatorHeight="2dp">
 
         <com.google.android.material.tabs.TabItem
@@ -76,10 +76,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/huy"
+            android:text="@string/cancel"
             android:textSize="16sp"
-            android:backgroundTint="@color/light_blue"
-            android:textColor="@color/blue" />
+            android:backgroundTint="#EDF2FD"
+            android:textColor="#1B74E4" />
 
         <Space
             android:layout_width="8dp"
@@ -90,9 +90,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/luu"
+            android:text="@string/save"
             android:textSize="16sp"
-            android:backgroundTint="@color/blue" />
+            android:backgroundTint="#1B74E4" />
     </LinearLayout>
 
 </LinearLayout>

@@ -26,7 +26,7 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@drawable/ic_target"
-            app:tint="@color/blue_primary"
+            app:tint="@color/color_icon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -76,8 +76,8 @@
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:src="@drawable/ic_money"
-                app:tint="@color/gray_dark" />
+                android:src="@drawable/ic_dollar"
+                app:tint="@color/color_icon" />
 
             <TextView
                 android:id="@+id/tv_opportunity_price"
@@ -111,8 +111,8 @@
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:src="@drawable/ic_calender_blue"
-                    app:tint="@color/gray_dark" />
+                    android:src="@drawable/ic_calendar"
+                    app:tint="@color/color_icon" />
 
                 <TextView
                     android:id="@+id/tv_opportunity_date"

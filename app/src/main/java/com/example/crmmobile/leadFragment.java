@@ -61,7 +61,9 @@ public class leadFragment extends Fragment {
         });
 
         adapter = new AdapterLead(leadList, (item, position) -> {
-            BottomSheetActionLead.ShowBottomSheetLead(requireContext(), item, position);
+            BottomSheetActionLead.ShowBottomSheetLead(requireContext(), leadList, position, ()->{
+                adapter.notifyItemChanged(position);
+            });
         }, lead -> {
             Intent intent = new Intent(getContext(), DetailLeadActivity.class);
             intent.putExtra("name", lead.getName());

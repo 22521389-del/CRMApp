@@ -27,7 +27,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:foregroundGravity="center"
-                android:src="@drawable/paper"
+                android:src="@drawable/ic_quote"
                 android:contentDescription="@null"
                 android:layout_margin="@dimen/margin_icon"
                 app:tint="@color/color_icon"/>
@@ -48,7 +48,7 @@
                 android:contentDescription="@null"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:src="@drawable/dots"
+                android:src="@drawable/ic_more_vert"
                 android:layout_margin="5dp"
                 android:foregroundGravity="center"
                 app:tint="@color/seemore_color"/>
@@ -68,7 +68,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_margin="@dimen/margin_icon"
-                android:src="@drawable/building"
+                android:src="@drawable/ic_company"
                 app:tint="@color/color_icon" />
 
             <TextView
@@ -95,7 +95,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:foregroundGravity="center"
-                android:src="@drawable/dollar_round"
+                android:src="@drawable/ic_dollar"
                 android:contentDescription="@null"
                 android:layout_margin="@dimen/margin_icon"
                 app:tint="@color/color_icon"/>
@@ -115,7 +115,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/briefcase"
+                android:src="@drawable/ic_briefcase"
                 android:gravity="end"
                 android:layout_marginEnd="@dimen/margin_action"
                 android:text="19/10/2025"

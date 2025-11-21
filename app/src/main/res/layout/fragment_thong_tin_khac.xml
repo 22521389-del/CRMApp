@@ -12,10 +12,11 @@
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/rowbuttonhuyluu"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <!-- ✅ LinearLayout bọc toàn bộ nội dung -->
         <LinearLayout
@@ -28,7 +29,7 @@
                 android:id="@+id/thongtindiachi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/thongtindiachi"
+                android:text="@string/address_infor"
                 android:textSize="@dimen/text_large"
                 android:textStyle="bold"
                 android:drawablePadding="8dp"
@@ -47,7 +48,7 @@
                 android:id="@+id/layoutttdiachi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/diachi"
+                android:hint="@string/address"
                 android:background="@drawable/rounded_input_box"
                 android:layout_marginTop="@dimen/margin_basex2">
 
@@ -71,7 +72,7 @@
                 android:id="@+id/layoutquanhuyen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/quan"
+                android:hint="@string/district"
                 android:background="@drawable/rounded_input_box"
                 android:layout_marginTop="@dimen/margin_basex2">
 
@@ -89,7 +90,7 @@
                 android:id="@+id/layouttinhtp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/tinh"
+                android:hint="@string/province"
                 android:background="@drawable/rounded_input_box"
                 android:layout_marginTop="@dimen/margin_basex2">
 
@@ -107,7 +108,7 @@
                 android:id="@+id/layoutquocgia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/quocgia"
+                android:hint="@string/nation"
                 android:background="@drawable/rounded_input_box"
                 android:layout_marginTop="@dimen/margin_basex2">
 
@@ -128,7 +129,7 @@
                 android:id="@+id/thongtinmota"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/thongtinmota"
+                android:text="@string/descrip_information"
                 android:textSize="@dimen/text_large"
                 android:textStyle="bold"
                 android:drawablePadding="8dp"
@@ -147,7 +148,7 @@
                 android:id="@+id/layoutttmota"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/mota"
+                android:hint="@string/description"
                 android:background="@drawable/rounded_input_box"
                 android:layout_marginTop="@dimen/margin_basex2">
 
@@ -234,42 +235,5 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <!-- Button Hủy và Lưu -->
-    <LinearLayout
-        android:id="@+id/rowbuttonhuyluu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_marginTop="@dimen/margin_basex4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <Button
-            android:id="@+id/btnHuy"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/xamtrang"
-            android:textColor="@color/chuxanh"
-            android:text="@string/btnhuy"
-            android:paddingVertical="8dp"
-            android:textSize="@dimen/text_small"/>
-
-        <Button
-            android:id="@+id/btnLuu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="@color/xanhbutton"
-            android:textColor="@android:color/white"
-            android:text="Lưu"
-            android:paddingVertical="8dp"
-            android:textSize="@dimen/text_small"/>
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

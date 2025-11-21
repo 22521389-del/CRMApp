@@ -42,27 +42,27 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="12dp"
-                android:src="@drawable/chevron_left" />
+                android:src="@drawable/ic_arrow_back_ios" />
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="12dp"
-                android:src="@drawable/chevron_right" />
+                android:src="@drawable/ic_next" />
 
             <ImageView
                 android:id="@+id/btnEdit"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginEnd="12dp"
-                android:src="@drawable/edit" />
+                android:src="@drawable/ic_edit" />
 
         </LinearLayout>
 
@@ -70,7 +70,7 @@
             android:id="@+id/btnMore"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/more_horiz" />
+            android:src="@drawable/ic_more" />
     </LinearLayout>
 
     <!-- ===== THÔNG TIN ĐƠN ===== -->

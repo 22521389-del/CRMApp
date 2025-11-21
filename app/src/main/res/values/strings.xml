@@ -19,9 +19,9 @@
     <string name="activate_add">Thêm hoạt động</string>
     <string name="convertLead"> Chuyển đổi Lead</string>
     <string name="double_">Nhân đôi</string>
-    <string name="Edit_Lead">Chỉnh sửa</string>
+    <string name="Edit">Chỉnh sửa</string>
     <string name="remove_lead">Xóa</string>
-    <string name="num_calls">Số cuộc gọi</string>
+    <string name="num_calls">Cuộc gọi</string>
     <string name="num_meeting"> Cuộc họp</string>
     <string name="num_job">Công việc</string>
     <string name="DetailLead">Chi tiết Lead</string>
@@ -54,14 +54,15 @@
     <string name="description">Mô tả</string>
     <string name="special_notes">Ghi chú đặt biệt</string>
     <string name="image">Hình ảnh</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="scheduled_action">Hoạt động đã lên lịch</string>
     <string name="plan">Lên kế hoạch</string>
     <string name="add_action">Thêm hoạt động</string>
     <string name="comment">Bình luận</string>
     <string name="module">Mô đun</string>
-    <string name="see_more">Xem thêm </string>
+    <string name="see_more">Xem thêm</string>
     <string name="current_visit">Truy cập gần đây</string>
     <string name="SDT"> SĐT</string>
     <string name="find_order">Tìm kiếm đơn hàng</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

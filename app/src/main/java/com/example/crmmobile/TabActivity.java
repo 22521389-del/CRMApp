@@ -1,7 +1,9 @@
 package com.example.crmmobile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -10,18 +12,19 @@ import androidx.fragment.app.FragmentTransaction;
 public class TabActivity extends AppCompatActivity {
 
     private TextView tabTongQuan, tabChiTiet, tabHoatDong, tabCoHoi;
+    private ImageView icBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nguoilienhe); // Đây là file XML bạn vừa gửi
+        setContentView(R.layout.activity_nguoilienhe);
 
         // --- Ánh xạ view ---
         tabTongQuan = findViewById(R.id.tab_tongquan);
         tabChiTiet = findViewById(R.id.tab_chitiet);
         tabHoatDong = findViewById(R.id.tab_hoatdong);
         tabCoHoi = findViewById(R.id.tab_cohoi);
-
+        icBack = findViewById(R.id.ic_back);
         // --- Mặc định hiển thị tab Tổng quan ---
         setFragment(new TongQuanFragment());
         setActiveTab(tabTongQuan);
@@ -37,6 +40,12 @@ public class TabActivity extends AppCompatActivity {
             setActiveTab(tabChiTiet);
         });
 
+        icBack.setOnClickListener(v -> {
+            Intent intent = new Intent(TabActivity.this, DanhSachCaNhanActivity.class);
+            startActivity(intent);
+            // Nếu muốn giữ lại màn hình danh sách, bỏ dòng finish()
+            //finish();
+        });
 //        tabHoatDong.setOnClickListener(v -> {
 //            setFragment(new HoatDongFragment());
 //            setActiveTab(tabHoatDong);
@@ -48,18 +57,12 @@ public class TabActivity extends AppCompatActivity {
 //        });
     }
 
-    /**
-     * Hàm hiển thị fragment mới trong container
-     */
     private void setFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainer, fragment);
         transaction.commit();
     }
 
-    /**
-     * Hàm đổi màu tab được chọn + đổi viền
-     */
     private void setActiveTab(TextView selectedTab) {
         // Reset màu và background tất cả tab về mặc định
         tabTongQuan.setTextColor(getResources().getColor(R.color.grey));

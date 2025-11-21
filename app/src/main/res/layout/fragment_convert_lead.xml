@@ -211,7 +211,7 @@
                         android:id="@+id/iv_opportrvalue"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
-                        android:src="@drawable/dong"
+                        android:src="@drawable/ic_dong"
                         app:layout_constraintEnd_toEndOf="@id/et_opportvalue"
                         android:contentDescription="@null"
                         app:tint="@color/icon_infor"

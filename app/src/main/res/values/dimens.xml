@@ -3,6 +3,7 @@
     <dimen name="margin_action">10dp</dimen>
     <dimen name="title_app">20sp</dimen>
     <dimen name="add_infor">5dp</dimen>
+    <dimen name="margin7">7dp</dimen>
     <dimen name="top_padding">10dp</dimen>
     <dimen name="bottom_padding">10dp</dimen>
     <dimen name="start_padding">20dp</dimen>
@@ -23,4 +24,5 @@
     <dimen name="padding32">32dp</dimen>
     <dimen name="padding34">34dp</dimen>
     <dimen name="padding36">36dp</dimen>
+    <dimen name="text11">11sp</dimen>
 </resources>

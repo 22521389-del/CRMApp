@@ -21,7 +21,7 @@ public class ConvertLead extends Fragment {
     }
     public ConvertLead() {}
 
-    public static ConvertLead newInstance(String param1, String param2) {
+    public static ConvertLead newInstance() {
         ConvertLead fragment = new ConvertLead();
         Bundle args = new Bundle();
         return fragment;
@@ -64,7 +64,7 @@ public class ConvertLead extends Fragment {
         setRequiredLabel(et_ship, R.string.shipto);
 
         iv_back.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
+            getActivity().finish();
         });
 
         return view;
