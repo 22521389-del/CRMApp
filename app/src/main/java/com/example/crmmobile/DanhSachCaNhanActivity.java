@@ -38,19 +38,14 @@ public class DanhSachCaNhanActivity extends AppCompatActivity {
         cardThongTin.setOnClickListener(v -> {
             Intent intent = new Intent(DanhSachCaNhanActivity.this, TabActivity.class);
             startActivity(intent);
-            // Nếu muốn giữ lại màn hình danh sách, bỏ dòng finish()
             //finish();
         });
 
         btnAdd.setOnClickListener(v -> {
             Intent intent = new Intent(DanhSachCaNhanActivity.this, ThongTinLienHeActivity.class);
             startActivity(intent);
-            // Nếu muốn giữ lại màn hình danh sách, bỏ dòng finish()
             //finish();
         });
-
-        // Click vào back button
-//        icBack.setOnClickListener(v -> onBackPressed());
 
         icMore.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -71,12 +71,6 @@ public class main_screen extends Fragment {
         rl_module = view.findViewById(R.id.rl_module);
         //shrink icon see more
         TextView tvSeemore = view.findViewById(R.id.tv_seemore);
-        Drawable seemoreicon = AppCompatResources.getDrawable(getContext(), R.drawable.ic_arrow_down);
-        if(seemoreicon != null){
-            int size = (int)(16 * getResources().getDisplayMetrics().density); //16dp
-            seemoreicon.setBounds(0, 0, size, size);
-        }
-        tvSeemore.setCompoundDrawablesRelative(null, null, seemoreicon, null);
 
         itemModules = Arrays.asList(
                     new item_module("Tổ chức", R.drawable.ic_company),
