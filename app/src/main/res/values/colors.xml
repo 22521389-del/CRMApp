@@ -26,4 +26,5 @@
     <color name="icon_infor">#7E8A9A</color>
     <color name="bg_active_icon">#F2F5F8</color>
     <color name="mauxoa">#FFEEEE</color>
+    <color name="background">#E8E8E8</color>
 </resources>

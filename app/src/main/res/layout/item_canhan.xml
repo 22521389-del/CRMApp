@@ -1,6 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:padding="16dp"
+    android:background="@drawable/rounded_input_box">
+
+    <!-- Icon và Họ tên -->
+    <ImageView
+        android:id="@+id/ic_contact"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_contact"
+        android:tint="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvHoTen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/ic_contact"
+        app:layout_constraintTop_toTopOf="@id/ic_contact"
+        app:layout_constraintEnd_toStartOf="@id/ic_more" />
+
+    <ImageView
+        android:id="@+id/ic_more"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_more"
+        android:tint="@color/blue"
+        app:layout_constraintTop_toTopOf="@id/ic_contact"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Công ty -->
+    <ImageView
+        android:id="@+id/ic_congty"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_congty"
+        android:tint="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ic_contact" />
+
+    <TextView
+        android:id="@+id/tvCongTy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/ic_congty"
+        app:layout_constraintTop_toTopOf="@id/ic_congty"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Ngày -->
+    <ImageView
+        android:id="@+id/ic_calendar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_calendar"
+        android:tint="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ic_congty" />
+
+    <TextView
+        android:id="@+id/tvNgay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/ic_calendar"
+        app:layout_constraintTop_toTopOf="@id/ic_calendar" />
+
+    <!-- Call & Meeting -->
+    <ImageView
+        android:id="@+id/ic_call"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_call"
+        android:tint="@color/icon_comment"
+        android:layout_marginTop="@dimen/margin_basex3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ic_calendar" />
+
+    <TextView
+        android:id="@+id/fill_cuocgoi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_medium"
+        android:layout_marginStart="@dimen/margin_basex2"
+        app:layout_constraintStart_toEndOf="@id/ic_call"
+        app:layout_constraintTop_toTopOf="@id/ic_call" />
+
+    <ImageView
+        android:id="@+id/ic_meeting"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_comment"
+        android:tint="@color/icon_comment"
+        android:layout_marginStart="@dimen/margin_basex3"
+        app:layout_constraintStart_toEndOf="@id/fill_cuocgoi"
+        app:layout_constraintTop_toTopOf="@id/ic_call" />
+
+    <TextView
+        android:id="@+id/fill_meeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_medium"
+        android:layout_marginStart="@dimen/margin_basex2"
+        app:layout_constraintStart_toEndOf="@id/ic_meeting"
+        app:layout_constraintTop_toTopOf="@id/ic_meeting" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
