@@ -16,10 +16,12 @@
 
     <ImageView
         android:id="@+id/img_action_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
         android:contentDescription="@string/app_name"
-        android:background="@drawable/bg_item_action"
+        android:background="@drawable/rounded_input_box_small"
+        android:scaleType="centerInside"
         app:tint="@null" />
 
     <TextView
