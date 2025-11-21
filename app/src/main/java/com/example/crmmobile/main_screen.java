@@ -71,20 +71,14 @@ public class main_screen extends Fragment {
         rl_module = view.findViewById(R.id.rl_module);
         //shrink icon see more
         TextView tvSeemore = view.findViewById(R.id.tv_seemore);
-        Drawable seemoreicon = AppCompatResources.getDrawable(getContext(), R.drawable.ic_arrow_down);
-        if(seemoreicon != null){
-            int size = (int)(16 * getResources().getDisplayMetrics().density); //16dp
-            seemoreicon.setBounds(0, 0, size, size);
-        }
-        tvSeemore.setCompoundDrawablesRelative(null, null, seemoreicon, null);
 
         itemModules = Arrays.asList(
-                    new item_module("Tổ chức", R.drawable.office_building),
-                    new item_module("Cá nhân", R.drawable.ic_person),
-                    new item_module("Báo giá", R.drawable.quote_request),
-                    new item_module("Hóa đơn", R.drawable.bill),
-                    new item_module("Hợp đồng", R.drawable.contract),
-                    new item_module("Báo cáo", R.drawable.bar_chart),
+                    new item_module("Tổ chức", R.drawable.ic_company),
+                    new item_module("Cá nhân", R.drawable.ic_individual),
+                    new item_module("Báo giá", R.drawable.ic_quote),
+                    new item_module("Hóa đơn", R.drawable.ic_bill),
+                    new item_module("Hợp đồng", R.drawable.ic_contract),
+                    new item_module("Báo cáo", R.drawable.ic_chart),
                     new item_module("Cơ hội", R.drawable.ic_target),
                     new item_module("CSKH", R.drawable.customer_care)
         );

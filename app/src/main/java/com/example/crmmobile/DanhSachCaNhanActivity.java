@@ -33,6 +33,7 @@ public class DanhSachCaNhanActivity extends AppCompatActivity {
         // ====== Tạo danh sách ======
         caNhanList = new ArrayList<>();
 
+
         // 3 item cố định
         caNhanList.add(new CaNhan("Nguyễn Văn A", "Công ty X", "01/01/2025", 2, 2));
         caNhanList.add(new CaNhan("Trần Thị B", "Công ty Y", "02/01/2025", 2, 2));
@@ -41,6 +42,7 @@ public class DanhSachCaNhanActivity extends AppCompatActivity {
         adapter = new CaNhanAdapter(caNhanList);
         rvCaNhan.setLayoutManager(new LinearLayoutManager(this));
         rvCaNhan.setAdapter(adapter);
+
 
         // ====== Nút thêm ======
         btnAdd.setOnClickListener(v -> {
@@ -56,6 +58,11 @@ public class DanhSachCaNhanActivity extends AppCompatActivity {
 
         // ====== Click item ======
         adapter.setOnItemClickListener(new CaNhanAdapter.OnItemClickListener() {
+//             startActivity(intent);
+            //finish();
+        });
+
+//         icMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onMoreClick(CaNhan cn) {
                 BottomActionFragment bottomSheet = new BottomActionFragment();

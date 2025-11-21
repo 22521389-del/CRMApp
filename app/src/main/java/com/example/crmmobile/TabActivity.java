@@ -17,7 +17,7 @@ public class TabActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nguoilienhe); // Đây là file XML bạn vừa gửi
+        setContentView(R.layout.activity_nguoilienhe);
 
         // --- Ánh xạ view ---
         tabTongQuan = findViewById(R.id.tab_tongquan);
@@ -57,18 +57,12 @@ public class TabActivity extends AppCompatActivity {
 //        });
     }
 
-    /**
-     * Hàm hiển thị fragment mới trong container
-     */
     private void setFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainer, fragment);
         transaction.commit();
     }
 
-    /**
-     * Hàm đổi màu tab được chọn + đổi viền
-     */
     private void setActiveTab(TextView selectedTab) {
         // Reset màu và background tất cả tab về mặc định
         tabTongQuan.setTextColor(getResources().getColor(R.color.grey));

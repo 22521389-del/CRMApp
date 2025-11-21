@@ -73,7 +73,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/rounded_input_box_small"
-            android:src="@drawable/ic_hoatdong"
+            android:src="@drawable/ic_calendar"
             android:scaleType="centerInside"
             android:layout_marginStart="10dp"/>
 

@@ -27,7 +27,7 @@ public class TaiLieu {
         } else if (lower.endsWith(".xlsx") || lower.endsWith(".xls")) {
             return R.drawable.ic_excel;   // icon Excel
         } else if (lower.endsWith(".docx") || lower.endsWith(".doc")) {
-            return R.drawable.addfile;    // icon Word
+            return R.drawable.ic_word;    // icon Word
         } else {
             return R.drawable.ic_files;    // icon mặc định
         }

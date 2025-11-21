@@ -4,7 +4,7 @@
     tools:context="com.example.crmmobile.MainActivity">
     <item
         android:id="@+id/nav_home"
-        android:icon="@drawable/home_nav"
+        android:icon="@drawable/ic_home"
         android:title="@string/Home"/>
     <item
         android:id="@+id/nav_lead"
@@ -21,7 +21,7 @@
         android:title="@string/Calendar"/>
     <item
         android:id="@+id/nav_notify"
-        android:icon="@drawable/bell"
+        android:icon="@drawable/ic_bell"
         android:title="@string/Notify"/>
     <item
         android:id="@+id/nav_menu"

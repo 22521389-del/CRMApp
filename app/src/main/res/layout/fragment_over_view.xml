@@ -133,7 +133,7 @@
                     android:layout_height="20dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:src="@drawable/project_plan"
+                    android:src="@drawable/ic_meeting"
                     android:contentDescription="@null"/>
                 <TextView
                     android:id="@+id/tv_meeting"
@@ -150,7 +150,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:src="@drawable/dots"
+                    android:src="@drawable/ic_more_vert"
                     app:layout_constraintTop_toTopOf="parent"
                     android:contentDescription="@null"
                     app:tint="@color/blue"/>

@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:backgroundTint="@color/white"
-    android:paddingStart="@dimen/start_padding"
-    android:paddingEnd="@dimen/start_padding"
+    android:background="@drawable/bg_color_main_screen"
     tools:context=".main_screen">
 
     <!--header-->
@@ -22,6 +20,9 @@
         android:textColor="@color/blue"
         android:paddingTop="@dimen/top_padding"
         android:paddingBottom="@dimen/bottom_padding"
+        android:background="@color/white"
+        android:paddingStart="@dimen/margin15"
+        android:paddingEnd="@dimen/margin15"
         android:textStyle="bold"/>
     <!--end header-->
 
@@ -33,14 +34,16 @@
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/tv_main_header"
         android:paddingTop="@dimen/top_padding"
-        android:paddingBottom="@dimen/bottom_padding">
+        android:paddingBottom="@dimen/bottom_padding"
+        android:paddingStart="@dimen/margin15"
+        android:paddingEnd="@dimen/margin15">
 
         <TextView
             android:id="@+id/tv_name_module"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/module"
-            android:textSize="@dimen/title_app"
+            android:textSize="@dimen/text16"
             android:textStyle="bold"
             android:paddingTop="10dp"/>
 
@@ -50,14 +53,16 @@
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
             android:paddingTop="@dimen/top_padding"
-            android:paddingBottom="@dimen/bottom_padding"/>
+            android:paddingBottom="@dimen/bottom_padding"
+            android:paddingStart="@dimen/margin7"
+            android:paddingEnd="@dimen/margin7"/>
+
         <LinearLayout
             android:id="@+id/ll_seemore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_gravity="center"
             android:paddingTop="@dimen/top_padding"
             android:paddingBottom="@dimen/bottom_padding">
 
@@ -68,43 +73,53 @@
                 android:text="@string/see_more"
                 android:textColor="@color/seemore_color"
                 android:textStyle="bold"
-                app:drawableEndCompat="@drawable/ic_arrow_down"
-                app:drawableTint="@color/seemore_color"
-                android:drawablePadding="6dp"
-                android:textSize="@dimen/text_seemore"
+                android:textSize="12sp"/>
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_arrow_down"
+                app:tint="@color/seemore_color"
+                android:layout_marginStart="@dimen/margin7"
                 />
 
         </LinearLayout>
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/ll_current"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/ll_module"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:paddingTop="@dimen/top_padding">
 
         <TextView
             android:id="@+id/tv_current"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/current_visit"
-            android:textSize="@dimen/title_app"
+            android:textSize="@dimen/text16"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:paddingStart="@dimen/margin15"
+            android:paddingEnd="@dimen/margin15"
             />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tv_seemore2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/see_more"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="@dimen/text_seemore"
+            android:textSize="12sp"
             android:textStyle="normal"
-            android:textColor="@color/seemore_color"
-            app:layout_constraintTop_toTopOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:paddingEnd="@dimen/margin15"
+            android:textColor="@color/seemore_color" />
+    </LinearLayout>
     <!--End module-->
 </androidx.constraintlayout.widget.ConstraintLayout>

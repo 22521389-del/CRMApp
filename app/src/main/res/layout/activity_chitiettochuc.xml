@@ -51,7 +51,7 @@
                     android:id="@+id/btn_nav_prev"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_chevron_left"
+                    android:src="@drawable/ic_arrow_left"
                     android:padding="8dp"
                     android:layout_marginEnd="4dp"
                     android:background="@drawable/icon_background_circle"
@@ -61,7 +61,7 @@
                     android:id="@+id/btn_nav_next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_chevron_right"
+                    android:src="@drawable/ic_arrow_right"
                     android:padding="8dp"
                     android:layout_marginEnd="4dp"
                     android:background="@drawable/icon_background_circle"
@@ -104,7 +104,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/office_building"
+                    android:src="@drawable/ic_company"
                     app:tint="#516D94"/>
 
                 <TextView

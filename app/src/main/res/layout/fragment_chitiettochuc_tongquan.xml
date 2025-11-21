@@ -109,25 +109,24 @@
                 android:padding="16dp">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_box"
-                    app:tint="#1F64E7"/>
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/ic_emptybox" />
 
                 <!-- Nút Thêm bình luận -->
                 <TextView
                     android:id="@+id/btn_them_binh_luan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
                     android:text="@string/them_binh_luan"
                     android:textColor="#3B72F2"
-                    android:textStyle="bold"
                     android:textSize="14sp"
-                    android:gravity="center_vertical"
-                    android:drawablePadding="8dp"
-                    android:layout_marginTop="16dp"
+                    android:textStyle="bold"
                     app:drawableStartCompat="@drawable/ic_add"
-                    app:drawableTint="#1B74E4"/>
+                    app:drawableTint="#1B74E4" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

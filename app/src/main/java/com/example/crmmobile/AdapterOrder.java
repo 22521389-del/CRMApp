@@ -84,14 +84,14 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.OrderViewHol
 
         addActionItem(layoutActions, R.drawable.ic_pin, "Ghim", () ->
                 Toast.makeText(context, "Đã ghim đơn hàng", Toast.LENGTH_SHORT).show());
-        addActionItem(layoutActions, R.drawable.ic_cached, "Chuyển thành hóa đơn", () ->
+        addActionItem(layoutActions, R.drawable.ic_loop, "Chuyển thành hóa đơn", () ->
                 Toast.makeText(context, "Chuyển hóa đơn thành công", Toast.LENGTH_SHORT).show());
 
         addActionItem(layoutActions, R.drawable.ic_files, "Xuất file PDF", () ->
                 Toast.makeText(context, "Xuất file PDF...", Toast.LENGTH_SHORT).show());
         addActionItem(layoutActions, R.drawable.ic_forward_email, "Gửi email kèm file PDF", () ->
                 Toast.makeText(context, "Gửi thành công", Toast.LENGTH_SHORT).show());
-        addActionItem(layoutActions, R.drawable.ic_copy, "Nhân đôi", () ->
+        addActionItem(layoutActions, R.drawable.ic_duplicate, "Nhân đôi", () ->
                 Toast.makeText(context, "Nhân đôi thành công", Toast.LENGTH_SHORT).show());
 
         addActionItem(layoutActions, R.drawable.ic_cancel, "Hủy đơn hàng", () ->
