@@ -5,17 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp"
-    android:layout_marginTop="8dp"
+    android:layout_marginHorizontal="18dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="3dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/light_gray"
     app:cardBackgroundColor="@color/white">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Icon Công ty -->
         <ImageView
             android:id="@+id/ivCompanyIcon"
             android:layout_width="24dp"
@@ -25,7 +26,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="#516D94" />
 
-        <!-- Tên Công ty -->
         <TextView
             android:id="@+id/tvCompanyName"
             android:layout_width="0dp"
@@ -40,7 +40,6 @@
             app:layout_constraintTop_toTopOf="@id/ivCompanyIcon"
             app:layout_constraintEnd_toStartOf="@id/ivStar" />
 
-        <!-- Icon Sao -->
         <ImageView
             android:id="@+id/ivStar"
             android:layout_width="wrap_content"
@@ -50,7 +49,6 @@
             app:layout_constraintTop_toTopOf="@id/tvCompanyName"
             app:layout_constraintBottom_toBottomOf="@id/tvCompanyName" />
 
-        <!-- Icon Thêm (3 chấm) -->
         <ImageView
             android:id="@+id/ivMoreOptions"
             android:layout_width="wrap_content"
@@ -62,7 +60,6 @@
             app:layout_constraintBottom_toBottomOf="@id/tvCompanyName"
             app:tint="#1B74E4" />
 
-        <!-- Ngành nghề -->
         <ImageView
             android:id="@+id/ivIndustryIcon"
             android:layout_width="16dp"
@@ -83,7 +80,6 @@
             app:layout_constraintStart_toStartOf="@id/tvCompanyName"
             app:layout_constraintTop_toBottomOf="@id/tvCompanyName" />
 
-        <!-- Ngày -->
         <ImageView
             android:id="@+id/ivDateIcon"
             android:layout_width="16dp"
@@ -104,7 +100,6 @@
             app:layout_constraintStart_toStartOf="@id/tvCompanyName"
             app:layout_constraintTop_toBottomOf="@id/tvIndustry" />
 
-        <!-- Tag Trạng thái -->
         <TextView
             android:id="@+id/tvStatusTag"
             android:layout_width="wrap_content"
@@ -120,7 +115,6 @@
             tools:textColor="@color/black"
             tools:background="@drawable/tag_bg_blue" />
 
-        <!-- Số điện thoại  -->
         <ImageView
             android:id="@+id/ivPhoneIcon"
             android:layout_width="16dp"
@@ -142,7 +136,6 @@
             app:layout_constraintStart_toEndOf="@id/ivPhoneIcon"
             app:layout_constraintTop_toBottomOf="@id/tvDate" />
 
-        <!-- Tin nhắn -->
         <ImageView
             android:id="@+id/ivMessageIcon"
             android:layout_width="16dp"
@@ -164,7 +157,6 @@
             app:layout_constraintStart_toEndOf="@id/ivMessageIcon"
             app:layout_constraintTop_toTopOf="@id/tvPhoneCount" />
 
-        <!-- Nhóm Avatar -->
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avatar3"
             android:layout_width="24dp"
@@ -199,7 +191,6 @@
             app:layout_constraintEnd_toStartOf="@id/avatar2"
             app:layout_constraintTop_toTopOf="@id/avatar2"/>
 
-        <!-- Đường kẻ ngang -->
         <View
             android:id="@+id/divider"
             android:layout_width="0dp"
@@ -210,7 +201,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvPhoneCount" />
 
-        <!-- Trao đổi -->
         <TextView
             android:id="@+id/tvTraoDoi"
             android:layout_width="wrap_content"
