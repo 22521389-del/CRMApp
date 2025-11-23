@@ -37,14 +37,14 @@ public class ToChucFragment extends Fragment
 
         View view = inflater.inflate(R.layout.layout_tochuc, container, false);
         Log.d(TAG, "Fragment onCreateView CALLED");
-        btnBack = view.findViewById(R.id.btn_organization_back);
 
-        btnBack.setOnClickListener(v -> {
-            if(isAdded()){
-                requireActivity().finish();
-            }
-
-        });
+        // === XỬ LÝ NÚT BACK ===
+        ImageButton btnBack = view.findViewById(R.id.btn_organization_back);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager().popBackStack();
+            });
+        }
 
         // === NÚT FAB ===
         com.google.android.material.floatingactionbutton.FloatingActionButton fab_add =
