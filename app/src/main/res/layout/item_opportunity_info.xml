@@ -51,13 +51,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_basex2"
-            android:hint="@string/hint_opportunity_name">
+            android:hint="@string/hint_opportunity_name"
+            android:background="@drawable/rounded_input_box">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_opportunity_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Company -->
@@ -67,13 +69,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_basex2"
             android:hint="@string/hint_company"
-            app:endIconMode="dropdown_menu">
+            app:endIconMode="dropdown_menu"
+            android:background="@drawable/rounded_input_box">
 
             <AutoCompleteTextView
                 android:id="@+id/et_company"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none" />
+                android:inputType="none"
+                android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Contact -->
@@ -83,13 +87,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_basex2"
             android:hint="@string/hint_contact"
-            app:endIconMode="dropdown_menu">
+            app:endIconMode="dropdown_menu"
+            android:background="@drawable/rounded_input_box">
 
             <AutoCompleteTextView
                 android:id="@+id/et_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none" />
+                android:inputType="none"
+                android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Value -->
@@ -98,13 +104,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_basex2"
-            android:hint="@string/hint_value">
+            android:hint="@string/hint_value"
+            android:background="@drawable/rounded_input_box">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Sales Stage -->
@@ -114,13 +122,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_basex2"
             android:hint="@string/hint_sales_stage"
-            app:endIconMode="dropdown_menu">
+            app:endIconMode="dropdown_menu"
+            android:background="@drawable/rounded_input_box">
 
             <AutoCompleteTextView
                 android:id="@+id/sp_sales_stage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none" />
+                android:inputType="none"
+                android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Success Rate -->
@@ -130,13 +140,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_basex2"
             android:hint="@string/hint_success_rate"
-            app:endIconMode="dropdown_menu">
+            app:endIconMode="dropdown_menu"
+            android:background="@drawable/rounded_input_box">
 
             <AutoCompleteTextView
                 android:id="@+id/sp_success_rate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none" />
+                android:inputType="none"
+                android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Expected Close Date -->
@@ -147,13 +159,15 @@
             android:layout_marginBottom="@dimen/margin_basex2"
             android:hint="@string/hint_expected_date"
             app:endIconMode="custom"
-            app:endIconDrawable="@drawable/ic_calendar">
+            app:endIconDrawable="@drawable/ic_calendar"
+            android:background="@drawable/rounded_input_box">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_expected_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="date" />
+                android:inputType="date"
+                android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Expected Close Date 2 -->
@@ -164,13 +178,15 @@
             android:layout_marginBottom="@dimen/margin_basex2"
             android:hint="@string/hint_expected_date_2"
             app:endIconMode="custom"
-            app:endIconDrawable="@drawable/ic_calendar">
+            app:endIconDrawable="@drawable/ic_calendar"
+            android:background="@drawable/rounded_input_box">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_expected_date_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="date" />
+                android:inputType="date"
+                android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Description -->
@@ -179,14 +195,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_basex3"
-            android:hint="@string/hint_description">
+            android:hint="@string/hint_description"
+            android:background="@drawable/rounded_input_box">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_description"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:gravity="top"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
@@ -231,14 +249,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_basex3"
-            android:hint="@string/hint_management">
+            android:hint="@string/hint_management"
+            android:background="@drawable/rounded_input_box">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_management"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:gravity="top"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 </LinearLayout>
