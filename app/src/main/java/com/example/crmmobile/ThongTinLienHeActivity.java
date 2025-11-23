@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.tabs.TabLayout;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -18,6 +20,7 @@ import java.util.Locale;
 public class ThongTinLienHeActivity extends AppCompatActivity {
 
     private TextView infoTab, thongTinKhacTab;
+    private TabLayout tabLayout;
     private ImageView icBack;
     private Button btnLuu, btnHuy;
 
@@ -29,8 +32,7 @@ public class ThongTinLienHeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thong_tin);
 
-        infoTab = findViewById(R.id.info);
-        thongTinKhacTab = findViewById(R.id.thongtinkhac);
+        tabLayout = findViewById(R.id.tabLayout);
         icBack = findViewById(R.id.ic_back);
         btnLuu = findViewById(R.id.btnLuu);
         btnHuy = findViewById(R.id.btnHuy);
@@ -39,18 +41,31 @@ public class ThongTinLienHeActivity extends AppCompatActivity {
         infoFragment = new ThongTinNguoiLienHeFragment();
         khacFragment = new ThongTinKhacFragment();
 
-        // Hiển thị fragment mặc định
         loadFragment(infoFragment);
-        setActiveTab(infoTab, thongTinKhacTab);
 
-        infoTab.setOnClickListener(v -> {
-            loadFragment(infoFragment);
-            setActiveTab(infoTab, thongTinKhacTab);
-        });
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Fragment selectedFragment;
 
-        thongTinKhacTab.setOnClickListener(v -> {
-            loadFragment(khacFragment);
-            setActiveTab(thongTinKhacTab, infoTab);
+                if(tab.getPosition() == 0){
+                    selectedFragment = infoFragment;
+                }else{
+                    selectedFragment = khacFragment;
+                }
+
+                loadFragment(selectedFragment);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
         });
 
 //        // --- Mặc định ngày = hôm nay ---
@@ -86,16 +101,16 @@ public class ThongTinLienHeActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    private void setActiveTab(TextView active, TextView inactive) {
-        // Reset tất cả tab
-        infoTab.setTextColor(getResources().getColor(R.color.grey));
-        infoTab.setBackgroundResource(android.R.color.transparent);
-
-        thongTinKhacTab.setTextColor(getResources().getColor(R.color.grey));
-        thongTinKhacTab.setBackgroundResource(android.R.color.transparent);
-
-        // Tab đang active
-        active.setTextColor(getResources().getColor(R.color.blue));
-        active.setBackgroundResource(R.drawable.edittext_line);
-    }
+//    private void setActiveTab(TextView active, TextView inactive) {
+//        // Reset tất cả tab
+//        infoTab.setTextColor(getResources().getColor(R.color.grey));
+//        infoTab.setBackgroundResource(android.R.color.transparent);
+//
+//        thongTinKhacTab.setTextColor(getResources().getColor(R.color.grey));
+//        thongTinKhacTab.setBackgroundResource(android.R.color.transparent);
+//
+//        // Tab đang active
+//        active.setTextColor(getResources().getColor(R.color.blue));
+//        active.setBackgroundResource(R.drawable.edittext_line);
+//    }
 }

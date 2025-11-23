@@ -76,6 +76,6 @@ public class TabActivity extends AppCompatActivity {
 
         // Tab được chọn hiển thị màu xanh + viền dưới
         selectedTab.setTextColor(getResources().getColor(R.color.blue));
-        selectedTab.setBackgroundResource(R.drawable.edittext_line); // ✅ Dòng bạn muốn thêm
+        selectedTab.setBackgroundResource(R.drawable.edittext_line); //Dòng bạn muốn thêm
     }
 }
