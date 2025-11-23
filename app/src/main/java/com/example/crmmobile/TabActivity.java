@@ -41,10 +41,7 @@ public class TabActivity extends AppCompatActivity {
         });
 
         icBack.setOnClickListener(v -> {
-            Intent intent = new Intent(TabActivity.this, DanhSachCaNhanActivity.class);
-            startActivity(intent);
-            // Nếu muốn giữ lại màn hình danh sách, bỏ dòng finish()
-            //finish();
+            finish();
         });
 //        tabHoatDong.setOnClickListener(v -> {
 //            setFragment(new HoatDongFragment());

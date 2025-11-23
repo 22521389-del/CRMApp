@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/address"
                 android:background="@drawable/rounded_input_box"
-                android:layout_marginTop="@dimen/margin_basex2">
+                android:layout_marginTop="@dimen/margin25">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtdiachi"
@@ -58,13 +58,13 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:inputType="textMultiLine"
-                    android:minLines="3"
+                    android:minLines="4"
                     android:gravity="top|start"
                     android:paddingStart="@dimen/margin_base"
                     android:paddingEnd="@dimen/margin_base"
                     android:paddingTop="@dimen/padding_vertical_small"
                     android:paddingBottom="@dimen/padding_vertical_small"
-                    android:textSize="@dimen/text_small" />
+                    android:textSize="@dimen/text14" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Các trường quận, tỉnh, quốc gia -->
@@ -74,16 +74,16 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/district"
                 android:background="@drawable/rounded_input_box"
-                android:layout_marginTop="@dimen/margin_basex2">
+                android:layout_marginTop="@dimen/bottom_padding">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtquanhuyen"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@android:color/transparent"
                     android:paddingStart="@dimen/margin_base"
                     android:paddingEnd="@dimen/margin_base"
-                    android:textSize="@dimen/text_small"/>
+                    android:textSize="@dimen/text14"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/province"
                 android:background="@drawable/rounded_input_box"
-                android:layout_marginTop="@dimen/margin_basex2">
+                android:layout_marginTop="@dimen/bottom_padding">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edttinhtp"
@@ -101,7 +101,7 @@
                     android:background="@android:color/transparent"
                     android:paddingStart="@dimen/margin_base"
                     android:paddingEnd="@dimen/margin_base"
-                    android:textSize="@dimen/text_small"/>
+                    android:textSize="@dimen/text14"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/nation"
                 android:background="@drawable/rounded_input_box"
-                android:layout_marginTop="@dimen/margin_basex2">
+                android:layout_marginTop="@dimen/bottom_padding">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtquocgia"
@@ -119,10 +119,9 @@
                     android:background="@android:color/transparent"
                     android:paddingStart="@dimen/margin_base"
                     android:paddingEnd="@dimen/margin_base"
-                    android:textSize="@dimen/text_small"/>
+                    android:textSize="@dimen/text14"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
-
 
             <!-- Mô tả -->
             <TextView
@@ -134,15 +133,15 @@
                 android:textStyle="bold"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
-                android:paddingEnd="8dp"
-                android:layout_marginTop="@dimen/margin_basex2" />
+                android:layout_marginTop="@dimen/margin15" />
 
         <LinearLayout
             android:id="@+id/layoutThongTinMoTaChiTiet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:layout_marginTop="@dimen/margin25">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutttmota"
@@ -158,13 +157,13 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:inputType="textMultiLine"
-                    android:minLines="3"
+                    android:minLines="4"
                     android:gravity="top|start"
                     android:paddingStart="@dimen/margin_base"
                     android:paddingEnd="@dimen/margin_base"
                     android:paddingTop="@dimen/padding_vertical_small"
                     android:paddingBottom="@dimen/padding_vertical_small"
-                    android:textSize="@dimen/text_small"/>
+                    android:textSize="@dimen/text14"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Ghi chú -->
@@ -174,7 +173,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/ghichu"
                 android:background="@drawable/rounded_input_box"
-                android:layout_marginTop="@dimen/margin_basex2">
+                android:layout_marginTop="@dimen/bottom_padding">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtghichu"
@@ -182,13 +181,13 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:inputType="textMultiLine"
-                    android:minLines="3"
+                    android:minLines="4"
                     android:gravity="top|start"
                     android:paddingStart="@dimen/margin_base"
                     android:paddingEnd="@dimen/margin_base"
                     android:paddingTop="@dimen/padding_vertical_small"
                     android:paddingBottom="@dimen/padding_vertical_small"
-                    android:textSize="@dimen/text_small"/>
+                    android:textSize="@dimen/text14"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -202,7 +201,7 @@
                 android:textStyle="bold"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
-                android:layout_marginTop="@dimen/margin_basex2"
+                android:layout_marginTop="@dimen/margin15"
                  />
         <LinearLayout
             android:id="@+id/layoutThongTinQuanLyChiTiet"
@@ -219,14 +218,14 @@
                 android:background="@drawable/rounded_input_box"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 app:endIconMode="dropdown_menu"
-                android:layout_marginTop="@dimen/margin_basex4">
+                android:layout_marginTop="@dimen/margin25">
 
                 <AutoCompleteTextView
                     android:id="@+id/actgiaocho"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:textSize="@dimen/text_small"
+                    android:textSize="@dimen/text14"
                     android:paddingStart="@dimen/margin_base"
                     android:paddingEnd="@dimen/margin_base"
                     android:background="@android:color/transparent" />

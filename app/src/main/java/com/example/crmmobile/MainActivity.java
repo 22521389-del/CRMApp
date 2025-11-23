@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements main_screen.onMod
                 viewPager2.setVisibility(View.VISIBLE);
                 container.setVisibility(View.GONE);
 
-//                navFooter.getMenu().findItem(R.id.nav_home).setChecked(true);//footer nav back to home tab
+                navFooter.getMenu().findItem(R.id.nav_home).setChecked(true);//footer nav back to home tab
             }
         });
     }
@@ -99,8 +99,18 @@ public class MainActivity extends AppCompatActivity implements main_screen.onMod
             navFooter.getMenu().findItem(R.id.nav_menu).setChecked(true);
         }
         if(moduleName.equals("Cá nhân")){
-            Intent intent = new Intent(MainActivity.this, DanhSachCaNhanActivity.class);
-            startActivity(intent);
+            Fragment canhanFragment = new DanhSachCaNhan();
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_container, canhanFragment)
+                    .addToBackStack(null)
+                    .commit();
+
+            findViewById(R.id.viewPager).setVisibility(View.GONE);
+            findViewById(R.id.main_container).setVisibility(View.VISIBLE);
+
+            navFooter.getMenu().findItem(R.id.nav_menu).setChecked(true);
         }
 
         if(moduleName.equals("Tổ chức")){

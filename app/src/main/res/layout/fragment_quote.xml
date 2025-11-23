@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/bg_lead"
+    android:background="@drawable/bg_color_main_screen"
     android:fitsSystemWindows="true"
     tools:context=".QuoteFragment">
 
@@ -22,6 +22,7 @@
         android:id="@+id/body_area"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/bg_color_main_screen"
         app:layout_constraintTop_toBottomOf="@id/header_nav"
         app:layout_constraintBottom_toBottomOf="parent">
 
