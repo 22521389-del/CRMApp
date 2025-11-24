@@ -54,6 +54,10 @@ public class MainActivity extends AppCompatActivity implements main_screen.onMod
                 viewPager2.setCurrentItem(2);
                 return true;
             }
+            else if(item.getItemId() == R.id.nav_calendar){
+                viewPager2.setCurrentItem(3);
+                return true;
+            }
             return false;
         });
 

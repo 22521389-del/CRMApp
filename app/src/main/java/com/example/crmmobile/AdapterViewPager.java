@@ -11,6 +11,7 @@ public class AdapterViewPager extends FragmentStateAdapter {
     public static final int TAB_LEAD = 1;
 
     public static final int TAB_ORDER = 2;
+    public static final int TAB_CALENDAR = 3;
     public AdapterViewPager(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
@@ -33,6 +34,8 @@ public class AdapterViewPager extends FragmentStateAdapter {
                 return new leadFragment();
             case TAB_ORDER:
                 return new OrderFragment();
+            case TAB_CALENDAR:
+                return new Calendar();
             default:
                 return new main_screen();
 
@@ -41,6 +44,6 @@ public class AdapterViewPager extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 4;
     }
 }
