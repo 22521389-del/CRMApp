@@ -6,7 +6,7 @@
     android:background="@drawable/bg_color_main_screen"
     android:padding="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".DanhSachCaNhan">
+    tools:context=".IndividualDirectory.DanhSachCaNhan">
 
     <!-- Header -->
     <androidx.constraintlayout.widget.ConstraintLayout

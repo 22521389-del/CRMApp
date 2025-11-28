@@ -3,5 +3,5 @@
     android:id="@+id/tochuc_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ToChucActivity"
+    tools:context=".OrganizationDirectory.ToChucActivity"
     xmlns:tools="http://schemas.android.com/tools" />

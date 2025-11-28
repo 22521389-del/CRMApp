@@ -12,59 +12,59 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CRMMobile">
         <activity
-            android:name=".DetailLeadActivity"
+            android:name=".LeadDirectory.DetailLeadActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile" />
-        <activity android:name=".ConvertLead_Activity"
+        <activity android:name=".LeadDirectory.ConvertLead_Activity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
-        <activity android:name=".QuoteDetailActivity"
+        <activity android:name=".QuoteDirectory.QuoteDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
-        <activity android:name=".OrderDetailActivity"
+        <activity android:name=".OrderDirectory.OrderDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
-        <activity android:name=".TaoBaoGiaActivity"
+        <activity android:name=".QuoteDirectory.TaoBaoGiaActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
-        <activity android:name=".TinhTrangDonHangActivity"
+        <activity android:name=".OrderDirectory.TinhTrangDonHangActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
-        <activity android:name=".TinhTrangThanhToanActivity"
+        <activity android:name=".OrderDirectory.TinhTrangThanhToanActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
-        <activity android:name=".ThongTinLienHeActivity"
+        <activity android:name=".IndividualDirectory.ThongTinLienHeActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
-        <activity android:name=".TaoCongTyActivity"
+        <activity android:name=".OrganizationDirectory.TaoCongTyActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
 
         <activity
-            android:name=".OpportunityDetailActivity"
+            android:name=".OpportunityDirectory.OpportunityDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile" />
-        <activity android:name=".OpportunityFormActivity"
+        <activity android:name=".OpportunityDirectory.OpportunityFormActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
 
-        <activity android:name=".TongQuanCongTyActivity"
+        <activity android:name=".OrganizationDirectory.TongQuanCongTyActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
 
-        <activity android:name=".ChiTietToChucActivity"
+        <activity android:name=".OrganizationDirectory.ChiTietToChucActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
 
-        <activity android:name=".TabActivity"
+        <activity android:name=".IndividualDirectory.TabActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
 
-        <activity android:name=".EditLeadActivity"
+        <activity android:name=".LeadDirectory.EditLeadActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".MainDirectory.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.CRMMobile">
             <intent-filter>
