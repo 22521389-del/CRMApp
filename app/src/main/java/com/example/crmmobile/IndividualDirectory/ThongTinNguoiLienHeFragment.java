@@ -1,5 +1,5 @@
 package com.example.crmmobile.IndividualDirectory;
-
+import com.example.crmmobile.R;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.crmmobile.R;
-
 public class ThongTinNguoiLienHeFragment extends Fragment {
 
     private AutoCompleteTextView actDanhXung, actGioiTinh, actCongTy;
     private EditText edtHoVaTenDem, edtTen, edtDiDong, edtEmail, edtNgaySinh;
+
+    // Lưu model tạm để populate khi view đã sẵn sàng
+    private CaNhan caNhan;
 
     @Nullable
     @Override
@@ -33,9 +34,6 @@ public class ThongTinNguoiLienHeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // =============================
-        // 1. ÁNH XẠ VIEW
-        // =============================
         TextView tvHeader = view.findViewById(R.id.thongtinnguoilienhe);
         LinearLayout layoutDetail = view.findViewById(R.id.layoutThongTinNguoiLienHeChiTiet);
 
@@ -50,9 +48,6 @@ public class ThongTinNguoiLienHeFragment extends Fragment {
         edtEmail = view.findViewById(R.id.edtemail);
         edtNgaySinh = view.findViewById(R.id.edtngaysinh);
 
-        // =============================
-        // 2. DROPDOWN CÔNG TY
-        // =============================
         ArrayAdapter<String> adapterCongTy = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_list_item_1,
@@ -61,9 +56,6 @@ public class ThongTinNguoiLienHeFragment extends Fragment {
         actCongTy.setAdapter(adapterCongTy);
 
 
-        // =============================
-        // 2. DROPDOWN DANH XƯNG
-        // =============================
         ArrayAdapter<String> adapterDanhXung = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_list_item_1,
@@ -71,9 +63,6 @@ public class ThongTinNguoiLienHeFragment extends Fragment {
         );
         actDanhXung.setAdapter(adapterDanhXung);
 
-        // =============================
-        // 3. DROPDOWN GIỚI TÍNH
-        // =============================
         ArrayAdapter<String> adapterGioiTinh = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_list_item_1,
@@ -81,9 +70,7 @@ public class ThongTinNguoiLienHeFragment extends Fragment {
         );
         actGioiTinh.setAdapter(adapterGioiTinh);
 
-        // =============================
-        // 4. Toggle mở/đóng form
-        // =============================
+
         tvHeader.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0);
 
         tvHeader.setOnClickListener(v -> {
@@ -95,11 +82,39 @@ public class ThongTinNguoiLienHeFragment extends Fragment {
                 tvHeader.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0);
             }
         });
+
+        // Nếu đã có CaNhan được set trước đó -> populate
+        if (caNhan != null) {
+            populateFromCaNhan();
+        }
     }
 
-    // =============================
-    // 5. GETTER LẤY DỮ LIỆU
-    // =============================
+    private void populateFromCaNhan() {
+        if (caNhan == null) return;
+        actDanhXung.setText(nullToEmpty(caNhan.getDanhXung()));
+        edtHoVaTenDem.setText(nullToEmpty(caNhan.getHoVaTen()));
+        edtTen.setText(nullToEmpty(caNhan.getTen()));
+        actCongTy.setText(nullToEmpty(caNhan.getCongTy()));
+        actGioiTinh.setText(nullToEmpty(caNhan.getGioiTinh()));
+        edtDiDong.setText(nullToEmpty(caNhan.getDiDong()));
+        edtEmail.setText(nullToEmpty(caNhan.getEmail()));
+        edtNgaySinh.setText(nullToEmpty(caNhan.getNgaySinh()));
+    }
+
+    private String nullToEmpty(String s) {
+        return s == null ? "" : s;
+    }
+
+    // Cho Activity truyền CaNhan vào để chỉnh sửa
+    public void setCaNhan(CaNhan cn) {
+        this.caNhan = cn;
+        // Nếu view đã sẵn sàng, populate luôn
+        if (getView() != null) {
+            populateFromCaNhan();
+        }
+    }
+
+    // GETTERS hiện tại (không đổi)
     public String getDanhXung() { return actDanhXung.getText().toString(); }
     public String getHoVaTenDem() { return edtHoVaTenDem.getText().toString(); }
     public String getTen() { return edtTen.getText().toString(); }
