@@ -33,23 +33,36 @@ public class ThongTinLienHeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thong_tin);
 
+        initViews();
+
+        // 1. Khởi tạo Fragment
+        infoFragment = new ThongTinNguoiLienHeFragment();
+        khacFragment = new ThongTinKhacFragment();
+
+        // 2. Xử lý Intent (Edit mode)
+        handleIntent();
+
+        // 3. Setup Fragment ban đầu (Add cả 2 nhưng hide Khác)
+        setupInitialFragments();
+
+        // 4. Setup Click events
+        setupEvents();
+    }
+
+    private void initViews() {
         infoTab = findViewById(R.id.info);
         thongTinKhacTab = findViewById(R.id.thongtinkhac);
         icBack = findViewById(R.id.ic_back);
         btnLuu = findViewById(R.id.btnLuu);
         btnHuy = findViewById(R.id.btnHuy);
+    }
 
-        // Khởi tạo fragment (lưu tham chiếu)
-        infoFragment = new ThongTinNguoiLienHeFragment();
-        khacFragment = new ThongTinKhacFragment();
-
-        // Kiểm tra Intent (nếu là edit sẽ có extras)
+    private void handleIntent() {
         Intent intent = getIntent();
         if (intent != null && "edit".equals(intent.getStringExtra("mode"))) {
             mode = "edit";
             editingId = intent.getIntExtra("id", -1);
 
-            // Tạo model tạm từ extras để truyền xuống fragment
             editingCaNhan = new CaNhan();
             editingCaNhan.setId(editingId);
             editingCaNhan.setDanhXung(intent.getStringExtra("danhXung"));
@@ -67,86 +80,88 @@ public class ThongTinLienHeActivity extends AppCompatActivity {
             editingCaNhan.setMoTa(intent.getStringExtra("moTa"));
             editingCaNhan.setGhiChu(intent.getStringExtra("ghiChu"));
             editingCaNhan.setGiaoCho(intent.getStringExtra("giaoCho"));
-            editingCaNhan.setSoCuocGoi(intent.getIntExtra("soCuocGoi", 2));
-            editingCaNhan.setSoCuocHop(intent.getIntExtra("soCuocHop", 2));
-        }
 
-        // Hiển thị fragment mặc định
-        loadFragment(infoFragment);
-        setActiveTab(infoTab, thongTinKhacTab);
-
-        // Nếu là edit: truyền model xuống cả 2 fragment (hoặc chờ fragment tạo xong)
-        if ("edit".equals(mode)) {
-            // Nếu fragments đã khởi tạo view, set trực tiếp, ngược lại set khi fragment tạo view bằng setCaNhan
+            // Truyền dữ liệu vào Fragment
             infoFragment.setCaNhan(editingCaNhan);
             khacFragment.setCaNhan(editingCaNhan);
         }
+    }
 
+    private void setupInitialFragments() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        // Add cả 2 vào container, nhưng hide cái 'Khác' đi
+        transaction.add(R.id.fragmentContainer, infoFragment, "INFO");
+        transaction.add(R.id.fragmentContainer, khacFragment, "KHAC");
+        transaction.hide(khacFragment);
+        transaction.show(infoFragment);
+        transaction.commit();
+
+        setActiveTab(infoTab, thongTinKhacTab);
+    }
+
+    private void setupEvents() {
         infoTab.setOnClickListener(v -> {
-            loadFragment(infoFragment);
+            showFragment(true); // True = hiện info
             setActiveTab(infoTab, thongTinKhacTab);
         });
 
         thongTinKhacTab.setOnClickListener(v -> {
-            loadFragment(khacFragment);
+            showFragment(false); // False = hiện khác
             setActiveTab(thongTinKhacTab, infoTab);
         });
 
-        // Nút quay lại và Hủy
         icBack.setOnClickListener(v -> finish());
         btnHuy.setOnClickListener(v -> finish());
 
-        // Nút Lưu
         btnLuu.setOnClickListener(v -> {
-            // Kiểm tra dữ liệu cơ bản (đảm bảo fragment đã load)
-            if (infoFragment.getHoVaTenDem() == null || infoFragment.getHoVaTenDem().trim().isEmpty()
-                    || infoFragment.getTen() == null || infoFragment.getTen().trim().isEmpty()
-                    || infoFragment.getDiDong() == null || infoFragment.getDiDong().trim().isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập họ tên, tên và số di động!", Toast.LENGTH_SHORT).show();
+            // Validate dữ liệu từ Info Fragment
+            // Lưu ý: Các hàm get... phải check null an toàn (xem code Fragment bên dưới)
+            String hoTen = infoFragment.getHoVaTenDem();
+            String ten = infoFragment.getTen();
+            String diDong = infoFragment.getDiDong();
+
+            if (hoTen.isEmpty() || ten.isEmpty() || diDong.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập Họ tên đệm, Tên và Di động!", Toast.LENGTH_SHORT).show();
                 return;
             }
             saveData();
         });
     }
 
+    // Hàm chuyển đổi hiển thị Fragment thay vì replace
+    private void showFragment(boolean showInfo) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (showInfo) {
+            transaction.hide(khacFragment);
+            transaction.show(infoFragment);
+        } else {
+            transaction.hide(infoFragment);
+            transaction.show(khacFragment);
+        }
+        transaction.commit();
+    }
+
     private void saveData() {
-        // Lấy dữ liệu từ fragment
-        String danhXung = infoFragment.getDanhXung();
-        String hoTen = infoFragment.getHoVaTenDem();
-        String ten = infoFragment.getTen();
-        String congTy = infoFragment.getCongTy();
-        String gioiTinh = infoFragment.getGioiTinh();
-        String diDong = infoFragment.getDiDong();
-        String email = infoFragment.getEmail();
-        String ngaySinh = infoFragment.getNgaySinh();
-
-        String diaChi = khacFragment.getDiaChi();
-        String quanHuyen = khacFragment.getQuanHuyen();
-        String tinhTP = khacFragment.getTinhTP();
-        String giaoCho = khacFragment.getGiaoCho();
-        String quocGia = khacFragment.getQuocGia();
-        String ghiChu = khacFragment.getGhiChu();
-        String moTa = khacFragment.getMoTa();
-
         Intent result = new Intent();
-        result.putExtra("danhXung", danhXung);
-        result.putExtra("hoTen", hoTen);
-        result.putExtra("ten", ten);
-        result.putExtra("congTy", congTy);
-        result.putExtra("gioiTinh", gioiTinh);
-        result.putExtra("diDong", diDong);
-        result.putExtra("email", email);
-        result.putExtra("ngaySinh", ngaySinh);
 
-        result.putExtra("diaChi", diaChi);
-        result.putExtra("quanHuyen", quanHuyen);
-        result.putExtra("tinhTP", tinhTP);
-        result.putExtra("giaoCho", giaoCho);
-        result.putExtra("quocGia", quocGia);
-        result.putExtra("ghiChu", ghiChu);
-        result.putExtra("moTa", moTa);
+        // Lấy dữ liệu an toàn từ Fragment
+        result.putExtra("danhXung", infoFragment.getDanhXung());
+        result.putExtra("hoTen", infoFragment.getHoVaTenDem());
+        result.putExtra("ten", infoFragment.getTen());
+        result.putExtra("congTy", infoFragment.getCongTy());
+        result.putExtra("gioiTinh", infoFragment.getGioiTinh());
+        result.putExtra("diDong", infoFragment.getDiDong());
+        result.putExtra("email", infoFragment.getEmail());
+        result.putExtra("ngaySinh", infoFragment.getNgaySinh());
 
-        // Nếu đang edit, trả về id để caller cập nhật
+        result.putExtra("diaChi", khacFragment.getDiaChi());
+        result.putExtra("quanHuyen", khacFragment.getQuanHuyen());
+        result.putExtra("tinhTP", khacFragment.getTinhTP());
+        result.putExtra("giaoCho", khacFragment.getGiaoCho());
+        result.putExtra("quocGia", khacFragment.getQuocGia());
+        result.putExtra("ghiChu", khacFragment.getGhiChu());
+        result.putExtra("moTa", khacFragment.getMoTa());
+
         if ("edit".equals(mode) && editingId != -1) {
             result.putExtra("id", editingId);
         }
@@ -155,19 +170,9 @@ public class ThongTinLienHeActivity extends AppCompatActivity {
         finish();
     }
 
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainer, fragment);
-        transaction.commit();
-    }
-
     private void setActiveTab(TextView active, TextView inactive) {
-        infoTab.setTextColor(getResources().getColor(R.color.grey));
-        infoTab.setBackgroundResource(android.R.color.transparent);
-
-        thongTinKhacTab.setTextColor(getResources().getColor(R.color.grey));
-        thongTinKhacTab.setBackgroundResource(android.R.color.transparent);
-
+        inactive.setTextColor(getResources().getColor(R.color.grey));
+        inactive.setBackgroundResource(android.R.color.transparent);
         active.setTextColor(getResources().getColor(R.color.blue));
         active.setBackgroundResource(R.drawable.edittext_line);
     }
