@@ -14,7 +14,6 @@ import com.example.crmmobile.R;
 
 
 public class TongQuanFragment extends Fragment {
-
     public TongQuanFragment() {
         // Constructor rỗng là bắt buộc
     }
@@ -29,4 +28,6 @@ public class TongQuanFragment extends Fragment {
         // Gắn layout UI của tab Tổng quan
         return inflater.inflate(R.layout.fragment_tong_quan, container, false);
     }
+
+
 }

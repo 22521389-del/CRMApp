@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:background="@color/white">
 
     <!-- Header -->
     <LinearLayout
         android:id="@+id/layoutHeader"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/ic_back"
@@ -32,43 +34,58 @@
     </LinearLayout>
 
     <!-- Tab titles -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/tab_header"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/blue"
-        app:tabSelectedTextColor="@color/blue"
-        app:tabTextColor="#9E9E9E"
-        app:tabIndicatorHeight="2dp">
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/layoutHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <com.google.android.material.tabs.TabItem
+        <TextView
+            android:id="@+id/info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/thongtin"
-            />
+            android:textSize="@dimen/text_small"
+            android:textColor="@color/blue"
+            android:background="@drawable/edittext_line"
+            android:paddingEnd="10dp" />
 
-        <com.google.android.material.tabs.TabItem
+        <TextView android:id="@+id/thongtinkhac"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/thong_tin_khac" />
-    </com.google.android.material.tabs.TabLayout>
+            android:text="@string/thongtinkhac"
+            android:textSize="@dimen/text_small"
+            android:textColor="@color/grey"
+            android:layout_marginStart="48dp" />
+
+    </LinearLayout>
 
     <!-- Fragment container -->
     <FrameLayout
         android:id="@+id/fragmentContainer"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        app:layout_constraintTop_toBottomOf="@id/tab_header"
+        app:layout_constraintBottom_toTopOf="@id/rowbuttonhuyluu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Row button Hủy / Lưu -->
     <LinearLayout
         android:id="@+id/rowbuttonhuyluu"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
         android:weightSum="2"
-        android:padding="8dp">
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <Button
             android:id="@+id/btnHuy"
@@ -91,4 +108,4 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

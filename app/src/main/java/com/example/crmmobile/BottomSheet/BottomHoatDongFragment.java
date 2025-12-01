@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -15,10 +17,14 @@ import com.example.crmmobile.IndividualDirectory.HoatDongFragment;
 import com.example.crmmobile.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.example.crmmobile.IndividualDirectory.CaNhan;
 
 public class BottomHoatDongFragment extends BottomSheetDialogFragment {
-
+    private CaNhan caNhan;
     private ImageView iccall, icmeeting;
+    private HoatDongFragment hoatdongFragment;
+
+    private AutoCompleteTextView actTrangThai;
 
     @Nullable
     @Override
@@ -31,6 +37,18 @@ public class BottomHoatDongFragment extends BottomSheetDialogFragment {
         // --- Nút đóng ---
         ImageView icCancel = view.findViewById(R.id.ic_cancel);
         icCancel.setOnClickListener(v -> dismiss());
+
+        hoatdongFragment = new HoatDongFragment();
+
+        actTrangThai = view.findViewById(R.id.acttrangthai);
+        ArrayAdapter<String> adapterTrangThai = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_list_item_1,
+                new String[]{"Lên kế hoạch", "Đang diễn ra","Đã kết thúc" }
+        );
+        actTrangThai.setAdapter(adapterTrangThai);
+
+
 
         // --- Tab ---
         iccall = view.findViewById(R.id.ic_call);
@@ -52,13 +70,22 @@ public class BottomHoatDongFragment extends BottomSheetDialogFragment {
         });
 
         return view;
+
+    }
+
+    public void setCaNhan(CaNhan cn) {
+        this.caNhan = cn;
     }
 
     private void setFragment(Fragment fragment) {
+        if (fragment instanceof HoatDongFragment && caNhan != null) {
+            ((HoatDongFragment) fragment).setCaNhan(caNhan);
+        }
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainer, fragment);
         transaction.commit();
     }
+
 
     private void setActiveTab(ImageView selectedTab) {
         // Tab chưa chọn: nền xám, icon xanh
@@ -71,7 +98,10 @@ public class BottomHoatDongFragment extends BottomSheetDialogFragment {
         // Tab được chọn: nền xanh, icon trắng
         selectedTab.setBackgroundResource(R.drawable.rounded_input_box_selected);
         selectedTab.setColorFilter(getResources().getColor(R.color.white), android.graphics.PorterDuff.Mode.SRC_IN);
+
     }
+
+
 
 
 

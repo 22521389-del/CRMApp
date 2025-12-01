@@ -63,4 +63,13 @@
     <string name="current_visit">Truy cập gần đây</string>
     <string name="SDT"> SĐT</string>
     <string name="find_order">Tìm kiếm đơn hàng</string>
+
+    <string name="thongtindiachi">Thông tin địa chỉ</string>
+    <string name="diachi">Địa chỉ</string>
+    <string name="quan">Quận/Huyện</string>
+    <string name="tinh">Tỉnh/TP</string>
+    <string name="quocgia">Quốc gia</string>
+
+    <string name="thongtinmota">Thông tin mô tả</string>
+    <string name="mota">Mô tả</string>
 </resources>

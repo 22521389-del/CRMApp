@@ -1,9 +1,10 @@
 package com.example.crmmobile.MainDirectory;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.crmmobile.Adapter.AdapterViewPager;
-import com.example.crmmobile.IndividualDirectory.DanhSachCaNhan;
+import com.example.crmmobile.IndividualDirectory.DanhSachCaNhanActivity;
 import com.example.crmmobile.OpportunityDirectory.OpportunityFragment;
 import com.example.crmmobile.OrganizationDirectory.ToChucFragment;
 import com.example.crmmobile.QuoteDirectory.QuoteFragment;
@@ -108,18 +109,8 @@ public class MainActivity extends AppCompatActivity implements main_screen.onMod
             navFooter.getMenu().findItem(R.id.nav_menu).setChecked(true);
         }
         if(moduleName.equals("Cá nhân")){
-            Fragment canhanFragment = new DanhSachCaNhan();
-
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.main_container, canhanFragment)
-                    .addToBackStack(null)
-                    .commit();
-
-            findViewById(R.id.viewPager).setVisibility(View.GONE);
-            findViewById(R.id.main_container).setVisibility(View.VISIBLE);
-
-            navFooter.getMenu().findItem(R.id.nav_menu).setChecked(true);
+            Intent intent = new Intent(MainActivity.this, DanhSachCaNhanActivity.class);
+            startActivity(intent);
         }
 
         if(moduleName.equals("Tổ chức")){
@@ -138,3 +129,4 @@ public class MainActivity extends AppCompatActivity implements main_screen.onMod
         }
     }
 }
+
