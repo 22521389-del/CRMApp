@@ -18,12 +18,13 @@ public class LeadReposity {
     }
 
     //Add Lead
-    public void addLead(Lead lead){
+    public long addLead(Lead lead){
         SQLiteDatabase db = this.dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put("ID", lead.getID());
-        values.put("HOTEN", lead.getHoten());
+        values.put("TITLE", lead.getTitle());
+        values.put("TEN", lead.getTen());
+        values.put("HOVATENDEM", lead.getHovaTendem());
         values.put("DIENTHOAI", lead.getDienThoai());
         values.put("EMAIL", lead.getEmail());
         values.put("NGAYSINH", lead.getNgaysinh());
@@ -36,8 +37,9 @@ public class LeadReposity {
         values.put("GIAOCHO", lead.getGiaocho());
         values.put("NGAYLIENHE", lead.getNgayLienHe());
 
-        db.insert("LEAD", null, values);
+        long newId = db.insert("LEAD", null, values);
         db.close();
+        return  newId;
     }
 
     //Get Lead
@@ -51,7 +53,9 @@ public class LeadReposity {
             do {
                 Lead lead = new Lead();
                 lead.setID(cursor.getInt(cursor.getColumnIndexOrThrow("ID")));
-                lead.setHoten(cursor.getString(cursor.getColumnIndexOrThrow("HOTEN")));
+                lead.setTitle(cursor.getString(cursor.getColumnIndexOrThrow("TITLE")));
+                lead.setHovaTendem(cursor.getString(cursor.getColumnIndexOrThrow("HOVATENDEM")));
+                lead.setTen(cursor.getString(cursor.getColumnIndexOrThrow("TEN")));
                 lead.setDienThoai(cursor.getString(cursor.getColumnIndexOrThrow("DIENTHOAI")));
                 lead.setEmail(cursor.getString(cursor.getColumnIndexOrThrow("EMAIL")));
                 lead.setNgaysinh(cursor.getString(cursor.getColumnIndexOrThrow("NGAYSINH")));
@@ -63,6 +67,7 @@ public class LeadReposity {
                 lead.setMota(cursor.getString(cursor.getColumnIndexOrThrow("MOTA")));
                 lead.setGiaocho(cursor.getString(cursor.getColumnIndexOrThrow("GIAOCHO")));
                 lead.setNgayLienHe(cursor.getString(cursor.getColumnIndexOrThrow("NGAYLIENHE")));
+                list.add(lead);
             }while (cursor.moveToNext());
         }
         cursor.close();
@@ -76,7 +81,9 @@ public class LeadReposity {
         SQLiteDatabase db = this.dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put("HOTEN", lead.getHoten());
+        values.put("TITLE", lead.getTitle());
+        values.put("HOVATENDEM", lead.getHovaTendem());
+        values.put("TEN", lead.getTen());
         values.put("DIENTHOAI", lead.getDienThoai());
         values.put("EMAIL", lead.getEmail());
         values.put("NGAYSINH", lead.getNgaysinh());

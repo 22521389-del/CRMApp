@@ -59,7 +59,8 @@ public class AdapterLead extends RecyclerView.Adapter<AdapterLead.LeadViewHolder
     @Override
     public void onBindViewHolder(LeadViewHolder viewHolder, final int position){
         Lead lead = dataList.get(position);
-        viewHolder.tv_name.setText(lead.getHoten());
+        String fullname = lead.getTitle() + " " + lead.getHovaTendem() + " " + lead.getTen();
+        viewHolder.tv_name.setText(fullname);
         viewHolder.tv_Company.setText(lead.getCongty());
         viewHolder.tv_day.setText(lead.getNgayLienHe());
 

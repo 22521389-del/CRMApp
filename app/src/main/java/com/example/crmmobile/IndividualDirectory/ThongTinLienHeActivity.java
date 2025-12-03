@@ -176,4 +176,10 @@ public class ThongTinLienHeActivity extends AppCompatActivity {
         active.setTextColor(getResources().getColor(R.color.blue));
         active.setBackgroundResource(R.drawable.edittext_line);
     }
+
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainer, fragment);
+        transaction.commit();
+    }
 }

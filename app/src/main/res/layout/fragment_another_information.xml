@@ -60,7 +60,7 @@
                     android:background="@drawable/rounded_input_box"
                     android:textColorHint="@color/icon_infor">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tax_infor"
+                        android:id="@+id/edt_tax"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/tax_code"
@@ -107,7 +107,6 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     app:endIconMode="dropdown_menu"
                     >
-
                     <AutoCompleteTextView
                         android:id="@+id/job_name"
                         android:layout_width="match_parent"
@@ -131,9 +130,9 @@
                     android:textColorHint="@color/icon_infor">
 
                     <AutoCompleteTextView
-                        android:id="@+id/revenue_infor"
+                        android:id="@+id/edt_revenue"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:hint="@string/revenue_infor"
                         android:textSize="14sp"
                         android:paddingStart="4dp"
@@ -232,7 +231,7 @@
                     android:layout_marginEnd="10dp"
                     android:textColorHint="@color/icon_infor">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/address"
+                        android:id="@+id/edt_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/address"
@@ -256,8 +255,8 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:textColorHint="@color/icon_infor">
-                    <EditText
-                        android:id="@+id/district"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_district"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/district"
@@ -277,7 +276,7 @@
                     android:layout_marginEnd="10dp"
                     android:textColorHint="@color/icon_infor">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/province"
+                        android:id="@+id/edt_province"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/province"
@@ -295,8 +294,8 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:textColorHint="@color/icon_infor">
-                    <EditText
-                        android:id="@+id/nation"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_nation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/nation"
@@ -421,6 +420,7 @@
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_sendto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_input_box"

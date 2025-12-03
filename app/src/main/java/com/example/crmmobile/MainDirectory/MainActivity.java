@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements main_screen.onMod
                 viewPager2.setVisibility(View.VISIBLE);
                 container.setVisibility(View.GONE);
 
-                navFooter.getMenu().findItem(R.id.nav_home).setChecked(true);//footer nav back to home tab
+//                navFooter.getMenu().findItem(R.id.nav_home).setChecked(true);//footer nav back to home tab
             }
         });
     }

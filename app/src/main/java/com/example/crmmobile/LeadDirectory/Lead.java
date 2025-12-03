@@ -2,7 +2,9 @@ package com.example.crmmobile.LeadDirectory;
 
 public class Lead {
     private Integer ID;
-    private String Hoten;
+    private String HovaTendem;
+    private String Title;
+    private String Ten;
     private String DienThoai;
     private String Email;
     private String Ngaysinh;
@@ -17,10 +19,36 @@ public class Lead {
 
     public Lead(){}
 
-    public Lead(String hoten, String ngayLienHe, String congty) {
-        this.Hoten = hoten;
+    public Lead(String Titile, String HovaTendem,String Ten, String ngayLienHe, String congty) {
+        this.Title = Titile;
+        this.HovaTendem = HovaTendem;
+        this.Ten = Ten;
         this.NgayLienHe = ngayLienHe;
         this.Congty = congty;
+    }
+
+    public String getHovaTendem() {
+        return HovaTendem;
+    }
+
+    public void setHovaTendem(String hovaTendem) {
+        HovaTendem = hovaTendem;
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String title) {
+        Title = title;
+    }
+
+    public String getTen() {
+        return Ten;
+    }
+
+    public void setTen(String ten) {
+        Ten = ten;
     }
 
     public Integer getID() {
@@ -29,14 +57,6 @@ public class Lead {
 
     public void setID(Integer ID) {
         this.ID = ID;
-    }
-
-    public String getHoten() {
-        return Hoten;
-    }
-
-    public void setHoten(String hoten) {
-        Hoten = hoten;
     }
 
     public String getDienThoai() {

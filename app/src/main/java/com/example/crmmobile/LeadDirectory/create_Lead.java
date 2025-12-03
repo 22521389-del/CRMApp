@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.crmmobile.Adapter.AdapterCreateLead;
+import com.example.crmmobile.AppConstant;
 import com.example.crmmobile.DataBase.LeadReposity;
 import com.example.crmmobile.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -79,32 +80,47 @@ public class create_Lead extends Fragment {
             navFooter.setVisibility(View.VISIBLE);
             contain.setVisibility(View.GONE);
 
-            navFooter.setSelectedItemId(R.id.nav_lead);
-            viewPager.setCurrentItem(1, false);
-
             requireActivity().getSupportFragmentManager().popBackStack();
         });
         return view;
     }
 
     private void saveCreateLead() {
-        String name = viewModelLead.name;
+        String hovatendem = viewModelLead.hovatendem;
+        String first_name = viewModelLead.first_name;
         String company = viewModelLead.company;
         String title = viewModelLead.title;
+        String phone_number = viewModelLead.phonenumber;
+        String Send_to = viewModelLead.Sendto;
 
         LeadReposity db = new LeadReposity(requireContext());
-
+        if(first_name.isEmpty() || phone_number.isEmpty() || Send_to.isEmpty()){
+            Toast.makeText(getContext(), "Nhập tên và số điện thoại.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Lead lead = new Lead();
-        lead.setHoten(viewModelLead.name);
-        lead.setCongty(viewModelLead.company);
+        lead.setHovaTendem(hovatendem);
+        lead.setCongty(company);
+        lead.setTen(first_name);
+        lead.setTitle(title);
 
         db.addLead(lead);
+
         //Thông báo cho fragment refresh dữ liệu
         Bundle result = new Bundle();
-        result.putBoolean("refresh", true);
-        getParentFragmentManager().setFragmentResult("createleadkey", result);
+        result.putBoolean(AppConstant.REFRESH, true);
+        getParentFragmentManager().setFragmentResult(AppConstant.KEY_CREATE_LEAD, result);
 
-        Toast.makeText(getContext(), "Lưu Lead thành công", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Tạo Lead thành công", Toast.LENGTH_SHORT).show();
+
+        ViewPager2 viewPager = requireActivity().findViewById(R.id.viewPager);
+        BottomNavigationView navFooter = requireActivity().findViewById(R.id.nav_footer);
+        FrameLayout contain = requireActivity().findViewById(R.id.main_container);
+
+        viewPager.setVisibility(View.VISIBLE);
+        navFooter.setVisibility(View.VISIBLE);
+        contain.setVisibility(View.GONE);
+
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 }

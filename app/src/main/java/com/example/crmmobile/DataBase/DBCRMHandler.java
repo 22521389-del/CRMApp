@@ -14,7 +14,7 @@ import java.util.List;
 public class DBCRMHandler extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "crm.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     public DBCRMHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -56,7 +56,9 @@ public class DBCRMHandler extends SQLiteOpenHelper {
         // 3. Bảng LEAD
         db.execSQL("CREATE TABLE LEAD (" +
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "HOTEN TEXT," +
+                "TITLE TEXT," +
+                "HOVATENDEM TEXT," +
+                "TEN TEXT," +
                 "DIENTHOAI TEXT," +
                 "EMAIL TEXT," +
                 "NGAYSINH TEXT," +

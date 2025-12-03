@@ -59,9 +59,9 @@ public class BottomSheetActionLead {
             dialog.dismiss();
         });
         addActionItemLead(context, layoutAction, R.drawable.ic_garbage, "Xóa", () ->{
-            item.remove(position);
             reload.run();
             dialog.dismiss();
+
         });
 
         dialog.setContentView(view);

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.crmmobile.IndividualDirectory.CaNhan;
+
 import java.util.ArrayList;
 import java.util.List;
 

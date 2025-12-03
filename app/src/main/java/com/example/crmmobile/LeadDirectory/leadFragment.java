@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.crmmobile.Adapter.AdapterLead;
+import com.example.crmmobile.AppConstant;
 import com.example.crmmobile.BottomSheet.BottomSheetActionLead;
 import com.example.crmmobile.DataBase.DBCRMHandler;
 import com.example.crmmobile.DataBase.LeadReposity;
@@ -29,11 +30,13 @@ import java.util.List;
 public class leadFragment extends Fragment {
     RecyclerView recyclerLead;
     AdapterLead adapter;
-    List<Lead> leadList;
-
+    List<Lead> leadDB;
+    ArrayList<Lead> leadList;
     FloatingActionButton lead_create_button;
-
-    BottomNavigationView bottomNavigationView;
+    BottomNavigationView navFooter;
+    ViewPager2 viewPager;
+    FrameLayout contain;
+    private LeadReposity db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -44,25 +47,16 @@ public class leadFragment extends Fragment {
 
         recyclerLead.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        LeadReposity db = new LeadReposity(requireContext());
-        leadList = db.getAllLead();
+        db = new LeadReposity(getContext());
 
-        if(leadList.isEmpty()){
-            Toast.makeText(getContext(), "Chưa có Lead", Toast.LENGTH_SHORT).show();
-        }
-//        leadList = new ArrayList<>();
-//        leadList.add(new Lead("Nguyễn Văn A", "Công ty X", "21/07/2024"));
-//        leadList.add(new Lead("Trần Thị B", "Công ty Y", "22/07/2024"));
-//        leadList.add(new Lead("Lê Văn C", "Công ty Z", "23/07/2024"));
-//        leadList.add(new Lead("Nguyễn Văn D", "Công ty X", "21/07/2024"));
-//        leadList.add(new Lead("Trần Thị E", "Công ty Y", "22/07/2024"));
-//        leadList.add(new Lead("Lê Văn F", "Công ty Z", "23/07/2024"));
+        loadLead();
+
+        navFooter = requireActivity().findViewById(R.id.nav_footer);
+        contain = requireActivity().findViewById(R.id.main_container);
+        viewPager = requireActivity().findViewById(R.id.viewPager);
 
         lead_create_button.setOnClickListener(v -> {
             Fragment createFragment = new create_Lead();
-            BottomNavigationView navFooter = requireActivity().findViewById(R.id.nav_footer);
-            FrameLayout contain = requireActivity().findViewById(R.id.main_container);
-            ViewPager2 viewPager = requireActivity().findViewById(R.id.viewPager);
 
             viewPager.setVisibility(View.GONE);
             navFooter.setVisibility(View.GONE);
@@ -70,17 +64,24 @@ public class leadFragment extends Fragment {
 
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
+                    .hide(this)
                     .replace(R.id.main_container, createFragment)
                     .addToBackStack(null)
                     .commit();
         });
         adapter = new AdapterLead(leadList, (item, position) -> {
             BottomSheetActionLead.ShowBottomSheetLead(requireContext(), leadList, position, ()->{
-                adapter.notifyItemChanged(position);
+                db.DeleteLead(leadList.get(position).getID());//delete from database
+                leadList.remove(position); // delete from list
+
+                //update recyclerview
+                adapter.notifyItemRemoved(position);
+                adapter.notifyItemRangeChanged(position, leadList.size());
             });
         }, lead -> {
+            String fullname = lead.getTitle() + " " + lead.getHovaTendem() + " " + lead.getTen();
             Intent intent = new Intent(getContext(), DetailLeadActivity.class);
-            intent.putExtra("name", lead.getHoten());
+            intent.putExtra("name", fullname);
             intent.putExtra("company", lead.getCongty());
             intent.putExtra("daycontact", lead.getNgayLienHe());
             startActivity(intent);
@@ -89,23 +90,33 @@ public class leadFragment extends Fragment {
         return view;
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        LeadReposity db = new LeadReposity(requireContext());
-//        leadList.clear();
-//        leadList.addAll(db.getAllLead());//lấy tất cả lead từ database và thêm vào danh sách
-//        adapter.notifyDataSetChanged();// cập nhật Recyclerview
-//    }
+    private void loadLead() {
+        leadDB = db.getAllLead();
+
+        if(leadDB.isEmpty()){
+            leadList = new ArrayList<>();
+            leadList.add(new Lead("Ông", "Nguyễn Văn", " A", "Công ty X", "21/07/2024"));
+
+            for ( Lead lead: leadList){
+                long id = db.addLead(lead);
+                lead.setID((int) id);
+            }
+        }
+        else{
+            leadList = new ArrayList<>(leadDB);
+        }
+    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getParentFragmentManager().setFragmentResultListener("createleadkey", this, (requestKey, bundle) -> {
-            boolean refresh = bundle.getBoolean("refresh", false);
+        getParentFragmentManager().setFragmentResultListener(AppConstant.KEY_CREATE_LEAD,
+                this, (requestKey, bundle) -> {
+            boolean refresh = bundle.getBoolean(AppConstant.REFRESH, false);
             if(refresh){
-                LeadReposity db = new LeadReposity(requireContext());
+                // Load lại database
                 leadList.clear();
                 leadList.addAll(db.getAllLead());
                 adapter.notifyDataSetChanged();

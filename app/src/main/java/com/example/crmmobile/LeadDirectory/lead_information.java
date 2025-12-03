@@ -1,11 +1,15 @@
 package com.example.crmmobile.LeadDirectory;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,13 +17,25 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.crmmobile.R;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.Calendar;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public class lead_information extends Fragment {
     private ViewModelLead viewModelLead;
-    private TextInputLayout tvTitle, inforname;
+    private TextInputLayout birthday_layout;
+    private TextInputEditText state_detail, edt_birthday, edt_family_name,
+            edt_first_name, edt_phone_number, edt_email,
+            edt_state;
+    private AutoCompleteTextView edtTitle, edt_sex, edt_potential;
+
+    public interface StringUpdater{
+        void update(String s);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,45 +48,76 @@ public class lead_information extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tvTitle  = view.findViewById(R.id.tv_title);
-        inforname = view.findViewById(R.id.infor_name);
-
+        initVariables(view);
         viewModelLead = new ViewModelProvider(requireActivity()).get(ViewModelLead.class);
-
         //lưu giá trị mỗi khi user nhập
-        Objects.requireNonNull(tvTitle.getEditText())
-                .addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void afterTextChanged(Editable s) {
+        bindEditTexttoViewModel(edtTitle, s -> viewModelLead.title = s);
+        bindEditTexttoViewModel(edt_family_name, s -> viewModelLead.hovatendem = s);
+        bindEditTexttoViewModel(edt_first_name, s -> viewModelLead.first_name = s);
+        bindEditTexttoViewModel(edt_phone_number, s->viewModelLead.phonenumber = s);
+        bindEditTexttoViewModel(edt_email, s -> viewModelLead.Email = s);
+        bindEditTexttoViewModel(edt_sex, s -> viewModelLead.Sex = s);
+        bindEditTexttoViewModel(edt_birthday, s -> viewModelLead.Birthday = s);
+        bindEditTexttoViewModel(edt_state, s-> viewModelLead.state = s);
+        bindEditTexttoViewModel(state_detail, s -> viewModelLead.state_detail = s);
+        bindEditTexttoViewModel(edt_potential, s -> viewModelLead.potential = s);
+    }
 
-                    }
+    private void initVariables(View view) {
+        edtTitle = view.findViewById(R.id.edt_title);
+        edt_family_name = view.findViewById(R.id.edt_family_name);
+        edt_first_name = view.findViewById(R.id.edt_first_name);
+        edt_phone_number = view.findViewById(R.id.edt_phone_number);
+        edt_email = view.findViewById(R.id.edt_email);
+        edt_sex = view.findViewById(R.id.edt_sex);
+        String[] gender = {"Nam", "Nữ"};
+        ArrayAdapter<String> AdapterGender = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1, gender);
+        edt_sex.setAdapter(AdapterGender);
 
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        viewModelLead.title = s.toString();
-                    }
-                });
-
-        Objects.requireNonNull(inforname.getEditText()).addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                viewModelLead.name = s.toString();
-            }
+        edt_birthday = view.findViewById(R.id.edt_birthday);
+        birthday_layout = view.findViewById(R.id.birthday_layout);
+        //show calendar
+        birthday_layout.setEndIconOnClickListener(v -> {
+            showDatePicker(edt_birthday);
         });
+        edt_state = view.findViewById(R.id.edt_state);
+        state_detail = view.findViewById(R.id.state_detail);
+        edt_potential = view.findViewById(R.id.edt_potential);
+    }
+
+    private void showDatePicker(TextInputEditText edtBirthday) {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
+                (view, selectedYear, selectedMonth, selectedDay)->{
+                    String date = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
+                    edtBirthday.setText(date);
+                }, year, month, day);
+
+        datePickerDialog.show();
+    }
+
+
+    private void bindEditTexttoViewModel(EditText editText, StringUpdater updater) {
+        editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    updater.update(s.toString());
+                }
+            }
+        );
     }
 }
