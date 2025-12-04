@@ -40,14 +40,14 @@ public class another_lead_information extends Fragment {
         initVariables(view);
         viewModelLead = new ViewModelProvider(requireActivity()).get(ViewModelLead.class);
 
-        bindEditTexttoViewModel(tv_sendto, s -> viewModelLead.Sendto = s);
-        bindEditTexttoViewModel(company_name, s -> viewModelLead.company = s);
-        bindEditTexttoViewModel(edt_tax, s -> viewModelLead.Tax = s);
-        bindEditTexttoViewModel(number_of_employees, s -> viewModelLead.number_of_employees = s);
-        bindEditTexttoViewModel(edt_district, s -> viewModelLead.District = s);
-        bindEditTexttoViewModel(edt_address, s -> viewModelLead.Address = s);
-        bindEditTexttoViewModel(edt_province, s -> viewModelLead.Province = s);
-        bindEditTexttoViewModel(edt_nation, s -> viewModelLead.Nation = s);
+        bindEditTexttoViewModel(tv_sendto, s -> viewModelLead.Sendto.setValue(s));
+        bindEditTexttoViewModel(company_name, s -> viewModelLead.company.setValue(s));
+        bindEditTexttoViewModel(edt_tax, s -> viewModelLead.Tax.setValue(s));
+        bindEditTexttoViewModel(number_of_employees, s -> viewModelLead.number_of_employees.setValue(s));
+        bindEditTexttoViewModel(edt_district, s -> viewModelLead.District.setValue(s));
+        bindEditTexttoViewModel(edt_address, s -> viewModelLead.Address.setValue(s));
+        bindEditTexttoViewModel(edt_province, s -> viewModelLead.Province.setValue(s));
+        bindEditTexttoViewModel(edt_nation, s -> viewModelLead.Nation.setValue(s));
     }
 
     private void initVariables(View view) {

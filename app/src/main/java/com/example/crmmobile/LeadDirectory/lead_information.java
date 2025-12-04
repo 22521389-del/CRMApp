@@ -51,20 +51,24 @@ public class lead_information extends Fragment {
         initVariables(view);
         viewModelLead = new ViewModelProvider(requireActivity()).get(ViewModelLead.class);
         //lưu giá trị mỗi khi user nhập
-        bindEditTexttoViewModel(edtTitle, s -> viewModelLead.title = s);
-        bindEditTexttoViewModel(edt_family_name, s -> viewModelLead.hovatendem = s);
-        bindEditTexttoViewModel(edt_first_name, s -> viewModelLead.first_name = s);
-        bindEditTexttoViewModel(edt_phone_number, s->viewModelLead.phonenumber = s);
-        bindEditTexttoViewModel(edt_email, s -> viewModelLead.Email = s);
-        bindEditTexttoViewModel(edt_sex, s -> viewModelLead.Sex = s);
-        bindEditTexttoViewModel(edt_birthday, s -> viewModelLead.Birthday = s);
-        bindEditTexttoViewModel(edt_state, s-> viewModelLead.state = s);
-        bindEditTexttoViewModel(state_detail, s -> viewModelLead.state_detail = s);
-        bindEditTexttoViewModel(edt_potential, s -> viewModelLead.potential = s);
+        bindEditTexttoViewModel(edtTitle, s -> viewModelLead.title.setValue(s));
+        bindEditTexttoViewModel(edt_family_name, s -> viewModelLead.hovatendem.setValue(s));
+        bindEditTexttoViewModel(edt_first_name, s -> viewModelLead.first_name.setValue(s));
+        bindEditTexttoViewModel(edt_phone_number, s->viewModelLead.phonenumber.setValue(s));
+        bindEditTexttoViewModel(edt_email, s -> viewModelLead.Email.setValue(s));
+        bindEditTexttoViewModel(edt_sex, s -> viewModelLead.Sex.setValue(s));
+        bindEditTexttoViewModel(edt_birthday, s -> viewModelLead.Birthday.setValue(s));
+        bindEditTexttoViewModel(edt_state, s-> viewModelLead.state.setValue(s));
+        bindEditTexttoViewModel(state_detail, s -> viewModelLead.state_detail.setValue(s));
+        bindEditTexttoViewModel(edt_potential, s -> viewModelLead.potential.setValue(s));
     }
 
     private void initVariables(View view) {
         edtTitle = view.findViewById(R.id.edt_title);
+        String[] title = {"Ông", "Bà", "Anh", "Chị"};
+        ArrayAdapter<String> AdapterTitle = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1, title);
+        edtTitle.setAdapter(AdapterTitle);
+
         edt_family_name = view.findViewById(R.id.edt_family_name);
         edt_first_name = view.findViewById(R.id.edt_first_name);
         edt_phone_number = view.findViewById(R.id.edt_phone_number);

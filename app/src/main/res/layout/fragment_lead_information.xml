@@ -51,7 +51,7 @@
                         android:background="@android:color/transparent"
                         android:hint="@string/title_infor"
                         android:ellipsize="none"
-                        android:inputType="text"
+                        android:inputType="none"
                         android:textColorHint="@color/icon_infor"
                         android:paddingStart="4dp"
                         android:paddingEnd="4dp"

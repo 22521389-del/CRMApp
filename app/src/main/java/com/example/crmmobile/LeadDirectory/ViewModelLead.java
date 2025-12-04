@@ -1,28 +1,29 @@
 package com.example.crmmobile.LeadDirectory;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class ViewModelLead extends ViewModel {
-    public String title = "";
-    public String first_name = "";
-    public String company = "";
-    public String hovatendem = "";
-    public String phonenumber = "";
-    public String Email = "";
-    public String Sex = "";
-    public String Birthday = "";
-    public String Address = "";
-    public String Province = "";
-    public String Nation = "";
-    public String District = "";
-    public String position_company = "";
-    public String number_of_employees = "";
-    public String state = "";
-    public String state_detail = "";
-    public String description = "";
-    public String Sendto = "";
-    public String potential = "";
-    public String contact_day = "";
-    public String Tax = "";
+    public MutableLiveData<String> title = new MutableLiveData<>();
+    public MutableLiveData<String> first_name = new MutableLiveData<>();
+    public MutableLiveData<String> company = new MutableLiveData<String>();
+    public MutableLiveData<String> hovatendem = new MutableLiveData<>();
+    public MutableLiveData<String> phonenumber = new MutableLiveData<>();
+    public MutableLiveData<String> Email = new MutableLiveData<>();
+    public MutableLiveData<String> Sex = new MutableLiveData<>();
+    public MutableLiveData<String> Birthday = new MutableLiveData<>();
+    public MutableLiveData<String> Address = new MutableLiveData<>();
+    public MutableLiveData<String> Province = new MutableLiveData<>();
+    public MutableLiveData<String> Nation = new MutableLiveData<>();
+    public MutableLiveData<String> District = new MutableLiveData<>();
+    public MutableLiveData<String> position_company = new MutableLiveData<>();
+    public MutableLiveData<String> number_of_employees = new MutableLiveData<>();
+    public MutableLiveData<String> state = new MutableLiveData<>();
+    public MutableLiveData<String> state_detail = new MutableLiveData<>();
+    public MutableLiveData<String> description = new MutableLiveData<>();
+    public MutableLiveData<String> Sendto = new MutableLiveData<>();
+    public MutableLiveData<String> potential = new MutableLiveData<>();
+    public MutableLiveData<String> contact_day = new MutableLiveData<>();
+    public MutableLiveData<String> Tax = new MutableLiveData<>();
 
 }

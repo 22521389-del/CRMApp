@@ -1,6 +1,8 @@
 package com.example.crmmobile.LeadDirectory;
 
-public class Lead {
+import java.io.Serializable;
+
+public class Lead implements Serializable {
     private Integer ID;
     private String HovaTendem;
     private String Title;
@@ -19,12 +21,13 @@ public class Lead {
 
     public Lead(){}
 
-    public Lead(String Titile, String HovaTendem,String Ten, String ngayLienHe, String congty) {
+    public Lead(String Titile, String HovaTendem,String Ten, String ngayLienHe, String congty, String Email) {
         this.Title = Titile;
         this.HovaTendem = HovaTendem;
         this.Ten = Ten;
         this.NgayLienHe = ngayLienHe;
         this.Congty = congty;
+        this.Email = Email;
     }
 
     public String getHovaTendem() {

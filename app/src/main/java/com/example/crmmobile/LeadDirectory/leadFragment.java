@@ -79,11 +79,8 @@ public class leadFragment extends Fragment {
                 adapter.notifyItemRangeChanged(position, leadList.size());
             });
         }, lead -> {
-            String fullname = lead.getTitle() + " " + lead.getHovaTendem() + " " + lead.getTen();
             Intent intent = new Intent(getContext(), DetailLeadActivity.class);
-            intent.putExtra("name", fullname);
-            intent.putExtra("company", lead.getCongty());
-            intent.putExtra("daycontact", lead.getNgayLienHe());
+            intent.putExtra(AppConstant.LEAD_OBJECT, lead);
             startActivity(intent);
         });
         recyclerLead.setAdapter(adapter);
@@ -95,7 +92,7 @@ public class leadFragment extends Fragment {
 
         if(leadDB.isEmpty()){
             leadList = new ArrayList<>();
-            leadList.add(new Lead("Ông", "Nguyễn Văn", " A", "Công ty X", "21/07/2024"));
+            leadList.add(new Lead("Ông", "Nguyễn Văn", " A", "5/12/2025", "Công ty X", "phong@gmail.com"));
 
             for ( Lead lead: leadList){
                 long id = db.addLead(lead);

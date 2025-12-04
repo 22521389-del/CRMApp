@@ -86,12 +86,14 @@ public class create_Lead extends Fragment {
     }
 
     private void saveCreateLead() {
-        String hovatendem = viewModelLead.hovatendem;
-        String first_name = viewModelLead.first_name;
-        String company = viewModelLead.company;
-        String title = viewModelLead.title;
-        String phone_number = viewModelLead.phonenumber;
-        String Send_to = viewModelLead.Sendto;
+        String hovatendem = viewModelLead.hovatendem.getValue();
+        String first_name = viewModelLead.first_name.getValue();
+        String company = viewModelLead.company.getValue();
+        String title = viewModelLead.title.getValue();
+        String phone_number = viewModelLead.phonenumber.getValue();
+        String Send_to = viewModelLead.Sendto.getValue();
+        String Email = viewModelLead.Email.getValue();
+        String Sex = viewModelLead.Sex.getValue();
 
         LeadReposity db = new LeadReposity(requireContext());
         if(first_name.isEmpty() || phone_number.isEmpty() || Send_to.isEmpty()){
@@ -103,6 +105,9 @@ public class create_Lead extends Fragment {
         lead.setCongty(company);
         lead.setTen(first_name);
         lead.setTitle(title);
+        lead.setEmail(Email);
+        lead.setDienThoai(phone_number);
+        lead.setGioitinh(Sex);
 
         db.addLead(lead);
 
@@ -122,5 +127,8 @@ public class create_Lead extends Fragment {
         contain.setVisibility(View.GONE);
 
         requireActivity().getSupportFragmentManager().popBackStack();
+    }
+
+    private void getfromViewModel() {
     }
 }
