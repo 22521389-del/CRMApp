@@ -5,16 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.crmmobile.OpportunityDirectory.Opportunity;
 import com.example.crmmobile.DataBase.DBCRMHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OpportunityDao {
+public class OpportunityDAO {
     private DBCRMHandler DBCRMHandler;
 
-    public OpportunityDao(Context context) {
+    public OpportunityDAO(Context context) {
         DBCRMHandler = new DBCRMHandler(context);
     }
 

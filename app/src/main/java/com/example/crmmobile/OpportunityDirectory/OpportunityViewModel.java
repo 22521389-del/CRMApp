@@ -18,10 +18,18 @@ public class OpportunityViewModel extends AndroidViewModel {
     public OpportunityViewModel(@NonNull Application application) {
         super(application);
         repository = OpportunityRepository.getInstance(application);
-        loadOpportunities();
+//        loadOpportunities();
+        loadData();
     }
 
-    public LiveData<List<Opportunity>> getOpportunities() { return opportunities; }
+    public LiveData<List<Opportunity>> getOpportunities() {
+        return opportunities;
+    }
+
+    public void loadData() {
+        List<Opportunity> list = repository.getAll();
+        opportunities.setValue(list);
+    }
 
     public void loadOpportunities() {
         // postValue để thread-safe
@@ -30,16 +38,23 @@ public class OpportunityViewModel extends AndroidViewModel {
 
     public void add(Opportunity opp) {
         repository.add(opp);
-        loadOpportunities();
+//        loadOpportunities();
+        loadData();
     }
 
     public void update(Opportunity opp) {
         repository.update(opp);
-        loadOpportunities();
+//        loadOpportunities();
+        loadData();
     }
 
     public void delete(int id) {
         repository.delete(id);
-        loadOpportunities();
+//        loadOpportunities();
+        loadData();
+    }
+
+    public Opportunity getById(int id) {
+        return repository.getById(id);
     }
 }

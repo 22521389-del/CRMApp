@@ -13,6 +13,7 @@ import android.widget.ScrollView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import com.example.crmmobile.OpportunityDirectory.Opportunity;
 import com.example.crmmobile.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OpportunityFragment extends Fragment {
@@ -29,6 +31,7 @@ public class OpportunityFragment extends Fragment {
     private View layoutOpportunityForm;
     private View btnAddOpportunity;
     private RecyclerView rvOpportunityBody;
+    private OpportunityViewModel viewModel;
     private AdapterOpportunity opportunityAdapter;
     private BottomNavigationView bottomNav;
     private ScrollView bodyscroll;
@@ -45,6 +48,7 @@ public class OpportunityFragment extends Fragment {
         initViews(view);
         setupRecyclerView();
         setupClickListeners();
+
         return view;
     }
 
@@ -62,15 +66,35 @@ public class OpportunityFragment extends Fragment {
         }
     }
 
+//    private void setupRecyclerView() {
+//        rvOpportunityBody.setLayoutManager(new LinearLayoutManager(getContext()));
+//        List<Opportunity> list = OpportunityRepository.getInstance(requireContext()).getAll();
+//        Log.d("OpportunityFragment", "Opportunities size = " + list.size());
+//        for (Opportunity o : list) {
+//            Log.d("OpportunityFragment", "Title: " + o.getTitle() + ", Price: " + o.getPrice());
+//        }
+//        opportunityAdapter = new AdapterOpportunity(
+//                list,
+//                (item, id, anchor) -> {
+//                    // Sử dụng id nếu muốn update/delete trực tiếp
+//                    OpportunityBottomSheetHelper.showBottomSheet(requireContext(), item, id, anchor);
+//                },
+//                (item, id) -> openOpportunityDetail(item)
+//        );
+//
+//        rvOpportunityBody.setAdapter(opportunityAdapter);
+//    }
+
     private void setupRecyclerView() {
         rvOpportunityBody.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<Opportunity> list = OpportunityRepository.getInstance(requireContext()).getAll();
-        Log.d("OpportunityFragment", "Opportunities size = " + list.size());
-        for (Opportunity o : list) {
-            Log.d("OpportunityFragment", "Title: " + o.getTitle() + ", Price: " + o.getPrice());
-        }
+
+        // INIT VIEWMODEL
+        viewModel = new ViewModelProvider(requireActivity())
+                .get(OpportunityViewModel.class);
+
+        // INIT ADAPTER (không truyền list ở đây)
         opportunityAdapter = new AdapterOpportunity(
-                list,
+                new ArrayList<>(), // list rỗng, chờ LiveData cập nhật
                 (item, id, anchor) -> {
                     // Sử dụng id nếu muốn update/delete trực tiếp
                     OpportunityBottomSheetHelper.showBottomSheet(requireContext(), item, id, anchor);
@@ -79,6 +103,15 @@ public class OpportunityFragment extends Fragment {
         );
 
         rvOpportunityBody.setAdapter(opportunityAdapter);
+
+        // OBSERVE DATA TỪ VIEWMODEL
+        viewModel.getOpportunities().observe(getViewLifecycleOwner(), list -> {
+            Log.d("OpportunityFragment", "LiveData size = " + list.size());
+            for (Opportunity o : list) {
+                Log.d("OpportunityFragment", "Title: " + o.getTitle() + ", Price: " + o.getPrice());
+            }
+            opportunityAdapter.setData(list);
+        });
     }
 
     private void setupClickListeners() {

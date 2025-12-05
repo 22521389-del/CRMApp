@@ -4,17 +4,14 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.example.crmmobile.OpportunityDirectory.Opportunity;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class OpportunityRepository {
     private static OpportunityRepository instance;
-    private OpportunityDao dao;
+    private OpportunityDAO dao;
 
     OpportunityRepository(Context context) {
-        dao = new OpportunityDao(context.getApplicationContext());
+        dao = new OpportunityDAO(context.getApplicationContext());
     }
 
     public static synchronized OpportunityRepository getInstance(Context context) {
@@ -24,15 +21,26 @@ public class OpportunityRepository {
         return instance;
     }
 
-    public List<Opportunity> getAll() { return dao.getAll(); }
-    public Opportunity getById(int id) {
-        for (Opportunity o : dao.getAll()) if (o.getId() == id) return o;
-        return null;
+    public List<Opportunity> getAll() {
+        return dao.getAll();
     }
-    public long add(Opportunity opportunity) { return dao.add(opportunity); }
-    public void update(Opportunity opportunity) { dao.update(opportunity); }
-    public void delete(int id) { dao.delete(id); }
+//    public Opportunity getById(int id) {
+//        for (Opportunity o : dao.getAll()) if (o.getId() == id) return o;
+//        return null;
+//    }
 
+    public Opportunity getById(int id) {
+        return dao.getById(id);
+    }
+    public long add(Opportunity opportunity) {
+        return dao.add(opportunity);
+    }
+    public void update(Opportunity opportunity) {
+        dao.update(opportunity);
+    }
+    public void delete(int id) {
+        dao.delete(id);
+    }
 
     public interface Callback { void onComplete(boolean success); }
 

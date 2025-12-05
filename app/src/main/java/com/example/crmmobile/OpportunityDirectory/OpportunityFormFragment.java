@@ -119,7 +119,6 @@ public class OpportunityFormFragment extends Fragment {
         String[] companies = {"Google", "Microsoft", "Apple", "Meta"};
         String[] contacts = {"John Doe", "Jane Smith", "Alice Johnson"};
         String[] stages = {"Prospecting", "Qualification", "Proposal", "Negotiation", "Closed Won", "Closed Lost"};
-        String[] rates = {"10%", "25%", "50%", "75%", "90%", "100%"};
 
         etCompany.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, companies));
         etContact.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, contacts));
@@ -147,7 +146,7 @@ public class OpportunityFormFragment extends Fragment {
         btnCancel.setOnClickListener(v -> requireActivity().finish());
         btnSave.setOnClickListener(v -> {
             try {
-                saveOpportunity();
+                saveOpportunity(); // chỉ save khi user bấm
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
@@ -170,7 +169,7 @@ public class OpportunityFormFragment extends Fragment {
     }
 
     private void saveOpportunity() throws ParseException {
-        OpportunityViewModel viewModel = new ViewModelProvider(this).get(OpportunityViewModel.class);
+        OpportunityViewModel viewModel = new ViewModelProvider(requireActivity()).get(OpportunityViewModel.class);
         Opportunity opportunity = createOpportunityFromForm();
 
         if (opportunity.getTitle().isEmpty()) {
@@ -186,8 +185,12 @@ public class OpportunityFormFragment extends Fragment {
             Toast.makeText(getContext(), "Thêm cơ hội thành công", Toast.LENGTH_SHORT).show();
         }
 
-        requireActivity().finish();
+//        requireActivity().finish();
+        // QUAY LẠI LIST KHÔNG FINISH()
+        requireActivity().getSupportFragmentManager().popBackStack();
     }
+
+
 
 
     private Opportunity createOpportunityFromForm() throws ParseException {
