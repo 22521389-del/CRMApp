@@ -6,11 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.crmmobile.OpportunityDirectory.Opportunity;
 import com.example.crmmobile.R;
 
 public class OpportunityDetailTabInfoFragment extends Fragment {

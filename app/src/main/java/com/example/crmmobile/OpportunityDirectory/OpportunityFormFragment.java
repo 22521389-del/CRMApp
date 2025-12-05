@@ -1,6 +1,7 @@
 package com.example.crmmobile.OpportunityDirectory;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
+
+import com.example.crmmobile.OpportunityDirectory.Opportunity;
 import com.example.crmmobile.R;
 
 public class OpportunityFormFragment extends Fragment {
@@ -26,29 +34,18 @@ public class OpportunityFormFragment extends Fragment {
 
     private String mode;
     private Opportunity existingOpportunity;
-    private int position = -1;
 
     private EditText etOpportunityName, etValue, etExpectedDate, etExpectedDate2, etDescription, etManagement;
-    private AutoCompleteTextView etCompany, etContact, spSalesStage, spSuccessRate;
+    private AutoCompleteTextView etCompany, etContact, spSalesStage;
     private TextView tvHeaderTitle;
     private Button btnSave, btnCancel;
     private ImageButton btnBack;
 
-    // Collapse fields
-    private View itemInfoInclude;
-    private LinearLayout layoutBody;
-    private View layoutSectionHeader;
-    private ImageView iconArrowDetail;
 
-    private View layoutManagementHeader;
-    private View managementFieldContainer; // TextInputLayout cha của et_management
-    private ImageView iconArrowManagement;
-
-    public static OpportunityFormFragment newInstance(Opportunity opportunity, int position, String mode) {
+    public static OpportunityFormFragment newInstance(Opportunity opportunity, String mode) {
         OpportunityFormFragment fragment = new OpportunityFormFragment();
         Bundle args = new Bundle();
         args.putSerializable("opportunity", opportunity);
-        args.putInt("position", position);
         args.putString("mode", mode);
         fragment.setArguments(args);
         return fragment;
@@ -80,7 +77,6 @@ public class OpportunityFormFragment extends Fragment {
         etContact = view.findViewById(R.id.et_contact);
         etValue = view.findViewById(R.id.et_value);
         spSalesStage = view.findViewById(R.id.sp_sales_stage);
-        spSuccessRate = view.findViewById(R.id.sp_success_rate);
         etExpectedDate = view.findViewById(R.id.et_expected_date);
         etExpectedDate2 = view.findViewById(R.id.et_expected_date_2);
         etDescription = view.findViewById(R.id.et_description);
@@ -128,14 +124,12 @@ public class OpportunityFormFragment extends Fragment {
         etCompany.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, companies));
         etContact.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, contacts));
         spSalesStage.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, stages));
-        spSuccessRate.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, rates));
     }
 
     private void handleArguments() {
         if (getArguments() != null) {
             mode = getArguments().getString("mode", MODE_CREATE);
             existingOpportunity = (Opportunity) getArguments().getSerializable("opportunity");
-            position = getArguments().getInt("position", -1);
 
             if (MODE_UPDATE.equals(mode) && existingOpportunity != null) {
                 populateForm(existingOpportunity);
@@ -151,47 +145,105 @@ public class OpportunityFormFragment extends Fragment {
     private void setupActions() {
         btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
         btnCancel.setOnClickListener(v -> requireActivity().finish());
-        btnSave.setOnClickListener(v -> saveOpportunity());
+        btnSave.setOnClickListener(v -> {
+            try {
+                saveOpportunity();
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void populateForm(Opportunity opportunity) {
         etOpportunityName.setText(opportunity.getTitle());
         etCompany.setText(opportunity.getCompany());
         etContact.setText(opportunity.getContact());
-        etValue.setText(opportunity.getPrice());
-        spSalesStage.setText(opportunity.getStatus());
-        spSuccessRate.setText(opportunity.getSuccessRate());
+        // Format giá trị tiền tệ
+        if (opportunity.getPrice() > 0) {
+            NumberFormat format = NumberFormat.getInstance(Locale.getDefault());
+            etValue.setText(format.format(opportunity.getPrice()));
+        }        spSalesStage.setText(opportunity.getStatus());
         etExpectedDate.setText(opportunity.getDate());
         etExpectedDate2.setText(opportunity.getExpectedDate2());
-        etDescription.setText(opportunity.getExchangeText());
+        etDescription.setText(opportunity.getDescription());
         etManagement.setText(opportunity.getManagement());
     }
 
-    private void saveOpportunity() {
+    private void saveOpportunity() throws ParseException {
+        OpportunityViewModel viewModel = new ViewModelProvider(this).get(OpportunityViewModel.class);
         Opportunity opportunity = createOpportunityFromForm();
 
-        if (MODE_UPDATE.equals(mode) && position >= 0) {
-            OpportunityRepository.getInstance().update(position, opportunity);
+        if (opportunity.getTitle().isEmpty()) {
+            etOpportunityName.setError("Tên cơ hội không được để trống");
+            return;
+        }
+
+        if (MODE_UPDATE.equals(mode) && existingOpportunity != null) {
+            viewModel.update(opportunity);
+            Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
         } else {
-            OpportunityRepository.getInstance().add(opportunity);
+            viewModel.add(opportunity);
+            Toast.makeText(getContext(), "Thêm cơ hội thành công", Toast.LENGTH_SHORT).show();
         }
 
         requireActivity().finish();
     }
 
-    private Opportunity createOpportunityFromForm() {
+
+    private Opportunity createOpportunityFromForm() throws ParseException {
+        // Parse giá trị tiền tệ
+        double priceValue = 0;
+        String priceStr = etValue.getText().toString().trim();
+        if (!TextUtils.isEmpty(priceStr)) {
+            priceStr = priceStr.replaceAll("[^\\d.]", "");
+            if (!TextUtils.isEmpty(priceStr)) {
+                priceValue = Double.parseDouble(priceStr);
+            }
+        }
+
+        // Lấy id nếu là update
+        int id = (MODE_UPDATE.equals(mode) && existingOpportunity != null) ?
+                existingOpportunity.getId() : 0;
+
+        // Lấy ID từ tên (cần hàm helper)
+        int companyId = getCompanyIdFromName(etCompany.getText().toString().trim());
+        int contactId = getContactIdFromName(etContact.getText().toString().trim());
+        int managementId = getManagementIdFromName(etManagement.getText().toString().trim());
+
         return new Opportunity(
-                etOpportunityName.getText().toString(),
-                etCompany.getText().toString(),
-                etContact.getText().toString(),
-                etValue.getText().toString(),
-                spSalesStage.getText().toString(),
-                spSuccessRate.getText().toString(),
-                etExpectedDate.getText().toString(),
-                etExpectedDate2.getText().toString(),
-                etDescription.getText().toString(),
-                etManagement.getText().toString()
+                id,
+                etOpportunityName.getText().toString().trim(),
+                companyId,  // Thay vì String, dùng int ID
+                contactId,   // Thay vì String, dùng int ID
+                priceValue,
+                spSalesStage.getText().toString().trim(),
+                etExpectedDate.getText().toString().trim(),
+                etExpectedDate2.getText().toString().trim(),
+                etDescription.getText().toString().trim(),
+                managementId, // Thay vì String, dùng int ID
+                0,  // callCount
+                0   // messageCount
         );
+    }
+
+    // Helper methods để lấy ID từ tên
+    private int getCompanyIdFromName(String companyName) {
+        // TODO: Query database để lấy ID từ tên công ty
+        // Tạm thời return 1 hoặc 0
+        if (TextUtils.isEmpty(companyName)) return 0;
+        return 1; // Hoặc logic mapping của bạn
+    }
+
+    private int getContactIdFromName(String contactName) {
+        // TODO: Query database để lấy ID từ tên liên hệ
+        if (TextUtils.isEmpty(contactName)) return 0;
+        return 1;
+    }
+
+    private int getManagementIdFromName(String managementName) {
+        // TODO: Query database để lấy ID nhân viên từ tên
+        if (TextUtils.isEmpty(managementName)) return 0;
+        return 1;
     }
 
 

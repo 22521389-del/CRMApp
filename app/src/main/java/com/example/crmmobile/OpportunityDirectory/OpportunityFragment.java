@@ -3,6 +3,7 @@ package com.example.crmmobile.OpportunityDirectory;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crmmobile.Adapter.AdapterOpportunity;
 import com.example.crmmobile.BottomSheet.OpportunityBottomSheetHelper;
+import com.example.crmmobile.OpportunityDirectory.Opportunity;
 import com.example.crmmobile.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -62,16 +64,20 @@ public class OpportunityFragment extends Fragment {
 
     private void setupRecyclerView() {
         rvOpportunityBody.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<Opportunity> opportunityList = OpportunityRepository.getInstance().getAll();
-
+        List<Opportunity> list = OpportunityRepository.getInstance(requireContext()).getAll();
+        Log.d("OpportunityFragment", "Opportunities size = " + list.size());
+        for (Opportunity o : list) {
+            Log.d("OpportunityFragment", "Title: " + o.getTitle() + ", Price: " + o.getPrice());
+        }
         opportunityAdapter = new AdapterOpportunity(
-                opportunityList,
-                (item, position, anchor) -> {
-                    // anchor có thể dùng để đặt vị trí bottomsheet — hiện helper chỉ cần position + item
-                    OpportunityBottomSheetHelper.showBottomSheet(requireContext(), item, position, anchor);
+                list,
+                (item, id, anchor) -> {
+                    // Sử dụng id nếu muốn update/delete trực tiếp
+                    OpportunityBottomSheetHelper.showBottomSheet(requireContext(), item, id, anchor);
                 },
-                (item, position) -> openOpportunityDetail(item)
+                (item, id) -> openOpportunityDetail(item)
         );
+
         rvOpportunityBody.setAdapter(opportunityAdapter);
     }
 
@@ -115,22 +121,24 @@ public class OpportunityFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void openOpportunityUpdateForm(Opportunity item, int position) {
+    private void openOpportunityUpdateForm(Opportunity item) {
         Intent intent = new Intent(getContext(), OpportunityFormActivity.class);
         intent.putExtra("mode", "update");
-        intent.putExtra("opportunity", item);
-        intent.putExtra("position", position);
+        intent.putExtra("opportunityId", item.getId());
         startActivity(intent);
     }
+
 
 
     // Reload data mỗi khi fragment visible lại (cập nhật sau add/update/delete)
     @Override
     public void onResume() {
         super.onResume();
-        // Lấy dữ liệu mới từ Repository và cập nhật adapter
+        // Lấy dữ liệu mới từ Repository theo id
+        List<Opportunity> list = OpportunityRepository.getInstance(requireContext()).getAll();
         if (opportunityAdapter != null) {
-            opportunityAdapter.setData(OpportunityRepository.getInstance().getAll());
+            opportunityAdapter.setData(list);
         }
     }
+
 }
