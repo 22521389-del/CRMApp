@@ -2,6 +2,7 @@ package com.example.crmmobile.OpportunityDirectory;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +23,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Locale;
 
 import com.example.crmmobile.OpportunityDirectory.Opportunity;
 import com.example.crmmobile.R;
 
 public class OpportunityFormFragment extends Fragment {
+    private OpportunityFormViewModel formViewModel;
+
 
     public static final String MODE_CREATE = "create";
     public static final String MODE_UPDATE = "update";
@@ -35,11 +39,14 @@ public class OpportunityFormFragment extends Fragment {
     private String mode;
     private Opportunity existingOpportunity;
 
-    private EditText etOpportunityName, etValue, etExpectedDate, etExpectedDate2, etDescription, etManagement;
-    private AutoCompleteTextView etCompany, etContact, spSalesStage;
+    private EditText etOpportunityName, etValue, etExpectedDate, etExpectedDate2, etDescription;
+    private AutoCompleteTextView etCompany, etContact, spSalesStage, etManagement;
     private TextView tvHeaderTitle;
     private Button btnSave, btnCancel;
     private ImageButton btnBack;
+    private List<Company> companyList;
+    private List<Contact> contactList;
+    private List<Employee> employeeList;
 
 
     public static OpportunityFormFragment newInstance(Opportunity opportunity, String mode) {
@@ -57,11 +64,17 @@ public class OpportunityFormFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_opportunity_form, container, false);
+        formViewModel = new ViewModelProvider(requireActivity())
+                .get(OpportunityFormViewModel.class);
+
+
 
         initViews(view);
-        setupDropdowns();
         handleArguments();
         setupActions();
+        observeDropdowns();
+        setupDropdowns();
+
 
         return view;
     }
@@ -116,13 +129,70 @@ public class OpportunityFormFragment extends Fragment {
 
 
     private void setupDropdowns() {
-        String[] companies = {"Google", "Microsoft", "Apple", "Meta"};
-        String[] contacts = {"John Doe", "Jane Smith", "Alice Johnson"};
-        String[] stages = {"Prospecting", "Qualification", "Proposal", "Negotiation", "Closed Won", "Closed Lost"};
+        String[] stages = {
+                "Nhận diện người ra quyết định",
+                "Phân tích nhận thức",
+                "Đề xuất/ Báo giá",
+                "Thương lượng đàm phán"
+        };
 
-        etCompany.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, companies));
-        etContact.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, contacts));
-        spSalesStage.setAdapter(new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, stages));
+        ArrayAdapter<String> stageAdapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                stages
+        );
+
+        spSalesStage.setAdapter(stageAdapter);
+
+        //BẮT BUỘC PHẢI CÓ — để dropdown xổ xuống khi click
+        spSalesStage.setThreshold(0);
+        spSalesStage.setOnClickListener(v -> spSalesStage.showDropDown());
+    }
+
+    private void observeDropdowns() {
+        // Company
+        formViewModel.getCompanies().observe(getViewLifecycleOwner(), list -> {
+            Log.d("FormFragment", "Companies loaded: " + (list != null ? list.size() : 0));
+            companyList = list;
+            ArrayAdapter<Company> adapter = new ArrayAdapter<>(
+                    requireContext(),
+                    android.R.layout.simple_dropdown_item_1line,
+                    list
+            );
+            etCompany.setAdapter(adapter);
+            etCompany.setThreshold(0);
+            etCompany.setOnClickListener(v -> etCompany.showDropDown());
+
+        });
+
+        // Contact
+        formViewModel.getContacts().observe(getViewLifecycleOwner(), list -> {
+            Log.d("FormFragment", "Contacts loaded: " + (list != null ? list.size() : 0));
+
+            contactList = list;
+            ArrayAdapter<Contact> adapter = new ArrayAdapter<>(
+                    requireContext(),
+                    android.R.layout.simple_dropdown_item_1line,
+                    list
+            );
+            etContact.setAdapter(adapter);
+            etContact.setThreshold(0);
+            etContact.setOnClickListener(v -> etContact.showDropDown());
+        });
+
+        // Employee (Management)
+        formViewModel.getEmployees().observe(getViewLifecycleOwner(), list -> {
+            Log.d("FormFragment", "Employees loaded: " + (list != null ? list.size() : 0));
+            employeeList = list;
+            ArrayAdapter<Employee> adapter = new ArrayAdapter<>(
+                    requireContext(),
+                    android.R.layout.simple_dropdown_item_1line,
+                    list
+            );
+            etManagement.setAdapter(adapter);
+            etManagement.setThreshold(0);
+            etManagement.setOnClickListener(v -> etManagement.showDropDown());
+        });
     }
 
     private void handleArguments() {
@@ -230,24 +300,50 @@ public class OpportunityFormFragment extends Fragment {
     }
 
     // Helper methods để lấy ID từ tên
-    private int getCompanyIdFromName(String companyName) {
-        // TODO: Query database để lấy ID từ tên công ty
-        // Tạm thời return 1 hoặc 0
-        if (TextUtils.isEmpty(companyName)) return 0;
-        return 1; // Hoặc logic mapping của bạn
+//    private int getCompanyIdFromName(String companyName) {
+//        // TODO: Query database để lấy ID từ tên công ty
+//        // Tạm thời return 1 hoặc 0
+//        if (TextUtils.isEmpty(companyName)) return 0;
+//        return 1; // Hoặc logic mapping của bạn
+//    }
+//
+//    private int getContactIdFromName(String contactName) {
+//        // TODO: Query database để lấy ID từ tên liên hệ
+//        if (TextUtils.isEmpty(contactName)) return 0;
+//        return 1;
+//    }
+//
+//    private int getManagementIdFromName(String managementName) {
+//        // TODO: Query database để lấy ID nhân viên từ tên
+//        if (TextUtils.isEmpty(managementName)) return 0;
+//        return 1;
+//    }
+
+    private int getCompanyIdFromName(String name) {
+        if (companyList == null) return 0;
+        for (Company c : companyList) {
+            if (c.getName().equalsIgnoreCase(name)) return c.getId();
+        }
+        return 0;
     }
 
-    private int getContactIdFromName(String contactName) {
-        // TODO: Query database để lấy ID từ tên liên hệ
-        if (TextUtils.isEmpty(contactName)) return 0;
-        return 1;
+    private int getContactIdFromName(String name) {
+        if (contactList == null) return 0;
+        for (Contact c : contactList) {
+            if (c.getFull_name().equalsIgnoreCase(name)) return c.getId();
+        }
+        return 0;
     }
 
-    private int getManagementIdFromName(String managementName) {
-        // TODO: Query database để lấy ID nhân viên từ tên
-        if (TextUtils.isEmpty(managementName)) return 0;
-        return 1;
+    private int getManagementIdFromName(String name) {
+        if (employeeList == null) return 0;
+        for (Employee e : employeeList) {
+            if (e.getName().equalsIgnoreCase(name)) return e.getId();
+        }
+        return 0;
     }
+
+
 
 
 }

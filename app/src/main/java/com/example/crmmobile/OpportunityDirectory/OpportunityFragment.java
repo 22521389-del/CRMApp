@@ -161,8 +161,6 @@ public class OpportunityFragment extends Fragment {
         startActivity(intent);
     }
 
-
-
     // Reload data mỗi khi fragment visible lại (cập nhật sau add/update/delete)
     @Override
     public void onResume() {
