@@ -204,12 +204,15 @@ public class DBCRMHandler extends SQLiteOpenHelper {
                 ");");
 
         // Seed data - opportunity
-        db.execSQL("INSERT INTO COHOI(TENCOHOI, GIATRI, NGAYTAO, BUOCBANHANG, MOTA) " +
-                "VALUES('Phần mềm CloudWork', '14.875.000 đ', '17/07/2024', 'Thương lượng đàm phán', 'Trao đổi (1)')");
-        db.execSQL("INSERT INTO COHOI(TENCOHOI, GIATRI, NGAYTAO, BUOCBANHANG, MOTA) " +
-                "VALUES('Ứng dụng CRM Mobile', '22.300.000 đ', '12/08/2024', 'Phân tích nhận thức', 'Trao đổi (3)')");
-        db.execSQL("INSERT INTO COHOI(TENCOHOI, GIATRI, NGAYTAO, BUOCBANHANG, MOTA) " +
-                "VALUES('Website Quản lý Dự án', '9.700.000 đ', '05/09/2024', 'Đề xuất/ Báo giá', 'Trao đổi (3)')");
+        // Seed data - opportunity (đầy đủ các cột)
+        db.execSQL("INSERT INTO COHOI(TENCOHOI, CONGTY, NGUOILIENHE, GIATRI, BUOCBANHANG, MOTA, GIAOCHO, NGAYTAO, NGAYCHOT) " +
+                "VALUES('Phần mềm CloudWork', 1, 1, 14875000.0, 'Thương lượng đàm phán', 'Trao đổi (1)', 1, '17/07/2024', '27/07/2024')");
+
+        db.execSQL("INSERT INTO COHOI(TENCOHOI, CONGTY, NGUOILIENHE, GIATRI, BUOCBANHANG, MOTA, GIAOCHO, NGAYTAO, NGAYCHOT) " +
+                "VALUES('Ứng dụng CRM Mobile', 2, 2, 22300000.0, 'Phân tích nhận thức', 'Trao đổi (3)', 1, '12/08/2024', '22/08/2024')");
+
+        db.execSQL("INSERT INTO COHOI(TENCOHOI, CONGTY, NGUOILIENHE, GIATRI, BUOCBANHANG, MOTA, GIAOCHO, NGAYTAO, NGAYCHOT) " +
+                "VALUES('Website Quản lý Dự án', 3, 3, 9700000.0, 'Đề xuất/ Báo giá', 'Trao đổi (3)', 2, '05/09/2024', '15/09/2024')");
     }
 
     @Override

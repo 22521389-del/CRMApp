@@ -133,23 +133,6 @@
                 android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Success Rate -->
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_basex2"
-            android:hint="@string/hint_success_rate"
-            app:endIconMode="dropdown_menu"
-            android:background="@drawable/rounded_input_box">
-
-            <AutoCompleteTextView
-                android:id="@+id/sp_success_rate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"
-                android:background="@android:color/transparent"/>
-        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Expected Close Date -->
         <com.google.android.material.textfield.TextInputLayout

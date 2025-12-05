@@ -156,8 +156,8 @@ public class OpportunityFormFragment extends Fragment {
 
     private void populateForm(Opportunity opportunity) {
         etOpportunityName.setText(opportunity.getTitle());
-        etCompany.setText(opportunity.getCompany());
-        etContact.setText(opportunity.getContact());
+        etCompany.setText(String.valueOf(opportunity.getCompany()));
+        etContact.setText(String.valueOf(opportunity.getContact()));
         // Format giá trị tiền tệ
         if (opportunity.getPrice() > 0) {
             NumberFormat format = NumberFormat.getInstance(Locale.getDefault());
@@ -166,7 +166,7 @@ public class OpportunityFormFragment extends Fragment {
         etExpectedDate.setText(opportunity.getDate());
         etExpectedDate2.setText(opportunity.getExpectedDate2());
         etDescription.setText(opportunity.getDescription());
-        etManagement.setText(opportunity.getManagement());
+        etManagement.setText(String.valueOf(opportunity.getManagement()));
     }
 
     private void saveOpportunity() throws ParseException {
