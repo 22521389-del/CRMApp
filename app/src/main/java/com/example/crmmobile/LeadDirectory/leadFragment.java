@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -37,6 +41,19 @@ public class leadFragment extends Fragment {
     ViewPager2 viewPager;
     FrameLayout contain;
     private LeadReposity db;
+
+    public ActivityResultLauncher<Intent> editLeadLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == EditLeadActivity.RESULT_OK){
+                    reloadList();
+                }
+            });
+
+    private void reloadList() {
+        leadList.clear();
+        leadList.addAll(db.getAllLead());
+        adapter.notifyDataSetChanged();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -69,19 +86,35 @@ public class leadFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
-        adapter = new AdapterLead(leadList, (item, position) -> {
-            BottomSheetActionLead.ShowBottomSheetLead(requireContext(), leadList, position, ()->{
-                db.DeleteLead(leadList.get(position).getID());//delete from database
-                leadList.remove(position); // delete from list
+        adapter = new AdapterLead(requireContext(), leadList, new AdapterLead.onItemClickListener() {
+            @Override
+            public void onDotsClick(Lead item, int position) {
+                BottomSheetActionLead.ShowBottomSheetLead(requireContext(), item, new BottomSheetActionLead.OnActionListenerLead() {
+                    @Override
+                    public void onEdit(Lead lead) {
+                        Intent intent = new Intent(getContext(), EditLeadActivity.class);
+                        intent.putExtra(AppConstant.LEAD_OBJECT, lead);
+                        editLeadLauncher.launch(intent);
+                    }
 
-                //update recyclerview
-                adapter.notifyItemRemoved(position);
-                adapter.notifyItemRangeChanged(position, leadList.size());
-            });
-        }, lead -> {
-            Intent intent = new Intent(getContext(), DetailLeadActivity.class);
-            intent.putExtra(AppConstant.LEAD_OBJECT, lead);
-            startActivity(intent);
+                    @Override
+                    public void onDelete(Lead lead) {
+                        db.DeleteLead(lead.getID());//delete from database
+                        leadList.remove(position); // delete from list
+
+                        //update recyclerview
+                        adapter.notifyItemRemoved(position);
+                        adapter.notifyItemRangeChanged(position, leadList.size());
+                    }
+                });
+            }
+
+            @Override
+            public void onMenuClick(Lead lead) {
+                Intent intent = new Intent(getContext(), DetailLeadActivity.class);
+                intent.putExtra(AppConstant.LEAD_OBJECT, lead);
+                startActivity(intent);
+            }
         });
         recyclerLead.setAdapter(adapter);
         return view;
@@ -92,7 +125,7 @@ public class leadFragment extends Fragment {
 
         if(leadDB.isEmpty()){
             leadList = new ArrayList<>();
-            leadList.add(new Lead("Ông", "Nguyễn Văn", " A", "5/12/2025", "Công ty X", "phong@gmail.com"));
+            leadList.add(new Lead("Ông", "Nguyễn Văn", " A", "5/12/2025", "Công ty X", "phong@gmail.com", "Mới"));
 
             for ( Lead lead: leadList){
                 long id = db.addLead(lead);
@@ -103,7 +136,6 @@ public class leadFragment extends Fragment {
             leadList = new ArrayList<>(leadDB);
         }
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

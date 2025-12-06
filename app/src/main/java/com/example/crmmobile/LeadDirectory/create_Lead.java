@@ -94,6 +94,15 @@ public class create_Lead extends Fragment {
         String Send_to = viewModelLead.Sendto.getValue();
         String Email = viewModelLead.Email.getValue();
         String Sex = viewModelLead.Sex.getValue();
+        String contact_day = viewModelLead.contact_day.getValue();
+        String birthday = viewModelLead.Birthday.getValue();
+        String Address = viewModelLead.Address.getValue();
+        String Province = viewModelLead.Province.getValue();
+        String Nation = viewModelLead.Nation.getValue();
+        String District = viewModelLead.District.getValue();
+        String position_company = viewModelLead.position_company.getValue();
+        String state = viewModelLead.state.getValue();
+
 
         LeadReposity db = new LeadReposity(requireContext());
         if(first_name.isEmpty() || phone_number.isEmpty() || Send_to.isEmpty()){
@@ -108,6 +117,15 @@ public class create_Lead extends Fragment {
         lead.setEmail(Email);
         lead.setDienThoai(phone_number);
         lead.setGioitinh(Sex);
+        lead.setGiaocho(Send_to);
+        lead.setNgayLienHe(contact_day);
+        lead.setNgaysinh(birthday);
+        lead.setDiachi(Address);
+        lead.setTinhTrang(state);
+        lead.setTinh(Province);
+        lead.setQuocGia(Nation);
+        lead.setQuanHuyen(District);
+        lead.setChucvu(position_company);
 
         db.addLead(lead);
 

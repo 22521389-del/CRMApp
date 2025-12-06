@@ -263,7 +263,7 @@
                     android:textSize="@dimen/text16"/>
 
                 <TextView
-                    android:id="@+id/tv_state_infor"
+                    android:id="@+id/tv_state"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -354,11 +354,10 @@
                     android:textColor="@color/bg_detail"/>
 
                 <TextView
-                    android:id="@+id/tv_tax_infor"
+                    android:id="@+id/tv_tax"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="1423415"
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:gravity="end"/>
@@ -426,7 +425,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Công nghệ"
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:gravity="end"/>
@@ -456,11 +454,10 @@
                     android:textColor="@color/bg_detail"/>
 
                 <TextView
-                    android:id="@+id/tv_revenue_infor"
+                    android:id="@+id/tv_revenue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="15.000.000.000đ"
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:gravity="end"/>
@@ -594,7 +591,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="13 Đường số 37- Vạn Phúc city"
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:gravity="end"/>
@@ -628,7 +624,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TP Thủ Đức"
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:gravity="end"/>
@@ -661,7 +656,6 @@ s
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hồ Chí Minh"
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:gravity="end"/>
@@ -694,7 +688,6 @@ s
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Việt Nam"
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:gravity="end"/>

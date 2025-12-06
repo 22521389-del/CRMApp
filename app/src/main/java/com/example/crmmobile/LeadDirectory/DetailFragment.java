@@ -34,7 +34,8 @@ public class DetailFragment extends Fragment {
     private ConstraintLayout cl_addinforaddress;
     private ConstraintLayout cl_addinfordescript;
     private TextView tv_full_name, tv_first_name, tv_sex, tv_birthday, tv_phone,
-            tv_email;
+            tv_email, tv_state, tv_revenue, tv_tax, tv_job_name,tv_address,
+            tv_district, tv_province, tv_nation;
     private Lead lead;
 
     public DetailFragment() {
@@ -73,6 +74,14 @@ public class DetailFragment extends Fragment {
         bindLiveDataToTextView(viewModelLead.Birthday, tv_birthday);
         bindLiveDataToTextView(viewModelLead.Email, tv_email);
         bindLiveDataToTextView(viewModelLead.phonenumber, tv_phone);
+        bindLiveDataToTextView(viewModelLead.state, tv_state);
+        bindLiveDataToTextView(viewModelLead.Tax, tv_tax);
+        bindLiveDataToTextView(viewModelLead.Job, tv_job_name);
+        bindLiveDataToTextView(viewModelLead.Address, tv_address);
+        bindLiveDataToTextView(viewModelLead.District, tv_district);
+        bindLiveDataToTextView(viewModelLead.Province, tv_province);
+        bindLiveDataToTextView(viewModelLead.Nation, tv_nation);
+        bindLiveDataToTextView(viewModelLead.Revenue, tv_revenue);
 
         setupaddInfor(iv_addinforaddress, cl_addinforaddress);
         setupaddInfor(iv_addinforlead, cl_inforlead);
@@ -93,6 +102,14 @@ public class DetailFragment extends Fragment {
         tv_birthday = view.findViewById(R.id.tv_birthday);
         tv_phone = view.findViewById(R.id.tv_phone);
         tv_email = view.findViewById(R.id.tv_email);
+        tv_state = view.findViewById(R.id.tv_state);
+        tv_revenue = view.findViewById(R.id.tv_revenue);
+        tv_tax = view.findViewById(R.id.tv_tax);
+        tv_job_name = view.findViewById(R.id.tv_job_name);
+        tv_address = view.findViewById(R.id.tv_address);
+        tv_district = view.findViewById(R.id.tv_district);
+        tv_province = view.findViewById(R.id.tv_province);
+        tv_nation = view.findViewById(R.id.tv_nation);
 
         iv_addinforlead = view.findViewById(R.id.iv_addinfor);
         cl_inforlead = view.findViewById(R.id.cl_infor_lead);
