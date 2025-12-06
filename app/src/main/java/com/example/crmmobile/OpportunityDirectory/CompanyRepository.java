@@ -11,7 +11,7 @@ public class CompanyRepository {
     }
 
     // Fake data tạm thời
-    public List<Company> getAllCompanies() {
+    public static List<Company> getAllCompanies() {
         // TODO: Khi DB xong → đổi lại thành: return companyDao.getAllCompanies();
         List<Company> fakeList = new ArrayList<>();
         fakeList.add(new Company(1, "Google"));

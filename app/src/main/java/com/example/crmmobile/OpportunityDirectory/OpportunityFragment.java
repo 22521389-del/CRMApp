@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.crmmobile.Adapter.AdapterOpportunity;
 import com.example.crmmobile.BottomSheet.OpportunityBottomSheetHelper;
 import com.example.crmmobile.OpportunityDirectory.Opportunity;
+import com.example.crmmobile.OpportunityDirectory.OpportunityFormActivity;
+import com.example.crmmobile.OpportunityDirectory.OpportunityFormFragment;
 import com.example.crmmobile.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -27,14 +29,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OpportunityFragment extends Fragment {
-
-    private View layoutOpportunityForm;
     private View btnAddOpportunity;
     private RecyclerView rvOpportunityBody;
     private OpportunityViewModel viewModel;
     private AdapterOpportunity opportunityAdapter;
-    private BottomNavigationView bottomNav;
-    private ScrollView bodyscroll;
 
     @SuppressLint("WrongViewCast")
     @Nullable
@@ -53,11 +51,8 @@ public class OpportunityFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        layoutOpportunityForm = view.findViewById(R.id.layout_opportunity_form);
         btnAddOpportunity = view.findViewById(R.id.btn_add_opportunity);
         rvOpportunityBody = view.findViewById(R.id.rv_opportunity_body);
-        bottomNav = requireActivity().findViewById(R.id.nav_footer);
-        bodyscroll = view.findViewById(R.id.scroll_body);
 
         // Nút back ở header fragment (nếu có)
         ImageButton btnOpportunityBack = view.findViewById(R.id.btn_opportunity_back);
@@ -115,31 +110,10 @@ public class OpportunityFragment extends Fragment {
     }
 
     private void setupClickListeners() {
-        View.OnClickListener openFormListener = v -> showOpportunityForm();
-
-        if (btnAddOpportunity != null) btnAddOpportunity.setOnClickListener(openFormListener);
-
-        // Nút back trong form (nếu layout_opportunity_form nằm cùng fragment)
-        if (layoutOpportunityForm != null) {
-            ImageButton btnOpportunityFormBack = layoutOpportunityForm.findViewById(R.id.btn_opportunity_back);
-            if (btnOpportunityFormBack != null) {
-                btnOpportunityFormBack.setOnClickListener(v -> hideOpportunityForm());
-            }
+        // Nút bubble → tạo mới → mở FormActivity
+        if (btnAddOpportunity != null) {
+            btnAddOpportunity.setOnClickListener(v -> openOpportunityCreateForm());
         }
-    }
-
-    private void showOpportunityForm() {
-        if (layoutOpportunityForm != null) layoutOpportunityForm.setVisibility(View.VISIBLE);
-        if (bottomNav != null) bottomNav.setVisibility(View.GONE);
-        if (bodyscroll != null) bodyscroll.setVisibility(View.GONE);
-        if (btnAddOpportunity != null) btnAddOpportunity.setVisibility(View.GONE);
-    }
-
-    private void hideOpportunityForm() {
-        if (layoutOpportunityForm != null) layoutOpportunityForm.setVisibility(View.GONE);
-        if (bottomNav != null) bottomNav.setVisibility(View.VISIBLE);
-        if (bodyscroll != null) bodyscroll.setVisibility(View.VISIBLE);
-        if (btnAddOpportunity != null) btnAddOpportunity.setVisibility(View.VISIBLE);
     }
 
     private void openOpportunityDetail(Opportunity item) {
@@ -157,7 +131,7 @@ public class OpportunityFragment extends Fragment {
     private void openOpportunityUpdateForm(Opportunity item) {
         Intent intent = new Intent(getContext(), OpportunityFormActivity.class);
         intent.putExtra("mode", "update");
-        intent.putExtra("opportunityId", item.getId());
+        intent.putExtra("opportunity", item);
         startActivity(intent);
     }
 

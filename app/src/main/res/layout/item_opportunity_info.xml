@@ -77,9 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
-                android:background="@android:color/transparent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"/>
+                android:background="@android:color/transparent" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Contact -->
@@ -97,9 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
-                android:background="@android:color/transparent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"/>
+                android:background="@android:color/transparent" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Value -->
@@ -134,9 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
-                android:background="@android:color/transparent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"/>
+                android:background="@android:color/transparent" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -249,9 +243,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
-                android:background="@android:color/transparent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"/>
+                android:background="@android:color/transparent" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 </LinearLayout>

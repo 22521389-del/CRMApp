@@ -11,7 +11,7 @@ public class ContactRepository {
         this.contactDao = contactDao;
     }
 
-    public List<Contact> getAllContacts() {
+    public static List<Contact> getAllContacts() {
         // TODO: Khi DB xong → return contactDao.getAllContacts();
 
         List<Contact> fakeList = new ArrayList<>();

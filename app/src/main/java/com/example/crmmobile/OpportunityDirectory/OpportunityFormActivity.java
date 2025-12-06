@@ -21,10 +21,13 @@ public class OpportunityFormActivity extends AppCompatActivity {
         Opportunity opportunity = (Opportunity) getIntent().getSerializableExtra("opportunity");
 
         // Gọi fragment chỉ với 2 tham số: object + mode
-        OpportunityFormFragment fragment = OpportunityFormFragment.newInstance(opportunity, mode);
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.layout_opportunity_form, fragment);
-        ft.commit();
+        OpportunityFormFragment fragment =
+                OpportunityFormFragment.newInstance(opportunity, mode);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_opportunity_form, fragment)
+                .commit();
     }
 }

@@ -11,7 +11,7 @@ public class EmployeeRepository {
         this.employeeDao = employeeDao;
     }
 
-    public List<Employee> getAllEmployees() {
+    public static List<Employee> getAllEmployees() {
         // TODO: Khi DB xong → return employeeDao.getAllEmployees();
 
         List<Employee> fakeList = new ArrayList<>();
