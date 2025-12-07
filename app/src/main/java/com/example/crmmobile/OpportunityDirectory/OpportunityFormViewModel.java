@@ -1,13 +1,13 @@
 package com.example.crmmobile.OpportunityDirectory;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.text.ParseException;
 import java.util.List;
 
 public class OpportunityFormViewModel extends AndroidViewModel {
@@ -16,83 +16,71 @@ public class OpportunityFormViewModel extends AndroidViewModel {
     private ContactRepository contactRepo;
     private EmployeeRepository employeeRepo;
 
+    private OpportunityFormHandler handler = new OpportunityFormHandler();
+
     private final MutableLiveData<List<Company>> companies = new MutableLiveData<>();
     private final MutableLiveData<List<Contact>> contacts = new MutableLiveData<>();
     private final MutableLiveData<List<Employee>> employees = new MutableLiveData<>();
 
-    // Lưu ID user chọn
     private int selectedCompanyId = 0;
     private int selectedContactId = 0;
     private int selectedManagementId = 0;
 
-    public OpportunityFormViewModel(@NonNull Application application) {
-        super(application);
+    public OpportunityFormViewModel(@NonNull Application app) {
+        super(app);
 
-        // Tạo repo
-        companyRepo = new CompanyRepository(null);  // null vì bạn dùng fake data
-        contactRepo = new ContactRepository(null);
+        companyRepo  = new CompanyRepository(null);
+        contactRepo  = new ContactRepository(null);
         employeeRepo = new EmployeeRepository(null);
 
         loadDropdownData();
     }
 
-    // ============================================================
-    //  LIVE DATA
-    // ============================================================
-
-    public LiveData<List<Company>> getCompanies() {
-        return companies;
-    }
-
-    public LiveData<List<Contact>> getContacts() {
-        return contacts;
-    }
-
-    public LiveData<List<Employee>> getEmployees() {
-        return employees;
-    }
-
-    // ============================================================
-    //  Load dữ liệu dropdown
-    // ============================================================
-
     private void loadDropdownData() {
-        Log.d("FormViewModel", "Loading dropdown data...");
-
         companies.setValue(companyRepo.getAllCompanies());
         contacts.setValue(contactRepo.getAllContacts());
         employees.setValue(employeeRepo.getAllEmployees());
     }
 
-    // ============================================================
-    //  SETTER ID USER CHỌN DROPDOWN
-    // ============================================================
+    public LiveData<List<Company>> getCompanies() { return companies; }
+    public LiveData<List<Contact>> getContacts() { return contacts; }
+    public LiveData<List<Employee>> getEmployees() { return employees; }
 
-    public void setSelectedCompanyId(int id) {
-        selectedCompanyId = id;
+    public void setSelectedCompanyId(int id) { selectedCompanyId = id; }
+    public void setSelectedContactId(int id) { selectedContactId = id; }
+    public void setSelectedManagementId(int id) { selectedManagementId = id; }
+
+    public int getSelectedCompanyId() { return selectedCompanyId; }
+    public int getSelectedContactId() { return selectedContactId; }
+    public int getSelectedManagementId() { return selectedManagementId; }
+
+    // Business: tạo Opportunity từ form
+    public Opportunity createOpportunity(
+            String mode,
+            Opportunity existing,
+            String title,
+            String priceStr,
+            String stage,
+            String date1,
+            String date2,
+            String desc
+    ) throws ParseException {
+        return handler.createFromForm(
+                mode,
+                existing,
+                title,
+                priceStr,
+                stage,
+                date1,
+                date2,
+                desc,
+                selectedCompanyId,
+                selectedContactId,
+                selectedManagementId
+        );
     }
 
-    public void setSelectedContactId(int id) {
-        selectedContactId = id;
-    }
-
-    public void setSelectedManagementId(int id) {
-        selectedManagementId = id;
-    }
-
-    // ============================================================
-    //  GETTER
-    // ============================================================
-
-    public int getSelectedCompanyId() {
-        return selectedCompanyId;
-    }
-
-    public int getSelectedContactId() {
-        return selectedContactId;
-    }
-
-    public int getSelectedManagementId() {
-        return selectedManagementId;
+    public OpportunityFormHandler getHandler() {
+        return handler;
     }
 }

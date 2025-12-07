@@ -1,8 +1,6 @@
 package com.example.crmmobile.OpportunityDirectory;
 
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +9,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,217 +17,140 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import com.example.crmmobile.OpportunityDirectory.Opportunity;
 import com.example.crmmobile.R;
 
 public class OpportunityFormFragment extends Fragment {
-    private OpportunityFormViewModel formViewModel;
 
-    public static final String MODE_CREATE = "create";
-    public static final String MODE_UPDATE = "update";
+    private OpportunityFormViewModel formVM;
+    private OpportunityFormHandler handler;
 
     private String mode;
-    private Opportunity existingOpportunity;
+    private Opportunity existing;
 
-    private EditText etOpportunityName, etValue, etExpectedDate, etExpectedDate2, etDescription;
-    private AutoCompleteTextView etCompany, etContact, spSalesStage, etManagement;
-    private TextView tvHeaderTitle;
+    private EditText etName, etValue, etDate1, etDate2, etDesc;
+    private AutoCompleteTextView etCompany, etContact, etStage, etManager;
+    private TextView tvTitle;
     private Button btnSave, btnCancel;
     private ImageButton btnBack;
 
-    private List<Company> companyList = new ArrayList<>();
-    private List<Contact> contactList = new ArrayList<>();
-    private List<Employee> employeeList = new ArrayList<>();
+    private boolean loaded1, loaded2, loaded3;
 
-    private boolean companyReady = false;
-    private boolean contactReady = false;
-    private boolean employeeReady = false;
+    public static OpportunityFormFragment newInstance(Opportunity o, String m) {
+        Bundle b = new Bundle();
+        b.putSerializable("opportunity", o);
+        b.putString("mode", m);
 
-
-    public static OpportunityFormFragment newInstance(Opportunity opportunity, String mode) {
-        OpportunityFormFragment fragment = new OpportunityFormFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("opportunity", opportunity);
-        args.putString("mode", mode);
-        fragment.setArguments(args);
-        return fragment;
+        OpportunityFormFragment f = new OpportunityFormFragment();
+        f.setArguments(b);
+        return f;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_opportunity_form, container, false);
+                             @Nullable Bundle state) {
 
-        formViewModel = new ViewModelProvider(requireActivity())
-                .get(OpportunityFormViewModel.class);
+        View v = inflater.inflate(R.layout.layout_opportunity_form, container, false);
 
-        initViews(view);
-        readArguments();
-//        handleArguments();
+        formVM = new ViewModelProvider(requireActivity()).get(OpportunityFormViewModel.class);
+        handler = formVM.getHandler();
+
+        initViews(v);
+        readArgs();
         setupActions();
         observeDropdowns();
         setupStaticDropdowns();
 
-        return view;
+        return v;
     }
 
-//
-//    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        // 🔹 Thông tin cơ hội
-//        setupToggle(view.findViewById(R.id.layout_section_header),
-//                view.findViewById(R.id.iv_arrow_detail_toggle),
-//                view.findViewById(R.id.layout_body));
-//
-//        // 🔹 Thông tin quản lý
-//        setupToggle(view.findViewById(R.id.layout_management_header),
-//                view.findViewById(R.id.iv_arrow_management_toggle),
-//                view.findViewById(R.id.layout_management_content));
-//
-//
-//    }
-//    private void setupToggle(View header, ImageView toggleIcon, LinearLayout contentLayout) {
-//        View.OnClickListener listener = v -> {
-//            boolean isVisible = contentLayout.getVisibility() == View.VISIBLE;
-//            contentLayout.setVisibility(isVisible ? View.GONE : View.VISIBLE);
-//            toggleIcon.setImageResource(isVisible ? R.drawable.ic_arrow_down : R.drawable.ic_arrow_up);
-//        };
-//
-//        header.setOnClickListener(listener);
-//        toggleIcon.setOnClickListener(listener);
-//    }
+    private void initViews(View v) {
+        tvTitle = v.findViewById(R.id.tv_opportunity_title_create);
+        btnBack = v.findViewById(R.id.btn_opportunity_back);
 
-    private void initViews(View view) {
-        // Header
-        tvHeaderTitle = view.findViewById(R.id.tv_opportunity_title_create);
-        btnBack = view.findViewById(R.id.btn_opportunity_back);
+        etName = v.findViewById(R.id.et_opportunity_name);
+        etCompany = v.findViewById(R.id.et_company);
+        etContact = v.findViewById(R.id.et_contact);
+        etValue = v.findViewById(R.id.et_value);
+        etStage = v.findViewById(R.id.sp_sales_stage);
+        etDate1 = v.findViewById(R.id.et_expected_date);
+        etDate2 = v.findViewById(R.id.et_expected_date_2);
+        etDesc = v.findViewById(R.id.et_description);
+        etManager = v.findViewById(R.id.et_management);
 
-        // Body
-        etOpportunityName = view.findViewById(R.id.et_opportunity_name);
-        etCompany = view.findViewById(R.id.et_company);
-        etContact = view.findViewById(R.id.et_contact);
-        etValue = view.findViewById(R.id.et_value);
-        spSalesStage = view.findViewById(R.id.sp_sales_stage);
-        etExpectedDate = view.findViewById(R.id.et_expected_date);
-        etExpectedDate2 = view.findViewById(R.id.et_expected_date_2);
-        etDescription = view.findViewById(R.id.et_description);
-        etManagement = view.findViewById(R.id.et_management);
-
-        // Footer
-        btnSave = view.findViewById(R.id.btn_save);
-        btnCancel = view.findViewById(R.id.btn_cancel);
+        btnSave = v.findViewById(R.id.btn_save);
+        btnCancel = v.findViewById(R.id.btn_cancel);
     }
 
-    private void readArguments() {
+    private void readArgs() {
         if (getArguments() != null) {
-            mode = getArguments().getString("mode", MODE_CREATE);
-            existingOpportunity = (Opportunity) getArguments().getSerializable("opportunity");
+            mode = getArguments().getString("mode");
+            existing = (Opportunity) getArguments().getSerializable("opportunity");
         }
 
-        if (MODE_UPDATE.equals(mode)) {
-            tvHeaderTitle.setText("Cập nhật cơ hội");
+        if ("update".equals(mode)) {
+            tvTitle.setText("Cập nhật cơ hội");
             btnSave.setText("Cập nhật");
         } else {
-            tvHeaderTitle.setText("Thêm cơ hội mới");
+            tvTitle.setText("Thêm cơ hội mới");
             btnSave.setText("Lưu");
         }
     }
 
-//    private void handleArguments() {
-//        if (getArguments() != null) {
-//            mode = getArguments().getString("mode", MODE_CREATE);
-//            existingOpportunity = (Opportunity) getArguments().getSerializable("opportunity");
-//
-//            if (MODE_UPDATE.equals(mode) && existingOpportunity != null) {
-//                populateForm(existingOpportunity);
-//                tvHeaderTitle.setText("Cập nhật cơ hội");
-//                btnSave.setText("Cập nhật");
-//            } else {
-//                tvHeaderTitle.setText("Thêm cơ hội mới");
-//                btnSave.setText("Lưu");
-//            }
-//        }
-//    }
-
     private void setupActions() {
         btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
         btnCancel.setOnClickListener(v -> requireActivity().finish());
+
         btnSave.setOnClickListener(v -> {
             try {
-                saveOpportunity(); // chỉ save khi user bấm
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
+                saveForm();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
 
     private void observeDropdowns() {
 
-        // COMPANY
-        formViewModel.getCompanies().observe(getViewLifecycleOwner(), list -> {
-            companyList = list;
-            companyReady = true;
-
-            ArrayAdapter<Company> ad = new ArrayAdapter<>(requireContext(),
-                    android.R.layout.simple_dropdown_item_1line, list);
-
-            etCompany.setAdapter(ad);
-            etCompany.setThreshold(0);
-            etCompany.setOnClickListener(v -> etCompany.showDropDown());
-
-            etCompany.setOnItemClickListener((p, v2, pos, id) ->
-                    formViewModel.setSelectedCompanyId(companyList.get(pos).getId())
-            );
-
-            tryPopulateForm();
+        formVM.getCompanies().observe(getViewLifecycleOwner(), list -> {
+            setAdapter(etCompany, list);
+            loaded1 = true;
+            if (mode.equals("update")) tryPopulate();
         });
 
-        // CONTACT
-        formViewModel.getContacts().observe(getViewLifecycleOwner(), list -> {
-            contactList = list;
-            contactReady = true;
-
-            ArrayAdapter<Contact> ad = new ArrayAdapter<>(requireContext(),
-                    android.R.layout.simple_dropdown_item_1line, list);
-
-            etContact.setAdapter(ad);
-            etContact.setThreshold(0);
-            etContact.setOnClickListener(v -> etContact.showDropDown());
-
-            etContact.setOnItemClickListener((p, v2, pos, id) ->
-                    formViewModel.setSelectedContactId(contactList.get(pos).getId())
-            );
-
-            tryPopulateForm();
+        formVM.getContacts().observe(getViewLifecycleOwner(), list -> {
+            setAdapter(etContact, list);
+            loaded2 = true;
+            if (mode.equals("update")) tryPopulate();
         });
 
-        // EMPLOYEE
-        formViewModel.getEmployees().observe(getViewLifecycleOwner(), list -> {
-            employeeList = list;
-            employeeReady = true;
+        formVM.getEmployees().observe(getViewLifecycleOwner(), list -> {
+            setAdapter(etManager, list);
+            loaded3 = true;
+            if (mode.equals("update")) tryPopulate();
+        });
+    }
 
-            ArrayAdapter<Employee> ad = new ArrayAdapter<>(requireContext(),
-                    android.R.layout.simple_dropdown_item_1line, list);
+    private <T> void setAdapter(AutoCompleteTextView ac, List<T> list) {
+        ArrayAdapter<T> ad = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_dropdown_item_1line, list);
+        ac.setAdapter(ad);
+        ac.setThreshold(0);
+        ac.setOnClickListener(v -> ac.showDropDown());
 
-            etManagement.setAdapter(ad);
-            etManagement.setThreshold(0);
-            etManagement.setOnClickListener(v -> etManagement.showDropDown());
+        ac.setOnItemClickListener((p, v, pos, id) -> {
+            if (list.get(pos) instanceof Company)
+                formVM.setSelectedCompanyId(((Company) list.get(pos)).getId());
 
-            etManagement.setOnItemClickListener((p, v2, pos, id) ->
-                    formViewModel.setSelectedManagementId(employeeList.get(pos).getId())
-            );
+            if (list.get(pos) instanceof Contact)
+                formVM.setSelectedContactId(((Contact) list.get(pos)).getId());
 
-            tryPopulateForm();
+            if (list.get(pos) instanceof Employee)
+                formVM.setSelectedManagementId(((Employee) list.get(pos)).getId());
         });
     }
 
@@ -242,173 +161,61 @@ public class OpportunityFormFragment extends Fragment {
                 "Đề xuất/ Báo giá",
                 "Thương lượng đàm phán"
         };
-
         ArrayAdapter<String> ad = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_dropdown_item_1line, stages);
-
-        spSalesStage.setAdapter(ad);
-        spSalesStage.setThreshold(0);
-        spSalesStage.setOnClickListener(v -> spSalesStage.showDropDown());
+        etStage.setAdapter(ad);
     }
 
-    private void tryPopulateForm() {
-        if (!MODE_UPDATE.equals(mode)) return;
-        if (existingOpportunity == null) return;
-        if (!companyReady || !contactReady || !employeeReady) return;
-
-        populateForm(existingOpportunity);
+    private void tryPopulate() {
+        if (!loaded1 || !loaded2 || !loaded3) return;
+        populateForm();
     }
 
-//    private void populateForm(Opportunity opportunity) {
-//        etOpportunityName.setText(opportunity.getTitle());
-//        etCompany.setText(String.valueOf(opportunity.getCompany()));
-//        etContact.setText(String.valueOf(opportunity.getContact()));
-//        // Format giá trị tiền tệ
-//        if (opportunity.getPrice() > 0) {
-//            NumberFormat format = NumberFormat.getInstance(Locale.getDefault());
-//            etValue.setText(format.format(opportunity.getPrice()));
-//        }        spSalesStage.setText(opportunity.getStatus());
-//        etExpectedDate.setText(opportunity.getDate());
-//        etExpectedDate2.setText(opportunity.getExpectedDate2());
-//        etDescription.setText(opportunity.getDescription());
-//        etManagement.setText(String.valueOf(opportunity.getManagement()));
-//    }
+    private void populateForm() {
+        etName.setText(existing.getTitle());
+        etValue.setText(String.valueOf(existing.getPrice()));
+        etDate1.setText(existing.getDate());
+        etDate2.setText(existing.getExpectedDate2());
+        etDesc.setText(existing.getDescription());
+        etStage.setText(existing.getStatus(), false);
 
+        etCompany.setText(
+                handler.findCompanyName(existing.getCompany(), formVM.getCompanies().getValue()),
+                false
+        );
 
+        etContact.setText(
+                handler.findContactName(existing.getContact(), formVM.getContacts().getValue()),
+                false
+        );
 
-
-//    private Opportunity createOpportunityFromForm() throws ParseException {
-//        // Parse giá trị tiền tệ
-//        double priceValue = 0;
-//        String priceStr = etValue.getText().toString().trim();
-//        if (!TextUtils.isEmpty(priceStr)) {
-//            priceStr = priceStr.replaceAll("[^\\d.]", "");
-//            if (!TextUtils.isEmpty(priceStr)) {
-//                priceValue = Double.parseDouble(priceStr);
-//            }
-//        }
-//
-//        // Lấy id nếu là update
-//        int id = (MODE_UPDATE.equals(mode) && existingOpportunity != null) ?
-//                existingOpportunity.getId() : 0;
-//
-//        // Lấy ID từ tên (cần hàm helper)
-//        int companyId = getCompanyIdFromName(etCompany.getText().toString().trim());
-//        int contactId = getContactIdFromName(etContact.getText().toString().trim());
-//        int managementId = getManagementIdFromName(etManagement.getText().toString().trim());
-//
-//        return new Opportunity(
-//                id,
-//                etOpportunityName.getText().toString().trim(),
-//                companyId,  // Thay vì String, dùng int ID
-//                contactId,   // Thay vì String, dùng int ID
-//                priceValue,
-//                spSalesStage.getText().toString().trim(),
-//                etExpectedDate.getText().toString().trim(),
-//                etExpectedDate2.getText().toString().trim(),
-//                etDescription.getText().toString().trim(),
-//                managementId, // Thay vì String, dùng int ID
-//                0,  // callCount
-//                0   // messageCount
-//        );
-//    }
-
-    // Helper methods để lấy ID từ tên
-//    private int getCompanyIdFromName(String companyName) {
-//        // TODO: Query database để lấy ID từ tên công ty
-//        // Tạm thời return 1 hoặc 0
-//        if (TextUtils.isEmpty(companyName)) return 0;
-//        return 1; // Hoặc logic mapping của bạn
-//    }
-//
-//    private int getContactIdFromName(String contactName) {
-//        // TODO: Query database để lấy ID từ tên liên hệ
-//        if (TextUtils.isEmpty(contactName)) return 0;
-//        return 1;
-//    }
-//
-//    private int getManagementIdFromName(String managementName) {
-//        // TODO: Query database để lấy ID nhân viên từ tên
-//        if (TextUtils.isEmpty(managementName)) return 0;
-//        return 1;
-//    }
-
-    private void populateForm(Opportunity o) {
-
-        etOpportunityName.setText(o.getTitle());
-        etValue.setText(String.valueOf(o.getPrice()));
-        etExpectedDate.setText(o.getDate());
-        etExpectedDate2.setText(o.getExpectedDate2());
-        etDescription.setText(o.getDescription());
-        spSalesStage.setText(o.getStatus(), false);
-
-        // Company
-        for (Company c : companyList) {
-            if (c.getId() == o.getCompany()) {
-                etCompany.setText(c.getName(), false);
-                formViewModel.setSelectedCompanyId(c.getId());
-                break;
-            }
-        }
-
-        // Contact
-        for (Contact ct : contactList) {
-            if (ct.getId() == o.getContact()) {
-                etContact.setText(ct.getFull_name(), false);
-                formViewModel.setSelectedContactId(ct.getId());
-                break;
-            }
-        }
-
-        // Employee
-        for (Employee e : employeeList) {
-            if (e.getId() == o.getManagement()) {
-                etManagement.setText(e.getName(), false);
-                formViewModel.setSelectedManagementId(e.getId());
-                break;
-            }
-        }
-    }
-
-    private Opportunity createOpportunityFromForm() throws ParseException {
-
-        int id = (MODE_UPDATE.equals(mode) && existingOpportunity != null)
-                ? existingOpportunity.getId() : 0;
-
-        double price = 0;
-        try {
-            String p = etValue.getText().toString().replaceAll("[^\\d.]", "");
-            if (!p.isEmpty()) price = Double.parseDouble(p);
-        } catch (Exception ignored) {}
-
-        return new Opportunity(
-                id,
-                etOpportunityName.getText().toString(),
-                formViewModel.getSelectedCompanyId(),
-                formViewModel.getSelectedContactId(),
-                price,
-                spSalesStage.getText().toString(),
-                etExpectedDate.getText().toString(),
-                etExpectedDate2.getText().toString(),
-                etDescription.getText().toString(),
-                formViewModel.getSelectedManagementId(),
-                0,
-                0
+        etManager.setText(
+                handler.findEmployeeName(existing.getManagement(), formVM.getEmployees().getValue()),
+                false
         );
     }
 
-    private void saveOpportunity() throws ParseException {
-        OpportunityViewModel vm =
-                new ViewModelProvider(requireActivity()).get(OpportunityViewModel.class);
+    private void saveForm() throws ParseException {
 
-        Opportunity o = createOpportunityFromForm();
-
-        if (o.getTitle().isEmpty()) {
-            etOpportunityName.setError("Không được để trống");
+        if (!handler.validateTitle(etName.getText().toString())) {
+            etName.setError("Không được để trống");
             return;
         }
 
-        if (MODE_UPDATE.equals(mode)) {
+        Opportunity o = formVM.createOpportunity(
+                mode,
+                existing,
+                etName.getText().toString(),
+                etValue.getText().toString(),
+                etStage.getText().toString(),
+                etDate1.getText().toString(),
+                etDate2.getText().toString(),
+                etDesc.getText().toString()
+        );
+
+        OpportunityViewModel vm = new ViewModelProvider(requireActivity()).get(OpportunityViewModel.class);
+
+        if (mode.equals("update")) {
             vm.update(o);
             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
         } else {
@@ -418,32 +225,4 @@ public class OpportunityFormFragment extends Fragment {
 
         requireActivity().getSupportFragmentManager().popBackStack();
     }
-
-    private int getCompanyIdFromName(String name) {
-        if (companyList == null) return 0;
-        for (Company c : companyList) {
-            if (c.getName().equalsIgnoreCase(name)) return c.getId();
-        }
-        return 0;
-    }
-
-    private int getContactIdFromName(String name) {
-        if (contactList == null) return 0;
-        for (Contact c : contactList) {
-            if (c.getFull_name().equalsIgnoreCase(name)) return c.getId();
-        }
-        return 0;
-    }
-
-    private int getManagementIdFromName(String name) {
-        if (employeeList == null) return 0;
-        for (Employee e : employeeList) {
-            if (e.getName().equalsIgnoreCase(name)) return e.getId();
-        }
-        return 0;
-    }
-
-
-
-
 }

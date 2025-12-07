@@ -61,25 +61,6 @@ public class OpportunityFragment extends Fragment {
         }
     }
 
-//    private void setupRecyclerView() {
-//        rvOpportunityBody.setLayoutManager(new LinearLayoutManager(getContext()));
-//        List<Opportunity> list = OpportunityRepository.getInstance(requireContext()).getAll();
-//        Log.d("OpportunityFragment", "Opportunities size = " + list.size());
-//        for (Opportunity o : list) {
-//            Log.d("OpportunityFragment", "Title: " + o.getTitle() + ", Price: " + o.getPrice());
-//        }
-//        opportunityAdapter = new AdapterOpportunity(
-//                list,
-//                (item, id, anchor) -> {
-//                    // Sử dụng id nếu muốn update/delete trực tiếp
-//                    OpportunityBottomSheetHelper.showBottomSheet(requireContext(), item, id, anchor);
-//                },
-//                (item, id) -> openOpportunityDetail(item)
-//        );
-//
-//        rvOpportunityBody.setAdapter(opportunityAdapter);
-//    }
-
     private void setupRecyclerView() {
         rvOpportunityBody.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -139,10 +120,10 @@ public class OpportunityFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Lấy dữ liệu mới từ Repository theo id
-        List<Opportunity> list = OpportunityRepository.getInstance(requireContext()).getAll();
-        if (opportunityAdapter != null) {
-            opportunityAdapter.setData(list);
+
+        // Chỉ cần yêu cầu ViewModel load lại dữ liệu
+        if (viewModel != null) {
+            viewModel.reloadData();   // hàm này bạn thêm trong OpportunityViewModel
         }
     }
 

@@ -57,4 +57,10 @@ public class OpportunityViewModel extends AndroidViewModel {
     public Opportunity getById(int id) {
         return repository.getById(id);
     }
+
+    public void reloadData() {
+        List<Opportunity> list = repository.getAll();
+        opportunities.setValue(list);
+    }
+
 }
