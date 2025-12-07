@@ -28,7 +28,6 @@ public class DetailLeadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_lead);
         initVariables();
         viewModelLead = new ViewModelProvider(this).get(ViewModelLead.class);
-
         lead = (Lead) getIntent().getSerializableExtra(AppConstant.LEAD_OBJECT);
 
         String full_name = lead.getTitle() + " " + lead.getHovaTendem() +" " + lead.getTen();
@@ -68,6 +67,12 @@ public class DetailLeadActivity extends AppCompatActivity {
         viewModelLead.Birthday.setValue(lead.getNgaysinh());
         viewModelLead.phonenumber.setValue(lead.getDienThoai());
         viewModelLead.Email.setValue(lead.getEmail());
+        viewModelLead.state.setValue(lead.getTinhTrang());
+        viewModelLead.Address.setValue(lead.getDiachi());
+        viewModelLead.Province.setValue(lead.getTinh());
+        viewModelLead.Job.setValue(lead.getNganhnghe());
+        viewModelLead.number_of_employees.setValue(lead.getSoNV());
+        viewModelLead.Revenue.setValue(lead.getDoanhThu());
     }
 
     private void initVariables() {

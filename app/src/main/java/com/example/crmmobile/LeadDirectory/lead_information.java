@@ -14,9 +14,12 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.crmmobile.AppConstant;
 import com.example.crmmobile.R;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -26,11 +29,11 @@ import java.util.function.Consumer;
 
 public class lead_information extends Fragment {
     private ViewModelLead viewModelLead;
+    private Lead lead;
     private TextInputLayout birthday_layout;
     private TextInputEditText state_detail, edt_birthday, edt_family_name,
-            edt_first_name, edt_phone_number, edt_email,
-            edt_state;
-    private AutoCompleteTextView edtTitle, edt_sex, edt_potential;
+            edt_first_name, edt_phone_number, edt_email;
+    private MaterialAutoCompleteTextView edtTitle, edt_sex, edt_potential, edt_state;
 
     public interface StringUpdater{
         void update(String s);
@@ -40,7 +43,6 @@ public class lead_information extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lead_information,container,false);
-
         return view;
     }
 
@@ -50,6 +52,25 @@ public class lead_information extends Fragment {
 
         initVariables(view);
         viewModelLead = new ViewModelProvider(requireActivity()).get(ViewModelLead.class);
+
+        bindViewModeltoEditext(viewModelLead.title, edtTitle);
+        bindViewModeltoEditext(viewModelLead.hovatendem, edt_family_name);
+        bindViewModeltoEditext(viewModelLead.first_name, edt_first_name);
+        bindViewModeltoEditext(viewModelLead.phonenumber, edt_phone_number);
+        bindViewModeltoEditext(viewModelLead.Email, edt_email);
+        bindViewModeltoEditext(viewModelLead.Sex, edt_sex);
+        bindViewModeltoEditext(viewModelLead.Birthday, edt_birthday);
+        bindViewModeltoEditext(viewModelLead.state, edt_state);
+        bindViewModeltoEditext(viewModelLead.state_detail, state_detail);
+
+        Bundle args = getArguments();
+        if (args != null && args.getSerializable(AppConstant.KEY_LEAD_DATA) != null){ //edit lead
+            lead = (Lead) args.getSerializable(AppConstant.KEY_LEAD_DATA);
+            getValueViewModel();
+        }else{
+            setEmptyEditText();
+        }
+
         //lưu giá trị mỗi khi user nhập
         bindEditTexttoViewModel(edtTitle, s -> viewModelLead.title.setValue(s));
         bindEditTexttoViewModel(edt_family_name, s -> viewModelLead.hovatendem.setValue(s));
@@ -61,6 +82,42 @@ public class lead_information extends Fragment {
         bindEditTexttoViewModel(edt_state, s-> viewModelLead.state.setValue(s));
         bindEditTexttoViewModel(state_detail, s -> viewModelLead.state_detail.setValue(s));
         bindEditTexttoViewModel(edt_potential, s -> viewModelLead.potential.setValue(s));
+    }
+
+    private void getValueViewModel() {
+        viewModelLead.title.setValue(lead.getTitle());
+        viewModelLead.hovatendem.setValue(lead.getHovaTendem());
+        viewModelLead.first_name.setValue(lead.getTen());
+        viewModelLead.phonenumber.setValue(lead.getDienThoai());
+        viewModelLead.Email.setValue(lead.getEmail());
+        viewModelLead.Sex.setValue(lead.getGioitinh());
+        viewModelLead.Birthday.setValue(lead.getNgaysinh());
+        viewModelLead.state.setValue(lead.getTinhTrang());
+        viewModelLead.state_detail.setValue(lead.getMota());
+    }
+
+    private void setEmptyEditText() {
+        viewModelLead.title.setValue("");
+        viewModelLead.hovatendem.setValue("");
+        viewModelLead.first_name.setValue("");
+        viewModelLead.phonenumber.setValue("");
+        viewModelLead.Email.setValue("");
+        viewModelLead.Sex.setValue("");
+        viewModelLead.Birthday.setValue("");
+        viewModelLead.state.setValue("");
+        viewModelLead.state_detail.setValue("");
+    }
+
+    private void bindViewModeltoEditext(MutableLiveData<String> title, EditText editText) {
+        title.observe(getViewLifecycleOwner(), v->{
+            if (v != null && !v.equals(editText.getText().toString())){
+                if(editText instanceof MaterialAutoCompleteTextView){
+                    ((MaterialAutoCompleteTextView)editText).setText(v,false);
+                }else{
+                    editText.setText(v);
+                }
+            }
+        });
     }
 
     private void initVariables(View view) {
@@ -85,6 +142,9 @@ public class lead_information extends Fragment {
             showDatePicker(edt_birthday);
         });
         edt_state = view.findViewById(R.id.edt_state);
+        String[] states = {"Mới", "Chưa liên hệ được", "Liên hệ sau", "Đã liên hệ", "Ngừng chăm sóc", "Đã chuyển đổi", ""};
+        ArrayAdapter<String> AdapterStates = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1, states);
+        edt_state.setAdapter(AdapterStates);
         state_detail = view.findViewById(R.id.state_detail);
         edt_potential = view.findViewById(R.id.edt_potential);
     }

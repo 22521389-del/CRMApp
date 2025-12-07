@@ -180,19 +180,16 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@android:color/transparent"/>
 
-            <TextView
-                android:id="@+id/tv_opportunity_status"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đã liên hệ"
-                android:background="@drawable/bg_contacted"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="5dp"
+                android:text="Mới"
                 android:textSize="12.5sp"
-                android:textColor="@color/brown" />
-
+                app:chipCornerRadius="15dp"/>
         </LinearLayout>
         <!--End day-->
 

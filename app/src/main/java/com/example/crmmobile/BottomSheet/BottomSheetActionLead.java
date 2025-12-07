@@ -17,6 +17,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.util.List;
 
 public class BottomSheetActionLead {
+
+    public interface OnActionListenerLead{
+        void onEdit(Lead lead);
+        void onDelete(Lead lead);
+    }
     private static void addActionItemLead(Context context, LinearLayout parent, int iconRes, String text, Runnable run){
         View view = LayoutInflater.from(context).inflate(R.layout.item_action, parent, false);
 
@@ -33,7 +38,7 @@ public class BottomSheetActionLead {
         parent.addView(view);
     }
 
-    public static void ShowBottomSheetLead(Context context, List<Lead> item, int position, Runnable reload){
+    public static void ShowBottomSheetLead(Context context, Lead lead,  OnActionListenerLead listener){
         BottomSheetDialog dialog = new BottomSheetDialog(context);
         View view = LayoutInflater.from(context).inflate(R.layout.layout_more_actions, null);
 
@@ -54,14 +59,14 @@ public class BottomSheetActionLead {
             dialog.dismiss();
         });
         addActionItemLead(context, layoutAction, R.drawable.ic_pencil, "Chỉnh sửa", ()->{
-            Intent intent = new Intent(context, EditLeadActivity.class);
-            context.startActivity(intent);
+            if(listener != null) listener.onEdit(lead);
             dialog.dismiss();
         });
         addActionItemLead(context, layoutAction, R.drawable.ic_garbage, "Xóa", () ->{
-            reload.run();
+//            reload.run();
+//            dialog.dismiss();
+            if(listener != null) listener.onDelete(lead);
             dialog.dismiss();
-
         });
 
         dialog.setContentView(view);

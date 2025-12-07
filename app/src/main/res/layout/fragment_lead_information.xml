@@ -44,7 +44,7 @@
                     app:endIconMode="dropdown_menu"
                     android:paddingEnd="4dp"
                     android:paddingStart="8dp">
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/edt_title"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -155,7 +155,7 @@
                 android:textColorHint="@color/icon_infor"
                 android:layout_marginTop="10dp">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/edt_sex"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -199,13 +199,16 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/rounded_input_box"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                app:endIconMode="dropdown_menu"
                 android:textColorHint="@color/icon_infor"
                 android:layout_marginTop="10dp">
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/edt_state"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textSize="14sp"
+                    android:inputType="none"
                     android:hint="@string/state_infor"
                     android:background="@android:color/transparent"
                     android:paddingStart="@dimen/margin_base"
@@ -287,7 +290,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/rounded_input_box">
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/edt_potential"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

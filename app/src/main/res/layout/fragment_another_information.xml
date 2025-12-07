@@ -103,14 +103,14 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:hint="@string/job_infor"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     app:endIconMode="dropdown_menu"
                     >
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/job_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/job_infor"
                         android:textSize="14sp"
                         android:paddingStart="4dp"
                         android:paddingEnd="4dp"
@@ -129,7 +129,7 @@
                     app:endIconDrawable="@drawable/ic_dong"
                     android:textColorHint="@color/icon_infor">
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/edt_revenue"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -172,7 +172,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:textColorHint="@color/icon_infor">
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/company_detail"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -430,7 +430,7 @@
                 android:hint="@string/hint_management"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 app:endIconMode="dropdown_menu">
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/tv_sendto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

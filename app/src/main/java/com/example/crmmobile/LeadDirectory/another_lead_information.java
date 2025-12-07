@@ -12,9 +12,12 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.crmmobile.AppConstant;
 import com.example.crmmobile.R;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
@@ -23,7 +26,8 @@ public class another_lead_information extends Fragment {
     private TextInputEditText company_name, edt_tax, number_of_employees, edt_district
             , edt_address, edt_province, edt_nation;
     private ViewModelLead viewModelLead;
-    private AutoCompleteTextView tv_sendto, job_name, edt_revenue;
+    private Lead lead;
+    private MaterialAutoCompleteTextView tv_sendto, job_name, edt_revenue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +44,23 @@ public class another_lead_information extends Fragment {
         initVariables(view);
         viewModelLead = new ViewModelProvider(requireActivity()).get(ViewModelLead.class);
 
+        bindViewModeltoEditext(viewModelLead.Sendto, tv_sendto);
+        bindViewModeltoEditext(viewModelLead.company, company_name);
+        bindViewModeltoEditext(viewModelLead.Tax, edt_tax);
+        bindViewModeltoEditext(viewModelLead.number_of_employees, number_of_employees);
+        bindViewModeltoEditext(viewModelLead.District, edt_district);
+        bindViewModeltoEditext(viewModelLead.Address, edt_address);
+        bindViewModeltoEditext(viewModelLead.Province, edt_province);
+        bindViewModeltoEditext(viewModelLead.Nation, edt_nation);
+
+        Bundle args = getArguments();
+        if (args != null && args.getSerializable(AppConstant.KEY_LEAD_DATA) != null){ //edit lead
+            lead = (Lead) args.getSerializable(AppConstant.KEY_LEAD_DATA);
+            getValueViewModel();
+        }else{
+            setEmptyEditText();
+        }
+
         bindEditTexttoViewModel(tv_sendto, s -> viewModelLead.Sendto.setValue(s));
         bindEditTexttoViewModel(company_name, s -> viewModelLead.company.setValue(s));
         bindEditTexttoViewModel(edt_tax, s -> viewModelLead.Tax.setValue(s));
@@ -48,6 +69,28 @@ public class another_lead_information extends Fragment {
         bindEditTexttoViewModel(edt_address, s -> viewModelLead.Address.setValue(s));
         bindEditTexttoViewModel(edt_province, s -> viewModelLead.Province.setValue(s));
         bindEditTexttoViewModel(edt_nation, s -> viewModelLead.Nation.setValue(s));
+    }
+
+    private void setEmptyEditText() {
+        viewModelLead.Sendto.setValue("");
+        viewModelLead.company.setValue("");
+        viewModelLead.Tax.setValue("");
+        viewModelLead.number_of_employees.setValue("");
+        viewModelLead.District.setValue("");
+        viewModelLead.Address.setValue("");
+        viewModelLead.Province.setValue("");
+        viewModelLead.Nation.setValue("");
+    }
+
+    private void getValueViewModel() {
+        viewModelLead.Sendto.setValue(lead.getGiaocho());
+        viewModelLead.company.setValue(lead.getCongty());
+        viewModelLead.Tax.setValue(lead.getMaThue());
+        viewModelLead.number_of_employees.setValue(lead.getSoNV());
+        viewModelLead.District.setValue(lead.getQuanHuyen());
+        viewModelLead.Address.setValue(lead.getDiachi());
+        viewModelLead.Province.setValue(lead.getTinh());
+        viewModelLead.Nation.setValue(lead.getQuocGia());
     }
 
     private void initVariables(View view) {
@@ -81,5 +124,16 @@ public class another_lead_information extends Fragment {
                 }
             }
         );
+    }
+
+    private void bindViewModeltoEditext(MutableLiveData<String> title, EditText editText) {
+        title.observe(getViewLifecycleOwner(), v->{
+            if (v != null && !v.equals(editText.getText().toString())){
+                editText.setText(v);
+                if(editText instanceof MaterialAutoCompleteTextView){
+                    ((MaterialAutoCompleteTextView)editText).setText(v,false);
+                }
+            }
+        });
     }
 }
