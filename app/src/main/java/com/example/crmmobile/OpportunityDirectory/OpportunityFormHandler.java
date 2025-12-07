@@ -76,4 +76,9 @@ public class OpportunityFormHandler {
 
     public static final String MODE_CREATE = "create";
     public static final String MODE_UPDATE = "update";
+
+    public String formatSelectedDate(int day, int month, int year) {
+        return day + "/" + (month + 1) + "/" + year;
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.example.crmmobile.OpportunityDirectory;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.List;
 
 import com.example.crmmobile.R;
@@ -64,6 +67,9 @@ public class OpportunityFormFragment extends Fragment {
         setupActions();
         observeDropdowns();
         setupStaticDropdowns();
+
+        setupDatePickerIcon(etDate1);
+        setupDatePickerIcon(etDate2);
 
         return v;
     }
@@ -165,6 +171,38 @@ public class OpportunityFormFragment extends Fragment {
                 android.R.layout.simple_dropdown_item_1line, stages);
         etStage.setAdapter(ad);
     }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void setupDatePickerIcon(EditText edt) {
+        edt.setOnTouchListener((v, event) -> {
+            if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                int drawableRight = 2;
+                if (event.getRawX() >= (edt.getRight() - edt.getCompoundDrawables()[drawableRight].getBounds().width())) {
+                    openDatePicker(edt);
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
+
+    private void openDatePicker(EditText targetEdt) {
+        final Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(
+                requireContext(),
+                (view, y, m, d) -> {
+                    String formatted = handler.formatSelectedDate(d, m, y);
+                    targetEdt.setText(formatted);
+                },
+                year, month, day
+        );
+        dialog.show();
+    }
+
 
     private void tryPopulate() {
         if (!loaded1 || !loaded2 || !loaded3) return;
