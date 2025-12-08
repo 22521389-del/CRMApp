@@ -7,6 +7,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.List;
 
+import com.example.crmmobile.OpportunityDirectory.Opportunity;
+
 public class OpportunityDetailPagerAdapter extends FragmentStateAdapter {
 
     private final List<String> tabTitles;

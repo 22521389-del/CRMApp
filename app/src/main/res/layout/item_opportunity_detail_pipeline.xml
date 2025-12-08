@@ -14,7 +14,7 @@
 
         <!-- Bước 1: Đã hoàn thành -->
         <View
-            android:id="@+id/v_pineline_step1_connector_start"
+            android:id="@+id/v_pineline_step1_start"
             android:layout_width="20dp"
             android:layout_height="2dp"
             android:background="@color/blue" />
@@ -24,7 +24,7 @@
             android:layout_height="24dp"
             android:src="@drawable/ic_step_current" />
         <View
-            android:id="@+id/v_pineline_step1_connector_end"
+            android:id="@+id/v_pineline_step1_connector"
             android:layout_width="40dp"
             android:layout_height="2dp"
             android:background="@color/blue" />
@@ -46,7 +46,7 @@
             android:id="@+id/iv_pineline_step3_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_stepdone" />
+            android:src="@drawable/ic_step_done" />
         <View
             android:id="@+id/v_pineline_step3_connector"
             android:layout_width="60dp"
@@ -58,7 +58,7 @@
             android:id="@+id/iv_pineline_step4_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_stepdone" />
+            android:src="@drawable/ic_step_done" />
         <View
             android:id="@+id/v_pineline_step4_connector"
             android:layout_width="60dp"

@@ -24,11 +24,11 @@ public class AdapterOpportunity extends RecyclerView.Adapter<AdapterOpportunity.
     // Interface callback
     public interface OnMenuClickListener {
         // position giúp xác định item, anchorView để bottomsheet có thể neo vào view
-        void onMenuClick(Opportunity item, int position, View anchorView);
+        void onMenuClick(Opportunity item, int id, View anchorView);
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Opportunity item, int position);
+        void onItemClick(Opportunity item, int id);
     }
 
     public AdapterOpportunity(List<Opportunity> opportunityList,
@@ -52,21 +52,23 @@ public class AdapterOpportunity extends RecyclerView.Adapter<AdapterOpportunity.
         Opportunity item = opportunityList.get(position);
 
         holder.tvTitle.setText(item.getTitle());
-        holder.tvPrice.setText(item.getPrice());
+        // Bằng 1 trong các cách:
+        holder.tvPrice.setText(String.valueOf(item.getPrice())); // Cách 1: chuyển thành string
+//        holder.tvPrice.setText(item.getPrice() + " đ"); // Cách 2: thêm đơn vị
         holder.tvDate.setText(item.getDate());
         holder.tvStatus.setText(item.getStatus());
         holder.tvCallCount.setText(String.valueOf(item.getCallCount()));
         holder.tvMessageCount.setText(String.valueOf(item.getMessageCount()));
-        holder.tvExchange.setText(item.getExchangeText());
+        holder.tvExchange.setText(item.getDescription());
 
         // Khi bấm nút menu 3 chấm: truyền cả view làm anchor, và position
         holder.ivMenu.setOnClickListener(v -> {
-            if (menuListener != null) menuListener.onMenuClick(item, holder.getAdapterPosition(), v);
+            if (menuListener != null) menuListener.onMenuClick(item, item.getId(), v);
         });
 
         // Khi bấm cả card -> open detail (position cũng truyền)
         holder.itemView.setOnClickListener(v -> {
-            if (itemListener != null) itemListener.onItemClick(item, holder.getAdapterPosition());
+            if (itemListener != null) itemListener.onItemClick(item, item.getId());
         });
     }
 

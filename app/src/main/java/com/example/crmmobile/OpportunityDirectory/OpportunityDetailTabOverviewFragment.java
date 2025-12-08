@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.crmmobile.OpportunityDirectory.Opportunity;
 import com.example.crmmobile.R;
 
 public class OpportunityDetailTabOverviewFragment extends Fragment {

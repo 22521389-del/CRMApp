@@ -7,61 +7,76 @@ public class Opportunity implements Serializable {
     private int callCount;
     private int messageCount;
 
+    private int id;                 // Id cơ hội
     private String title;          // Tên cơ hội
-    private String company;        // Công ty
-    private String contact;        // Liên hệ
-    private String price;          // Giá trị (Value)
+    private int company;        // Công ty
+    private int contact;        // Liên hệ
+    private double price;          // Giá trị (Value)
     private String status;         // Sales stage
-    private String successRate;    // Success rate
     private String date;           // Expected close date
     private String expectedDate2;  // Expected close date 2
-    private String exchangeText;   // Description
-    private String management;     // Management
+    private String description;   // Description
+    private int management;     // Management
 
-    public Opportunity(String title, String price, String date, String status,
-                       int callCount, int messageCount, String exchangeText) {
+    public Opportunity() {} // empty constructor
+
+    public Opportunity(int id, String title, double price, String date, String status,
+                       int callCount, int messageCount, String description) {
+        this.id = id;
         this.title = title;
         this.price = price;
         this.date = date;
         this.status = status;
         this.callCount = callCount;
         this.messageCount = messageCount;
-        this.exchangeText = exchangeText;
+        this.description = description;
     }
-    public Opportunity(String title, String company, String contact, String price,
-                       String status, String successRate, String date,
-                       String expectedDate2, String exchangeText, String management) {
+    public Opportunity(int id, String title, int company, int contact, double price,
+                       String status, String date,
+                       String expectedDate2, String description, int management,int callCount, int messageCount) {
+        this.id = id;
         this.title = title;
         this.company = company;
         this.contact = contact;
         this.price = price;
         this.status = status;
-        this.successRate = successRate;
         this.date = date;
         this.expectedDate2 = expectedDate2;
-        this.exchangeText = exchangeText;
+        this.description = description;
         this.management = management;
     }
+
+    // Constructor cho tạo mới (không có id)
+    public Opportunity(String title, int company, int contact,
+                       double price, String status, String date, String expectedDate2,
+                       String description, int management) {
+        this(0, title, company, contact, price, status, date, expectedDate2,
+                description, management, 0, 0);
+    }
+
 
     // --- GETTER ---
 
     public int getCallCount() { return callCount; }
     public int getMessageCount() { return messageCount; }
 
+    public int getId() {
+        return id;
+    }
 
     public String getTitle() {
         return title;
     }
 
-    public String getCompany() {
+    public int getCompany() {
         return company;
     }
 
-    public String getContact() {
+    public int getContact() {
         return contact;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -69,9 +84,6 @@ public class Opportunity implements Serializable {
         return status;
     }
 
-    public String getSuccessRate() {
-        return successRate;
-    }
 
     public String getDate() {
         return date;
@@ -81,37 +93,37 @@ public class Opportunity implements Serializable {
         return expectedDate2;
     }
 
-    public String getExchangeText() {
-        return exchangeText;
+    public String getDescription() {
+        return description;
     }
 
-    public String getManagement() {
+    public int getManagement() {
         return management;
     }
 
     // --- SETTER (nếu bạn cần cập nhật sau này) ---
+    public void setId(int id){
+        this.id = id;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public void setCompany(String company) {
+    public void setCompany(int company) {
         this.company = company;
     }
 
-    public void setContact(String contact) {
+    public void setContact(int contact) {
         this.contact = contact;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public void setSuccessRate(String successRate) {
-        this.successRate = successRate;
     }
 
     public void setDate(String date) {
@@ -122,11 +134,11 @@ public class Opportunity implements Serializable {
         this.expectedDate2 = expectedDate2;
     }
 
-    public void setExchangeText(String exchangeText) {
-        this.exchangeText = exchangeText;
+    public void setdescription(String description) {
+        this.description = description;
     }
 
-    public void setManagement(String management) {
+    public void setManagement(int management) {
         this.management = management;
     }
 }
