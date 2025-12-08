@@ -1,4 +1,4 @@
-package com.example.crmmobile.BottomSheet;
+package com.example.crmmobile.OpportunityDirectory;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,11 +8,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.crmmobile.OpportunityDirectory.Opportunity;
 import com.example.crmmobile.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.example.crmmobile.OpportunityDirectory.Opportunity;
-import com.example.crmmobile.OpportunityDirectory.OpportunityRepository;
-
 
 public class OpportunityBottomSheetHelper {
 

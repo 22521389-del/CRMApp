@@ -202,6 +202,17 @@ public class DBCRMHandler extends SQLiteOpenHelper {
                 "MOTA_THEM TEXT," +
                 "FOREIGN KEY(NGUOITAO) REFERENCES NHANVIEN(ID) ON DELETE SET NULL" +
                 ");");
+
+        // Seed data - opportunity
+        // Seed data - opportunity (đầy đủ các cột)
+        db.execSQL("INSERT INTO COHOI(TENCOHOI, CONGTY, NGUOILIENHE, GIATRI, BUOCBANHANG, MOTA, GIAOCHO, NGAYTAO, NGAYCHOT) " +
+                "VALUES('Phần mềm CloudWork', 1, 1, 14875000.0, 'Thương lượng đàm phán', 'Trao đổi (1)', 1, '17/07/2024', '27/07/2024')");
+
+        db.execSQL("INSERT INTO COHOI(TENCOHOI, CONGTY, NGUOILIENHE, GIATRI, BUOCBANHANG, MOTA, GIAOCHO, NGAYTAO, NGAYCHOT) " +
+                "VALUES('Ứng dụng CRM Mobile', 2, 2, 22300000.0, 'Phân tích nhận thức', 'Trao đổi (3)', 1, '12/08/2024', '22/08/2024')");
+
+        db.execSQL("INSERT INTO COHOI(TENCOHOI, CONGTY, NGUOILIENHE, GIATRI, BUOCBANHANG, MOTA, GIAOCHO, NGAYTAO, NGAYCHOT) " +
+                "VALUES('Website Quản lý Dự án', 3, 3, 9700000.0, 'Đề xuất/ Báo giá', 'Trao đổi (3)', 2, '05/09/2024', '15/09/2024')");
     }
 
     @Override
@@ -212,105 +223,5 @@ public class DBCRMHandler extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS " + table);
         }
         onCreate(db);
-    }
-
-    public void add(CaNhan cn) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        // Thay KEY_HOTEN bằng "HOTEN", KEY_DANHXUNG bằng "DANHXUNG"...
-        values.put("HOTEN", cn.getHoVaTen());
-        values.put("DANHXUNG", cn.getDanhXung());
-        values.put("TEN", cn.getTen());
-        values.put("CONGTY", cn.getCongTy());
-        values.put("GIOITINH", cn.getGioiTinh());
-        values.put("DIENTHOAI", cn.getDiDong());
-        values.put("EMAIL", cn.getEmail());
-        values.put("NGAYSINH", cn.getNgaySinh());
-        values.put("NGAYTAO", cn.getNgayTao());
-        values.put("DIACHI", cn.getDiaChi());
-        values.put("QUANHUYEN", cn.getQuanHuyen());
-        values.put("TINHTP", cn.getTinhTP());
-        values.put("QUOCGIA", cn.getQuocGia());
-        values.put("MOTA", cn.getMoTa());
-        values.put("GHICHU", cn.getGhiChu());
-        values.put("GIAOCHO", cn.getGiaoCho());
-        values.put("CUOCGOI", cn.getSoCuocGoi());
-        values.put("CUOCHOP", cn.getSoCuocHop());
-
-        db.insert("CONTACT", null, values); // Dùng trực tiếp tên bảng "CONTACT"
-        db.close();
-    }
-
-
-    public List<CaNhan> getAllCaNhan() {
-        List<CaNhan> list = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM CONTACT", null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                CaNhan cn = new CaNhan();
-                // Dùng getColumnIndexOrThrow với chuỗi cứng
-                cn.setId(cursor.getInt(cursor.getColumnIndexOrThrow("ID")));
-                cn.setHoVaTen(cursor.getString(cursor.getColumnIndexOrThrow("HOTEN")));
-                cn.setDanhXung(cursor.getString(cursor.getColumnIndexOrThrow("DANHXUNG")));
-                cn.setTen(cursor.getString(cursor.getColumnIndexOrThrow("TEN")));
-                cn.setCongTy(cursor.getString(cursor.getColumnIndexOrThrow("CONGTY")));
-                cn.setGioiTinh(cursor.getString(cursor.getColumnIndexOrThrow("GIOITINH")));
-                cn.setDiDong(cursor.getString(cursor.getColumnIndexOrThrow("DIENTHOAI")));
-                cn.setEmail(cursor.getString(cursor.getColumnIndexOrThrow("EMAIL")));
-                cn.setNgaySinh(cursor.getString(cursor.getColumnIndexOrThrow("NGAYSINH")));
-                cn.setNgayTao(cursor.getString(cursor.getColumnIndexOrThrow("NGAYTAO")));
-                cn.setDiaChi(cursor.getString(cursor.getColumnIndexOrThrow("DIACHI")));
-                cn.setQuanHuyen(cursor.getString(cursor.getColumnIndexOrThrow("QUANHUYEN")));
-                cn.setTinhTP(cursor.getString(cursor.getColumnIndexOrThrow("TINHTP")));
-                cn.setQuocGia(cursor.getString(cursor.getColumnIndexOrThrow("QUOCGIA")));
-                cn.setMoTa(cursor.getString(cursor.getColumnIndexOrThrow("MOTA")));
-                cn.setGhiChu(cursor.getString(cursor.getColumnIndexOrThrow("GHICHU")));
-                cn.setGiaoCho(cursor.getString(cursor.getColumnIndexOrThrow("GIAOCHO")));
-                cn.setSoCuocGoi(cursor.getInt(cursor.getColumnIndexOrThrow("CUOCGOI")));
-                cn.setSoCuocHop(cursor.getInt(cursor.getColumnIndexOrThrow("CUOCHOP")));
-                list.add(cn);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return list;
-    }
-
-    public void deleteCaNhan(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        // Dùng "CONTACT" và "ID"
-        db.delete("CONTACT", "ID=?", new String[]{String.valueOf(id)});
-        db.close();
-    }
-
-    public int updateCaNhan(CaNhan cn) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put("HOTEN", cn.getHoVaTen());
-        values.put("DANHXUNG", cn.getDanhXung());
-        values.put("TEN", cn.getTen());
-        values.put("CONGTY", cn.getCongTy());
-        values.put("GIOITINH", cn.getGioiTinh());
-        values.put("DIENTHOAI", cn.getDiDong());
-        values.put("EMAIL", cn.getEmail());
-        values.put("NGAYSINH", cn.getNgaySinh());
-        values.put("NGAYTAO", cn.getNgayTao());
-        values.put("DIACHI", cn.getDiaChi());
-        values.put("QUANHUYEN", cn.getQuanHuyen());
-        values.put("TINHTP", cn.getTinhTP());
-        values.put("QUOCGIA", cn.getQuocGia());
-        values.put("MOTA", cn.getMoTa());
-        values.put("GHICHU", cn.getGhiChu());
-        values.put("GIAOCHO", cn.getGiaoCho());
-        values.put("CUOCGOI", cn.getSoCuocGoi());
-        values.put("CUOCHOP", cn.getSoCuocHop());
-
-        int result = db.update("CONTACT", values, "ID=?", new String[]{String.valueOf(cn.getId())});
-        db.close();
-        return result;
     }
 }
