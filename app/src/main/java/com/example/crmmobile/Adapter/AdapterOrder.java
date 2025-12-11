@@ -19,7 +19,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.util.List;
 
 public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.OrderViewHolder> {
-
     private List<Order> orders;
     private Context context;
 
