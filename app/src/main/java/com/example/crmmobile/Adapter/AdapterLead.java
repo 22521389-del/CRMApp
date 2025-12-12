@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,8 +47,8 @@ public class AdapterLead extends RecyclerView.Adapter<AdapterLead.LeadViewHolder
     }
 
     public static class LeadViewHolder extends RecyclerView.ViewHolder{
-        TextView tv_name, tv_Company, tv_day;
-        ImageView ivDots;
+        TextView tv_name, tv_Company, tv_day, tv_job;
+        ImageButton ivDots;
         Chip chip_status;
 
         public LeadViewHolder(View itemView){
@@ -57,6 +58,7 @@ public class AdapterLead extends RecyclerView.Adapter<AdapterLead.LeadViewHolder
             tv_day = itemView.findViewById(R.id.tv_Day);
             ivDots = itemView.findViewById(R.id.iv_dots);
             chip_status = itemView.findViewById(R.id.chip_status);
+            tv_job = itemView.findViewById(R.id.tv_job);
         }
 
     }
@@ -89,7 +91,7 @@ public class AdapterLead extends RecyclerView.Adapter<AdapterLead.LeadViewHolder
         viewHolder.tv_name.setText(full_name);
         viewHolder.tv_Company.setText(lead.getCongty());
         viewHolder.tv_day.setText(lead.getNgayLienHe());
-
+        viewHolder.tv_job.setText(lead.getNganhnghe());
 
         viewHolder.ivDots.setOnClickListener(v -> {
             if(listener != null){

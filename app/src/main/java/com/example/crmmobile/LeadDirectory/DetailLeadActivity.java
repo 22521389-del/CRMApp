@@ -70,9 +70,15 @@ public class DetailLeadActivity extends AppCompatActivity {
         viewModelLead.state.setValue(lead.getTinhTrang());
         viewModelLead.Address.setValue(lead.getDiachi());
         viewModelLead.Province.setValue(lead.getTinh());
+        viewModelLead.company.setValue(lead.getCongty());
+        viewModelLead.District.setValue(lead.getQuanHuyen());
+        viewModelLead.Nation.setValue(lead.getQuocGia());
         viewModelLead.Job.setValue(lead.getNganhnghe());
         viewModelLead.number_of_employees.setValue(lead.getSoNV());
         viewModelLead.Revenue.setValue(lead.getDoanhThu());
+        viewModelLead.state.setValue(lead.getTinhTrang());
+        viewModelLead.state_detail.setValue(lead.getMota());
+        viewModelLead.Tax.setValue(lead.getMaThue());
     }
 
     private void initVariables() {

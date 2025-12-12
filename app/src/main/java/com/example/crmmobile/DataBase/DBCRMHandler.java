@@ -14,8 +14,7 @@ import java.util.List;
 public class DBCRMHandler extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "crm.db";
-    private static final int DATABASE_VERSION = 3;
-
+    private static final int DATABASE_VERSION = 4;
     public DBCRMHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -62,13 +61,21 @@ public class DBCRMHandler extends SQLiteOpenHelper {
                 "DIENTHOAI TEXT," +
                 "EMAIL TEXT," +
                 "NGAYSINH TEXT," +
+                "NGANHNGHE TEXT," +
                 "GIOITINH TEXT," +
                 "DIACHI TEXT," +
+                "QUANHUYEN TEXT," +
+                "TINH TEXT," +
+                "THANHPHO TEXT," +
+                "QUOCGIA TEXT," +
                 "CHUCVU TEXT," +
                 "CONGTY TEXT," +
+                "DOANHTHU TEXT," +
+                "SONV TEXT," +
+                "MASOTHUE TEXT," +
                 "TINHTRANG TEXT," +
                 "MOTA TEXT," +
-                "GIAOCHO INTEGER," +
+                "GIAOCHO TEXT," +
                 "NGAYLIENHE TEXT," +
                 "FOREIGN KEY(GIAOCHO) REFERENCES NHANVIEN(ID) ON DELETE SET NULL" +
                 ");");
