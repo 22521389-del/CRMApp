@@ -55,13 +55,13 @@
                 app:layout_constraintEnd_toStartOf="@id/iv_dots"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/iv_dots"
                 android:contentDescription="@null"
                 android:layout_width="30dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_more_vert"
-                android:foregroundGravity="center"
+                android:background="@android:color/transparent"
                 app:tint="@color/gray_dark"
                 />
 
@@ -91,7 +91,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/cus_Company"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:layout_marginStart="8dp"/>
 
         </LinearLayout>
         <!--End company-->
@@ -123,31 +124,14 @@
                 android:textStyle="normal"
                 android:text="@string/job_infor"
                 android:layout_marginStart="8dp"/>
-
-            <ImageView
-                android:id="@+id/iv_job"
-                android:contentDescription="@null"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/ic_briefcase"
-                app:tint="@color/color_icon" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Nhân viên kinh doanh"
-                android:textSize="13sp"
-                android:layout_marginStart="8dp"/>
         </LinearLayout>
         <!-- End job-->
 
         <!--Day-->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ll_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="6dp"
             android:gravity="center_vertical"
             app:layout_constraintTop_toBottomOf="@id/ll_job"
@@ -159,7 +143,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <ImageView
                     android:layout_width="18dp"
@@ -169,29 +156,25 @@
 
                 <TextView
                     android:id="@+id/tv_Day"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/cus_Day"
                     android:textSize="13sp"
                     android:layout_marginStart="8dp"
                     />
             </LinearLayout>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"/>
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mới"
-                android:textSize="12.5sp"
-                app:chipCornerRadius="15dp"/>
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <!--End day-->
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mới"
+            android:textSize="12.5sp"
+            app:chipCornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ll_job" />
 
         <!--called and comments-->
         <LinearLayout

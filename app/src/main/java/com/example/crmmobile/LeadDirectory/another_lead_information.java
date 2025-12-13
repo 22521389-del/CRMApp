@@ -23,11 +23,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Objects;
 
 public class another_lead_information extends Fragment {
-    private TextInputEditText company_name, edt_tax, number_of_employees, edt_district
-            , edt_address, edt_province, edt_nation;
+    private TextInputEditText company_name, edt_tax, number_of_employees, edt_district,
+            edt_address, edt_province, edt_nation, job_name;
     private ViewModelLead viewModelLead;
     private Lead lead;
-    private MaterialAutoCompleteTextView tv_sendto, job_name, edt_revenue;
+    private MaterialAutoCompleteTextView tv_sendto, edt_revenue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +52,7 @@ public class another_lead_information extends Fragment {
         bindViewModeltoEditext(viewModelLead.Address, edt_address);
         bindViewModeltoEditext(viewModelLead.Province, edt_province);
         bindViewModeltoEditext(viewModelLead.Nation, edt_nation);
+        bindViewModeltoEditext(viewModelLead.Job, job_name);
 
         Bundle args = getArguments();
         if (args != null && args.getSerializable(AppConstant.KEY_LEAD_DATA) != null){ //edit lead
@@ -69,6 +70,7 @@ public class another_lead_information extends Fragment {
         bindEditTexttoViewModel(edt_address, s -> viewModelLead.Address.setValue(s));
         bindEditTexttoViewModel(edt_province, s -> viewModelLead.Province.setValue(s));
         bindEditTexttoViewModel(edt_nation, s -> viewModelLead.Nation.setValue(s));
+        bindEditTexttoViewModel(job_name, s -> viewModelLead.Job.setValue(s));
     }
 
     private void setEmptyEditText() {
@@ -80,6 +82,7 @@ public class another_lead_information extends Fragment {
         viewModelLead.Address.setValue("");
         viewModelLead.Province.setValue("");
         viewModelLead.Nation.setValue("");
+        viewModelLead.Job.setValue("");
     }
 
     private void getValueViewModel() {
@@ -91,6 +94,7 @@ public class another_lead_information extends Fragment {
         viewModelLead.Address.setValue(lead.getDiachi());
         viewModelLead.Province.setValue(lead.getTinh());
         viewModelLead.Nation.setValue(lead.getQuocGia());
+        viewModelLead.Job.setValue(lead.getNganhnghe());
     }
 
     private void initVariables(View view) {
@@ -129,9 +133,10 @@ public class another_lead_information extends Fragment {
     private void bindViewModeltoEditext(MutableLiveData<String> title, EditText editText) {
         title.observe(getViewLifecycleOwner(), v->{
             if (v != null && !v.equals(editText.getText().toString())){
-                editText.setText(v);
                 if(editText instanceof MaterialAutoCompleteTextView){
                     ((MaterialAutoCompleteTextView)editText).setText(v,false);
+                }else{
+                    editText.setText(v);
                 }
             }
         });

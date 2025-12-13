@@ -35,7 +35,7 @@
     <string name="birthday">Ngày sinh</string>
     <string name="state_infor">Tình trạng</string>
     <string name="state_detail">Mô tả tình trạng</string>
-    <string name="another_email">Email khác</string>
+    <string name="contact_day">Ngày liên hệ</string>
     <string name="another_phone">Số điện thoại khác</string>
     <string name="abort">Hủy bỏ</string>
     <string name="company_infor">Thông tin công ty</string>
