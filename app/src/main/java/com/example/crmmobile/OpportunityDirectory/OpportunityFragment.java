@@ -75,7 +75,7 @@ public class OpportunityFragment extends Fragment {
                     // Sử dụng id nếu muốn update/delete trực tiếp
                     OpportunityBottomSheetHelper.showBottomSheet(requireContext(), item, id, anchor);
                 },
-                (item, id) -> openOpportunityDetail(item)
+                (item, id) -> openOpportunityDetail(id)
         );
 
         rvOpportunityBody.setAdapter(opportunityAdapter);
@@ -97,9 +97,9 @@ public class OpportunityFragment extends Fragment {
         }
     }
 
-    private void openOpportunityDetail(Opportunity item) {
+    private void openOpportunityDetail(int id) {
         Intent intent = new Intent(getContext(), OpportunityDetailActivity.class);
-        intent.putExtra("opportunity", item);
+        intent.putExtra("id", id);
         startActivity(intent);
     }
 
@@ -109,10 +109,10 @@ public class OpportunityFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void openOpportunityUpdateForm(Opportunity item) {
+    private void openOpportunityUpdateForm(int id) {
         Intent intent = new Intent(getContext(), OpportunityFormActivity.class);
         intent.putExtra("mode", "update");
-        intent.putExtra("opportunity", item);
+        intent.putExtra("id", id);
         startActivity(intent);
     }
 

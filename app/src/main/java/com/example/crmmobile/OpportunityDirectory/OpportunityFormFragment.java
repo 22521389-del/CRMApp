@@ -31,8 +31,8 @@ public class OpportunityFormFragment extends Fragment {
     private OpportunityFormHandler handler;
 
     private String mode;
+    private int opId = -1;
     private Opportunity existing;
-
     private EditText etName, etValue, etDate1, etDate2, etDesc;
     private AutoCompleteTextView etCompany, etContact, etStage, etManager;
     private TextView tvTitle;
@@ -41,9 +41,9 @@ public class OpportunityFormFragment extends Fragment {
 
     private boolean loaded1, loaded2, loaded3;
 
-    public static OpportunityFormFragment newInstance(Opportunity o, String m) {
+    public static OpportunityFormFragment newInstance(int id, String m) {
         Bundle b = new Bundle();
-        b.putSerializable("opportunity", o);
+        b.putInt("id", id);
         b.putString("mode", m);
 
         OpportunityFormFragment f = new OpportunityFormFragment();
@@ -65,6 +65,7 @@ public class OpportunityFormFragment extends Fragment {
         initViews(v);
         readArgs();
         setupActions();
+        observeOpportunity();
         observeDropdowns();
         setupStaticDropdowns();
 
@@ -72,6 +73,15 @@ public class OpportunityFormFragment extends Fragment {
         setupDatePickerIcon(etDate2);
 
         return v;
+    }
+
+    private void observeOpportunity() {
+        formVM.getEditingOpportunity().observe(getViewLifecycleOwner(), o -> {
+            if (o != null) {
+                existing = o;     // <<< SAVE
+                tryPopulate();
+            }
+        });
     }
 
     private void initViews(View v) {
@@ -95,7 +105,7 @@ public class OpportunityFormFragment extends Fragment {
     private void readArgs() {
         if (getArguments() != null) {
             mode = getArguments().getString("mode");
-            existing = (Opportunity) getArguments().getSerializable("opportunity");
+            opId = getArguments().getInt("id", -1);
         }
 
         if ("update".equals(mode)) {
@@ -104,6 +114,11 @@ public class OpportunityFormFragment extends Fragment {
         } else {
             tvTitle.setText("Thêm cơ hội mới");
             btnSave.setText("Lưu");
+        }
+
+        // Load object từ id
+        if ("update".equals(mode)) {
+            formVM.loadOpportunityById(opId);
         }
     }
 

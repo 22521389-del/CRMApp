@@ -26,10 +26,6 @@ public class OpportunityRepository {
     public List<Opportunity> getAll() {
         return dao.getAll();
     }
-//    public Opportunity getById(int id) {
-//        for (Opportunity o : dao.getAll()) if (o.getId() == id) return o;
-//        return null;
-//    }
 
     public Opportunity getById(int id) {
         return dao.getById(id);

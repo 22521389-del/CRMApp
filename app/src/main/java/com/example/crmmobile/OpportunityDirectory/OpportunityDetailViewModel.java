@@ -5,19 +5,26 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 public class OpportunityDetailViewModel extends AndroidViewModel {
 
-    private OpportunityRepository repo;
-    private Opportunity opportunity;
+    private OpportunityRepository oppRepo;
+    private MutableLiveData<Opportunity> editing = new MutableLiveData<>();
 
-    public OpportunityDetailViewModel(@NonNull Application app, int id) {
+
+    public OpportunityDetailViewModel(@NonNull Application app) {
         super(app);
-        repo = new OpportunityRepository(app);
-        opportunity = repo.getById(id);
+        oppRepo = new OpportunityRepository(app);
     }
 
-    public Opportunity getOpportunity() {
-        return opportunity;
+    public void loadOpportunityById(int id) {
+        // giả sử repo có hàm getById()
+        Opportunity o = oppRepo.getById(id);
+        editing.setValue(o);
+    }
+
+    public LiveData<Opportunity> getOpportunity() {
+        return editing;
     }
 }

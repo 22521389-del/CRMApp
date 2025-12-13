@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.crmmobile.OpportunityDirectory.Opportunity;
 import com.example.crmmobile.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -27,7 +28,8 @@ public class OpportunityDetailActivity extends AppCompatActivity {
     private OpportunityActionViewModel viewModel;
     private ImageView ivStep1, ivStep2, ivStep3, ivStep4, ivStep5;
     private View vStep1Start, vStep1, vStep2, vStep3, vStep4;
-    private com.example.crmmobile.OpportunityDirectory.Opportunity opportunity;
+    private int opportunityId = -1;
+    private Opportunity opportunity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +41,45 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.vp_opportunity_detail_content);
         detailEdit = findViewById(R.id.iv_opportunity_detail_edit);
 
-        // Nhận dữ liệu từ Intent - crashed vi pineline nhan du lieu null, tạo biến mới trong hàm, che khuất biến toàn cục.
-//        Opportunity opportunity = (Opportunity) getIntent().getSerializableExtra("opportunity");
 
-        opportunity = (Opportunity) getIntent().getSerializableExtra("opportunity");
+        opportunityId = getIntent().getIntExtra("opportunity_id", -1);
 
+        OpportunityDetailViewModel detailVM =
+                new ViewModelProvider(this).get(OpportunityDetailViewModel.class);
+
+        detailVM.loadOpportunityById(opportunityId);
+
+        detailVM.getOpportunity().observe(this, o -> {
+            if (o != null) {
+                opportunity = o;
+
+                setupViewPager();
+                setupPipeline();
+                updatePipelineUI();
+                updatePipelineClickability();
+            }
+        });
+
+        // Nút back
+        ivBack.setOnClickListener(v -> finish());
+
+        // Nút chỉnh sửa (cây bút)
+        detailEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OpportunityFormActivity.class);
+            intent.putExtra("mode", "update");
+            intent.putExtra("id", opportunityId);
+            startActivity(intent);
+        });
+
+    }
+
+    private void setupViewPager() {
 
         // Danh sách tab
-        List<String> tabTitles = Arrays.asList("Tổng quan", "Chi tiết", "Nhật ký", "Hoạt động");
+        List<String> tabTitles = Arrays.asList("Tổng quan", "Chi tiết");
 
         // Gắn adapter
-        pagerAdapter = new OpportunityDetailPagerAdapter(this, tabTitles, opportunity);
+        pagerAdapter = new OpportunityDetailPagerAdapter(this, tabTitles.size(), opportunityId);
         viewPager.setAdapter(pagerAdapter);
 
         // Gắn TabLayout với ViewPager
@@ -59,22 +89,6 @@ public class OpportunityDetailActivity extends AppCompatActivity {
 
         // Mặc định mở tab đầu tiên
         viewPager.setCurrentItem(0);
-
-        // Nút back
-        ivBack.setOnClickListener(v -> finish());
-
-        // Nút chỉnh sửa (cây bút)
-        detailEdit.setOnClickListener(v -> {
-            Intent intent = new Intent(this, OpportunityFormActivity.class);
-            intent.putExtra("mode", "update");
-            intent.putExtra("opportunity", opportunity);
-            intent.putExtra("position", -1);
-            startActivity(intent);
-        });
-
-
-        // --- Pipeline Logic ---
-        setupPipeline();
 
     }
 
@@ -100,7 +114,7 @@ public class OpportunityDetailActivity extends AppCompatActivity {
 
         // Click vào bước → mở BottomSheet
         View.OnClickListener stepClickListener = v -> {
-            OpportunityActionBottomSheet.newInstance(opportunity)
+            OpportunityActionBottomSheet.newInstance(opportunityId)
                     .show(getSupportFragmentManager(), "ActionSheet");
         };
 
@@ -114,15 +128,13 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         viewModel.getActionSuccess().observe(this, success -> {
             if (success != null && success) {
                 updatePipelineUI();
+                updatePipelineClickability(); // cập nhật clickability
             }
         });
-
-        // Lần đầu hiển thị pipeline
-        updatePipelineUI();
-        updatePipelineClickability(); // cập nhật clickability
     }
 
     private void updatePipelineUI() {
+        if (opportunity == null) return;
         // Đổi icon và màu theo stage hiện tại
         String status = opportunity.getStatus();
 
@@ -181,6 +193,8 @@ public class OpportunityDetailActivity extends AppCompatActivity {
     }
 
     private void updatePipelineClickability() {
+        if (opportunity == null) return;
+
         // Lấy status hiện tại
         String status = opportunity.getStatus();
 
@@ -213,7 +227,7 @@ public class OpportunityDetailActivity extends AppCompatActivity {
 
         // Gắn click listener cho step hiện tại
         View.OnClickListener stepClickListener = v -> {
-            OpportunityActionBottomSheet.newInstance(opportunity)
+            OpportunityActionBottomSheet.newInstance(opportunityId)
                     .show(getSupportFragmentManager(), "ActionSheet");
         };
 
@@ -223,6 +237,12 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         if (ivStep4.isClickable()) ivStep4.setOnClickListener(stepClickListener);
         if (ivStep5.isClickable()) ivStep5.setOnClickListener(stepClickListener);
     }
+
+
+
+
+
+
 
 
 }

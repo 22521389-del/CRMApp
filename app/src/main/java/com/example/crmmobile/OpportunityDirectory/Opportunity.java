@@ -1,9 +1,8 @@
 package com.example.crmmobile.OpportunityDirectory;
 
-import java.io.Serializable;
 
-public class Opportunity implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Opportunity {
+
     private int callCount;
     private int messageCount;
 
@@ -16,10 +15,11 @@ public class Opportunity implements Serializable {
     private String date;           // Expected close date
     private String expectedDate2;  // Expected close date 2
     private String description;   // Description
-    private int management;     // Management
+    private int management;     // Management (user id)
 
     public Opportunity() {} // empty constructor
 
+    // Constructor dùng cho list (ngắn gọn)
     public Opportunity(int id, String title, double price, String date, String status,
                        int callCount, int messageCount, String description) {
         this.id = id;
@@ -31,6 +31,8 @@ public class Opportunity implements Serializable {
         this.messageCount = messageCount;
         this.description = description;
     }
+
+    // Constructor đầy đủ (dùng cho detail)
     public Opportunity(int id, String title, int company, int contact, double price,
                        String status, String date,
                        String expectedDate2, String description, int management,int callCount, int messageCount) {
@@ -141,4 +143,5 @@ public class Opportunity implements Serializable {
     public void setManagement(int management) {
         this.management = management;
     }
+
 }

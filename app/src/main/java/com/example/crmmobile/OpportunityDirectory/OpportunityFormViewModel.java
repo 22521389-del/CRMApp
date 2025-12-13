@@ -15,12 +15,15 @@ public class OpportunityFormViewModel extends AndroidViewModel {
     private CompanyRepository companyRepo;
     private ContactRepository contactRepo;
     private EmployeeRepository employeeRepo;
+    private OpportunityRepository oppRepo;
 
     private OpportunityFormHandler handler = new OpportunityFormHandler();
 
     private final MutableLiveData<List<Company>> companies = new MutableLiveData<>();
     private final MutableLiveData<List<Contact>> contacts = new MutableLiveData<>();
     private final MutableLiveData<List<Employee>> employees = new MutableLiveData<>();
+    private MutableLiveData<Opportunity> editing = new MutableLiveData<>();
+
 
     private int selectedCompanyId = 0;
     private int selectedContactId = 0;
@@ -45,6 +48,9 @@ public class OpportunityFormViewModel extends AndroidViewModel {
     public LiveData<List<Company>> getCompanies() { return companies; }
     public LiveData<List<Contact>> getContacts() { return contacts; }
     public LiveData<List<Employee>> getEmployees() { return employees; }
+    public LiveData<Opportunity> getEditingOpportunity() {
+        return editing;
+    }
 
     public void setSelectedCompanyId(int id) { selectedCompanyId = id; }
     public void setSelectedContactId(int id) { selectedContactId = id; }
@@ -53,6 +59,7 @@ public class OpportunityFormViewModel extends AndroidViewModel {
     public int getSelectedCompanyId() { return selectedCompanyId; }
     public int getSelectedContactId() { return selectedContactId; }
     public int getSelectedManagementId() { return selectedManagementId; }
+
 
     // Business: tạo Opportunity từ form
     public Opportunity createOpportunity(
@@ -82,5 +89,11 @@ public class OpportunityFormViewModel extends AndroidViewModel {
 
     public OpportunityFormHandler getHandler() {
         return handler;
+    }
+
+    public void loadOpportunityById(int id) {
+        // giả sử repo có hàm getById()
+        Opportunity o = oppRepo.getById(id);
+        editing.setValue(o);
     }
 }
