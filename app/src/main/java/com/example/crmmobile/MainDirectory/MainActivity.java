@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.crmmobile.Adapter.AdapterViewPager;
-import com.example.crmmobile.IndividualDirectory.DanhSachCaNhanActivity;
+import com.example.crmmobile.IndividualDirectory.DanhSachCaNhanFragment;
 import com.example.crmmobile.OpportunityDirectory.OpportunityFragment;
 import com.example.crmmobile.OrganizationDirectory.ToChucFragment;
 import com.example.crmmobile.QuoteDirectory.QuoteFragment;
@@ -109,8 +109,17 @@ public class MainActivity extends AppCompatActivity implements main_screen.onMod
             navFooter.getMenu().findItem(R.id.nav_menu).setChecked(true);
         }
         if(moduleName.equals("Cá nhân")){
-            Intent intent = new Intent(MainActivity.this, DanhSachCaNhanActivity.class);
-            startActivity(intent);
+            Fragment danhsachcanhanFragment = new DanhSachCaNhanFragment();
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_container, danhsachcanhanFragment)
+                    .addToBackStack(null)
+                    .commit();
+
+            findViewById(R.id.viewPager).setVisibility(View.GONE);
+            findViewById(R.id.main_container).setVisibility(View.VISIBLE);
+            navFooter.getMenu().findItem(R.id.nav_menu).setChecked(true);
         }
 
         if(moduleName.equals("Tổ chức")){
