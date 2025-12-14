@@ -15,14 +15,14 @@ public class OpportunityDetailViewModel extends AndroidViewModel {
 
     public OpportunityDetailViewModel(@NonNull Application app) {
         super(app);
-        oppRepo = new OpportunityRepository(app);
+        oppRepo = OpportunityRepository.getInstance(app);
     }
 
     public void loadOpportunityById(int id) {
-        // giả sử repo có hàm getById()
         Opportunity o = oppRepo.getById(id);
-        editing.setValue(o);
+        editing.postValue(o); // luôn emit
     }
+
 
     public LiveData<Opportunity> getOpportunity() {
         return editing;

@@ -15,9 +15,9 @@ public class OpportunityViewModel extends AndroidViewModel {
     private OpportunityRepository repository;
     private MutableLiveData<List<Opportunity>> opportunities = new MutableLiveData<>();
 
-    public OpportunityViewModel(@NonNull Application application) {
-        super(application);
-        repository = OpportunityRepository.getInstance(application);
+    public OpportunityViewModel(@NonNull Application app) {
+        super(app);
+        repository = OpportunityRepository.getInstance(app);
 //        loadOpportunities();
         loadData();
     }

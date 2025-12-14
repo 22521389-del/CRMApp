@@ -43,12 +43,27 @@ public class OpportunityRepository {
     public interface Callback { void onComplete(boolean success); }
 
     public void updateStage(Opportunity opportunity, String newStage, String note, Callback callback) {
-        // Giả lập call API
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            opportunity.setStatus(newStage);
+            Opportunity updated = new Opportunity(
+                    opportunity.getId(),
+                    opportunity.getTitle(),
+                    opportunity.getCompany(),
+                    opportunity.getContact(),
+                    opportunity.getPrice(),
+                    newStage,
+                    opportunity.getDate(),
+                    opportunity.getExpectedDate2(),
+                    opportunity.getDescription(),
+                    opportunity.getManagement(),
+                    opportunity.getCallCount(),
+                    opportunity.getMessageCount()
+            );
+
+            dao.update(updated);   // ghi xuống DB
             callback.onComplete(true);
         }, 1000);
     }
+
 }
 
 

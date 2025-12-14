@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,11 +27,14 @@ public class OpportunityDetailActivity extends AppCompatActivity {
     private OpportunityDetailPagerAdapter pagerAdapter;
 
     // pipeline
-    private OpportunityActionViewModel viewModel;
+    private OpportunityActionViewModel actionVM;
     private ImageView ivStep1, ivStep2, ivStep3, ivStep4, ivStep5;
     private View vStep1Start, vStep1, vStep2, vStep3, vStep4;
     private int opportunityId = -1;
     private Opportunity opportunity;
+    private OpportunityDetailViewModel detailVM;
+
+    boolean isPipelineSetup = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +51,10 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         opportunityId = getIntent().getIntExtra("id", -1);
         Log.d("OD_DEBUG", "opportunityId = " + opportunityId);
 
-        OpportunityDetailViewModel detailVM =
-                new ViewModelProvider(this).get(OpportunityDetailViewModel.class);
+        actionVM = new ViewModelProvider(this)
+                .get(OpportunityActionViewModel.class);
+
+        detailVM = new ViewModelProvider(this).get(OpportunityDetailViewModel.class);
 
         detailVM.loadOpportunityById(opportunityId);
 
@@ -57,11 +63,24 @@ public class OpportunityDetailActivity extends AppCompatActivity {
             if (o != null) {
                 opportunity = o;
 
-                Log.d("OD_DEBUG", "CALL setupViewPager()");
-                setupViewPager();
-                setupPipeline();
-                updatePipelineUI();
-                updatePipelineClickability();
+                // BIND DATA
+                bindData(findViewById(android.R.id.content), opportunity);
+
+                if (!isPipelineSetup) {
+                    setupViewPager();
+                    setupPipeline(); // init 1 lần
+                    isPipelineSetup = true;
+                }
+
+                updatePipelineUI(o);
+                updatePipelineClickability(o);
+            }
+        });
+
+        actionVM.getActionSuccess().observe(this, success -> {
+            if (Boolean.TRUE.equals(success)) {
+                // reload từ DB
+                detailVM.loadOpportunityById(opportunityId);
             }
         });
 
@@ -115,7 +134,7 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         vStep1Start.setBackgroundResource(R.color.blue);
 
         // Khởi tạo ViewModel (sử dụng this vì trong Activity)
-        viewModel = new ViewModelProvider(this).get(OpportunityActionViewModel.class);
+        actionVM = new ViewModelProvider(this).get(OpportunityActionViewModel.class);
 
         // Click vào bước → mở BottomSheet
         View.OnClickListener stepClickListener = v -> {
@@ -129,16 +148,15 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         ivStep4.setOnClickListener(stepClickListener);
         ivStep5.setOnClickListener(stepClickListener);
 
-        // Lắng nghe kết quả cập nhật
-        viewModel.getActionSuccess().observe(this, success -> {
-            if (success != null && success) {
-                updatePipelineUI();
-                updatePipelineClickability(); // cập nhật clickability
+        // observe CHỈ 1 LẦN
+        actionVM.getActionSuccess().observe(this, success -> {
+            if (Boolean.TRUE.equals(success)) {
+                detailVM.loadOpportunityById(opportunityId); // reload chuẩn
             }
         });
     }
 
-    private void updatePipelineUI() {
+    private void updatePipelineUI(Opportunity opportunity) {
         if (opportunity == null) return;
         // Đổi icon và màu theo stage hiện tại
         String status = opportunity.getStatus();
@@ -197,7 +215,7 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         vStep4.setBackgroundResource(R.color.gray);
     }
 
-    private void updatePipelineClickability() {
+    private void updatePipelineClickability(Opportunity opportunity) {
         if (opportunity == null) return;
 
         // Lấy status hiện tại
@@ -243,11 +261,36 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         if (ivStep5.isClickable()) ivStep5.setOnClickListener(stepClickListener);
     }
 
+    private void bindData(View view, Opportunity o) {
+        if (o == null) return;
+
+        TextView tvCompany = view.findViewById(R.id.tv_company_name);
+        TextView tvPrice = view.findViewById(R.id.tv_value);
+        TextView tvStatus = view.findViewById(R.id.tv_opportunity_status);
+        TextView tvCreator = view.findViewById(R.id.tv_opportunity_creator_name);
+        TextView tvAssignee = view.findViewById(R.id.tv_opportunity_assignee_name);
+
+        tvPrice.setText(formatCurrency(o.getPrice()));
+        tvStatus.setText(o.getStatus());
+
+        // Tạm thời set id (sau này map sang tên)
+        tvCompany.setText("Company ID: " + o.getCompany());
+        tvCreator.setText("Creator ID: " + o.getManagement());
+        tvAssignee.setText("Assignee ID: " + o.getManagement());
+    }
+
+    private String formatCurrency(double amount) {
+        return String.format("%,.0f đ", amount);
+    }
 
 
-
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (opportunityId != -1) {
+            detailVM.loadOpportunityById(opportunityId);
+        }
+    }
 
 
 }
