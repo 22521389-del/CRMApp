@@ -6,11 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +19,6 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.crmmobile.Adapter.AdapterLead;
 import com.example.crmmobile.AppConstant;
 import com.example.crmmobile.BottomSheet.BottomSheetActionLead;
-import com.example.crmmobile.DataBase.DBCRMHandler;
 import com.example.crmmobile.DataBase.LeadReposity;
 import com.example.crmmobile.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -45,6 +41,13 @@ public class leadFragment extends Fragment {
     public ActivityResultLauncher<Intent> editLeadLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == EditLeadActivity.RESULT_OK){
+                    reloadList();
+                }
+            });
+
+    public ActivityResultLauncher<Intent> convertLeadLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result ->{
+                if (result.getResultCode() == ConvertLeadActivity.RESULT_OK){
                     reloadList();
                 }
             });
@@ -106,6 +109,14 @@ public class leadFragment extends Fragment {
                         adapter.notifyItemRemoved(position);
                         adapter.notifyItemRangeChanged(position, leadList.size());
                     }
+
+                    @Override
+                    public void onConvertLead(Lead lead) {
+                        Intent intent = new Intent(getContext(), ConvertLeadActivity.class);
+                        intent.putExtra(AppConstant.LEAD_OBJECT, lead);
+                        convertLeadLauncher.launch(intent);
+                    }
+
                 });
             }
 
