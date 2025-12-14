@@ -15,11 +15,11 @@ public class OpportunityFormActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_opportunity_form);
+        setContentView(R.layout.activity_opportunity_form);
 
         // Lấy intent
         String mode = getIntent().getStringExtra("mode");
-        opportunityId = getIntent().getIntExtra("opportunity_id", -1);
+        opportunityId = getIntent().getIntExtra("id", -1);
 
         // Gọi fragment chỉ với 2 tham số: object + mode
 
@@ -30,7 +30,7 @@ public class OpportunityFormActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.layout_opportunity_form, fragment)
+                .replace(R.id.fragment_container, fragment)
                 .commit();
     }
 }

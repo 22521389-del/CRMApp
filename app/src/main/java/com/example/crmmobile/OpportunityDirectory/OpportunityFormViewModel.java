@@ -35,6 +35,8 @@ public class OpportunityFormViewModel extends AndroidViewModel {
         companyRepo  = new CompanyRepository(null);
         contactRepo  = new ContactRepository(null);
         employeeRepo = new EmployeeRepository(null);
+//        app crash khi open edit form vi quen khoi tao repository
+        oppRepo      = new OpportunityRepository(app);
 
         loadDropdownData();
     }

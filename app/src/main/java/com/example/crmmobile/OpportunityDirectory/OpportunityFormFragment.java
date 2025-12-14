@@ -3,6 +3,7 @@ package com.example.crmmobile.OpportunityDirectory;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,8 @@ public class OpportunityFormFragment extends Fragment {
 
     private boolean loaded1, loaded2, loaded3;
 
+    private static final String TAG = "OP_FORM_DEBUG";
+
     public static OpportunityFormFragment newInstance(int id, String m) {
         Bundle b = new Bundle();
         b.putInt("id", id);
@@ -56,6 +59,7 @@ public class OpportunityFormFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle state) {
+        Log.d(TAG, "onCreateView()");
 
         View v = inflater.inflate(R.layout.layout_opportunity_form, container, false);
 
@@ -72,13 +76,24 @@ public class OpportunityFormFragment extends Fragment {
         setupDatePickerIcon(etDate1);
         setupDatePickerIcon(etDate2);
 
+        if (getArguments() != null) {
+            Log.d(TAG, "ARGS mode = " + getArguments().getString("mode")
+                    + ", id = " + getArguments().getInt("id", -1));
+        } else {
+            Log.e(TAG, "ARGS = NULL");
+        }
+
         return v;
     }
 
     private void observeOpportunity() {
         formVM.getEditingOpportunity().observe(getViewLifecycleOwner(), o -> {
+            Log.d(TAG, "observeOpportunity() o = " + o);
+
             if (o != null) {
                 existing = o;     // <<< SAVE
+                Log.d(TAG, "existing SET → tryPopulate()");
+
                 tryPopulate();
             }
         });
@@ -103,17 +118,27 @@ public class OpportunityFormFragment extends Fragment {
     }
 
     private void readArgs() {
+        Log.d(TAG, "readArgs() START");
+
         if (getArguments() != null) {
             mode = getArguments().getString("mode");
             opId = getArguments().getInt("id", -1);
         }
 
+        Log.d(TAG, "readArgs() mode = " + mode + ", opId = " + opId);
+
+
         if ("update".equals(mode)) {
+            Log.d(TAG, "MODE = UPDATE → loadOpportunityById(" + opId + ")");
+
             tvTitle.setText("Cập nhật cơ hội");
             btnSave.setText("Cập nhật");
         } else {
+            Log.d(TAG, "MODE = CREATE");
+
             tvTitle.setText("Thêm cơ hội mới");
             btnSave.setText("Lưu");
+
         }
 
         // Load object từ id
@@ -140,19 +165,19 @@ public class OpportunityFormFragment extends Fragment {
         formVM.getCompanies().observe(getViewLifecycleOwner(), list -> {
             setAdapter(etCompany, list);
             loaded1 = true;
-            if (mode.equals("update")) tryPopulate();
+            if ("update".equals(mode)) tryPopulate();
         });
 
         formVM.getContacts().observe(getViewLifecycleOwner(), list -> {
             setAdapter(etContact, list);
             loaded2 = true;
-            if (mode.equals("update")) tryPopulate();
+            if ("update".equals(mode)) tryPopulate();
         });
 
         formVM.getEmployees().observe(getViewLifecycleOwner(), list -> {
             setAdapter(etManager, list);
             loaded3 = true;
-            if (mode.equals("update")) tryPopulate();
+            if ("update".equals(mode)) tryPopulate();
         });
     }
 
@@ -220,11 +245,22 @@ public class OpportunityFormFragment extends Fragment {
 
 
     private void tryPopulate() {
+        Log.d(TAG, "tryPopulate() "
+                + "existing=" + (existing != null)
+                + ", loaded1=" + loaded1
+                + ", loaded2=" + loaded2
+                + ", loaded3=" + loaded3);
+
+        if (existing == null) return;
         if (!loaded1 || !loaded2 || !loaded3) return;
+
+        Log.d(TAG, "ALL READY → populateForm()");
         populateForm();
     }
 
     private void populateForm() {
+        Log.d(TAG, "populateForm() START with existing=" + existing);
+
         etName.setText(existing.getTitle());
         etValue.setText(String.valueOf(existing.getPrice()));
         etDate1.setText(existing.getDate());
@@ -249,6 +285,8 @@ public class OpportunityFormFragment extends Fragment {
     }
 
     private void saveForm() throws ParseException {
+        Log.d(TAG, "saveForm() mode=" + mode + ", existing=" + existing);
+
 
         if (!handler.validateTitle(etName.getText().toString())) {
             etName.setError("Không được để trống");
@@ -268,7 +306,8 @@ public class OpportunityFormFragment extends Fragment {
 
         OpportunityViewModel vm = new ViewModelProvider(requireActivity()).get(OpportunityViewModel.class);
 
-        if (mode.equals("update")) {
+        if ("update".equals(mode)
+) {
             vm.update(o);
             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
         } else {

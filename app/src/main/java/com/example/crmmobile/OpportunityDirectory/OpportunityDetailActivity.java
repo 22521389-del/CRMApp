@@ -2,6 +2,7 @@ package com.example.crmmobile.OpportunityDirectory;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.view.View;
 
@@ -34,6 +35,7 @@ public class OpportunityDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("OD_DEBUG", "onCreate()");
         setContentView(R.layout.activity_opportunity_detail);
 
         ivBack = findViewById(R.id.iv_opportunity_detail_back);
@@ -41,8 +43,9 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.vp_opportunity_detail_content);
         detailEdit = findViewById(R.id.iv_opportunity_detail_edit);
 
-
-        opportunityId = getIntent().getIntExtra("opportunity_id", -1);
+// cẩn thâ truyền đúng intent key "id" từ list fragment để tránh lỗi render
+        opportunityId = getIntent().getIntExtra("id", -1);
+        Log.d("OD_DEBUG", "opportunityId = " + opportunityId);
 
         OpportunityDetailViewModel detailVM =
                 new ViewModelProvider(this).get(OpportunityDetailViewModel.class);
@@ -50,9 +53,11 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         detailVM.loadOpportunityById(opportunityId);
 
         detailVM.getOpportunity().observe(this, o -> {
+            Log.d("OD_DEBUG", "observe opportunity = " + o);
             if (o != null) {
                 opportunity = o;
 
+                Log.d("OD_DEBUG", "CALL setupViewPager()");
                 setupViewPager();
                 setupPipeline();
                 updatePipelineUI();
