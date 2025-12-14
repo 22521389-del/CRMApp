@@ -15,4 +15,16 @@
     <style name="NoIndicator">
         <item name="android:color">@android:color/transparent</item>
     </style>
+    <style name="Theme.App" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Nền toàn app -->
+        <item name="android:colorBackground">@color/so_screen_bg</item>
+
+        <!-- Surface cho card/sheet (giữ trắng, không bị ám màu) -->
+        <item name="colorSurface">@color/white</item>
+        <item name="colorSurfaceVariant">@color/so_screen_bg</item>
+
+
+        <!-- Áp style mặc định cho MaterialCardView -->
+        <item name="materialCardViewStyle">@style/Widget.App.Card</item>
+    </style>
 </resources>

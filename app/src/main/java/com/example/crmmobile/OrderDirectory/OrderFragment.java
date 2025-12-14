@@ -1,71 +1,166 @@
 package com.example.crmmobile.OrderDirectory;
 
+import com.example.crmmobile.R;
+import androidx.appcompat.app.AlertDialog;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import com.example.crmmobile.Adapter.AdapterOrder;
-import com.example.crmmobile.R;
+import com.example.crmmobile.DataBase.DonHangRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderFragment extends Fragment {
 
-    RecyclerView rv_order;
-    List<Order> orderList;
+    private DonHangRepository donHangRepository;
+    private List<Order> orderList;
+    private OrderAdapter orderAdapter;
 
-    AdapterOrder adapterOrder;
-
-    public OrderFragment() {
-        // Required empty public constructor
-    }
-
-
-    public static OrderFragment newInstance(String param1, String param2) {
-        OrderFragment fragment = new OrderFragment();
-        return fragment;
-    }
+    // giữ RecyclerView/FAB để onResume reload không cần find lại (không bắt buộc nhưng sạch)
+    private RecyclerView recyclerView;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) { // ✅ phải public
         super.onCreate(savedInstanceState);
+        //  Fragment không dùng EdgeToEdge.enable(this) + setContentView(...)
+    }
+
+    @SuppressLint("MissingInflatedId")
+    @Nullable
+    @Override
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState
+    ) {
+        // ✅ Fragment inflate layout tại đây
+        return inflater.inflate(R.layout.fragment_order, container, false);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_order, container, false);
-        rv_order = view.findViewById(R.id.recyclerOrders);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        rv_order.setLayoutManager(new LinearLayoutManager(getContext()));
-        orderList = new ArrayList<>();
+        Context ctx = requireContext();
 
-        orderList.add(new Order("SO00109", "Công ty TNHH CloudGO", "2.139.000 đ", "30/07/2024", "Chưa thanh toán", "Mới"));
-        orderList.add(new Order("SO00110", "Công ty ABC", "5.000.000 đ", "01/08/2024", "Đã thanh toán", "Đã giao"));
-        orderList.add(new Order("SO00111", "Công ty XYZ", "3.500.000 đ", "02/08/2024", "Đang xử lý", "ĐH B2C"));
-        orderList.add(new Order("SO00111", "Công ty XYZ", "3.500.000 đ", "02/08/2024", "Đang xử lý", "ĐH B2C"));
+        // ===== RecyclerView danh sách đơn =====
+        recyclerView = view.findViewById(R.id.recyclerOrders);
+        recyclerView.setLayoutManager(new LinearLayoutManager(ctx));
 
-        adapterOrder = new AdapterOrder(requireContext(),orderList,order -> {
-            Intent intent = new Intent(getContext(), OrderDetailActivity.class);
+        // Lấy dữ liệu từ DB qua DonHangRepository
+        donHangRepository = new DonHangRepository(ctx);
+        orderList = donHangRepository.getOrdersForList();
 
-            // Gửi thông tin đơn hàng qua (nếu cần hiển thị ở tab Tổng quan)
-            intent.putExtra("orderCode", order.getOrderCode());
-            intent.putExtra("company", order.getCompany());
-            intent.putExtra("date", order.getDate());
+        // ✅ adapter: nếu constructor của bạn đang là (List<Order>, Context) thì truyền ctx
+        // (tránh truyền this(Fragment) gây lỗi)
+        orderAdapter = new OrderAdapter(orderList, ctx, this::showBottomSheet);
 
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+
+        recyclerView.setAdapter(orderAdapter);
+
+        // ===== FAB dấu cộng: mở SOCreate1Activity =====
+        FloatingActionButton fab = view.findViewById(R.id.fabAddOrder);
+        if (fab != null) {
+            fab.setOnClickListener(v -> {
+                // ✅ Intent cần Context (không dùng this(Fragment))
+                Intent i = new Intent(ctx, SOCreate1Activity.class);
+                startActivity(i);
+            });
+        }
+
+        // ===== Xử lý insets (status/nav bar) cho root =====
+        // ✅ layout fragment_order không có id "main" -> dùng root view luôn
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+            Insets sys = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(sys.left, sys.top, sys.right, 0);
+            return insets;
         });
-        rv_order.setAdapter(adapterOrder);
-        return view;
+    }
+
+    @Override
+    public void onResume() { // ✅ phải public
+        super.onResume();
+        // Mỗi lần quay lại màn hình, reload lại danh sách đơn hàng từ DB
+        if (donHangRepository != null && orderList != null && orderAdapter != null) {
+            orderList.clear();
+            orderList.addAll(donHangRepository.getOrdersForList());
+            orderAdapter.notifyDataSetChanged();
+        }
+    }
+
+    // ===== BottomSheet hành động cho từng đơn =====
+    public void showBottomSheet(Order order) {
+        // ✅ BottomSheetDialog cần Context
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+
+        View view = getLayoutInflater().inflate(R.layout.bottom_sheet_actions, null, false);
+        LinearLayout layoutActions = view.findViewById(R.id.layoutActions);
+
+        addActionItem(layoutActions, R.drawable.keep, "Ghim",
+                () -> Toast.makeText(requireContext(), "Đã ghim đơn hàng", Toast.LENGTH_SHORT).show());
+        addActionItem(layoutActions, R.drawable.cached, "Chuyển thành hóa đơn",
+                () -> Toast.makeText(requireContext(), "Chuyển hóa đơn thành công", Toast.LENGTH_SHORT).show());
+        addActionItem(layoutActions, R.drawable.files, "Xuất file PDF",
+                () -> Toast.makeText(requireContext(), "Xuất file PDF...", Toast.LENGTH_SHORT).show());
+        addActionItem(layoutActions, R.drawable.outgoingmail, "Gửi email kèm file PDF",
+                () -> Toast.makeText(requireContext(), "Gửi thành công", Toast.LENGTH_SHORT).show());
+        addActionItem(layoutActions, R.drawable.copy, "Nhân đôi",
+                () -> Toast.makeText(requireContext(), "Nhân đôi thành công", Toast.LENGTH_SHORT).show());
+        addActionItem(layoutActions, R.drawable.cancel, "Hủy đơn hàng", () -> {
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Hủy đơn hàng")
+                    .setMessage("Bạn có chắc muốn hủy đơn " + order.getOrderCode() + " không?")
+                    .setPositiveButton("Hủy đơn", (dialogInterface, which) -> {
+                        int rows = donHangRepository.delete(order.getId());
+                        if (rows > 0) {
+                            Toast.makeText(requireContext(), "Đơn hàng đã bị hủy", Toast.LENGTH_SHORT).show();
+
+                            // reload list
+                            orderList.clear();
+                            orderList.addAll(donHangRepository.getOrdersForList());
+                            orderAdapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(requireContext(), "Không thể hủy đơn hàng", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("Đóng", null)
+                    .show();
+        });
+
+        view.findViewById(R.id.btnClose).setOnClickListener(v -> dialog.dismiss());
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    private void addActionItem(LinearLayout parent, int iconRes, String text, Runnable onClick) {
+        // ✅ LayoutInflater cần Context (không dùng LayoutInflater.from(this))
+        View itemView = LayoutInflater.from(requireContext()).inflate(R.layout.item_action, parent, false);
+        ImageView icon = itemView.findViewById(R.id.actionIcon);
+        TextView label = itemView.findViewById(R.id.actionText);
+        icon.setImageResource(iconRes);
+        label.setText(text);
+        itemView.setOnClickListener(v -> onClick.run());
+        parent.addView(itemView);
     }
 }

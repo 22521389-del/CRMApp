@@ -3,7 +3,7 @@ package com.example.crmmobile.DataBase.Table;
 public class LeadTable {
     public static final String TABLE_NAME = "LEAD";
     public static final String CREATE_TABLE =
-            "CREATE TABLE " + TABLE_NAME + " (" +
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "TITLE TEXT," +
                     "HOVATENDEM TEXT," +
