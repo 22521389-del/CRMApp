@@ -3,7 +3,7 @@ package com.example.crmmobile.DataBase.Table;
 public class DonhangTable {
     public static final String TABLE_NAME = "DONHANG";
     public static final String CREATE_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
+            "CREATE TABLE " + TABLE_NAME + " (" +
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "TENDONHANG TEXT," +
                     "CONGTY INTEGER," +
