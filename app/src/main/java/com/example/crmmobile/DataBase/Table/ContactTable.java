@@ -1,7 +1,7 @@
 package com.example.crmmobile.DataBase.Table;
 
 public class ContactTable {
-    public static final String TABLE_NAME = "COMPANY";
+    public static final String TABLE_NAME = "CONTACT";
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " (" +
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
