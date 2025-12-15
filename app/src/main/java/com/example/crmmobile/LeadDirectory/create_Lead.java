@@ -104,7 +104,9 @@ public class create_Lead extends Fragment {
         String District = viewModelLead.District.getValue();
         String position_company = viewModelLead.position_company.getValue();
         String state = viewModelLead.state.getValue();
-
+        String Tax = viewModelLead.Tax.getValue();
+        String Number_of_Employees = viewModelLead.number_of_employees.getValue();
+        String Revenue = viewModelLead.Revenue.getValue();
 
         LeadReposity db = new LeadReposity(requireContext());
         if(TextUtils.isEmpty(first_name) || TextUtils.isEmpty(phone_number) || SentoID == null){
@@ -129,6 +131,9 @@ public class create_Lead extends Fragment {
         lead.setQuocGia(Nation);
         lead.setQuanHuyen(District);
         lead.setChucvu(position_company);
+        lead.setMaThue(Tax);
+        lead.setSoNV(Number_of_Employees);
+        lead.setDoanhThu(Revenue);
 
         db.addLead(lead);
 
@@ -148,8 +153,5 @@ public class create_Lead extends Fragment {
         contain.setVisibility(View.GONE);
 
         requireActivity().getSupportFragmentManager().popBackStack();
-    }
-
-    private void getfromViewModel() {
     }
 }

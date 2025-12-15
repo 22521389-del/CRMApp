@@ -26,6 +26,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class leadFragment extends Fragment {
     RecyclerView recyclerLead;
@@ -53,9 +55,15 @@ public class leadFragment extends Fragment {
             });
 
     private void reloadList() {
-        leadList.clear();
-        leadList.addAll(db.getAllLead());
-        adapter.notifyDataSetChanged();
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<Lead> data = db.getAllLead();
+
+            requireActivity().runOnUiThread(() -> {
+                leadList.clear();
+                leadList.addAll(data);
+                adapter.notifyDataSetChanged();
+            });
+        });
     }
 
     @Override
@@ -68,8 +76,7 @@ public class leadFragment extends Fragment {
         recyclerLead.setLayoutManager(new LinearLayoutManager(getContext()));
 
         db = new LeadReposity(getContext());
-
-        loadLead();
+        leadList = new ArrayList<>();
 
         navFooter = requireActivity().findViewById(R.id.nav_footer);
         contain = requireActivity().findViewById(R.id.main_container);
@@ -128,24 +135,19 @@ public class leadFragment extends Fragment {
             }
         });
         recyclerLead.setAdapter(adapter);
+        loadLead();
         return view;
     }
 
     private void loadLead() {
-        leadDB = db.getAllLead();
-
-        if(leadDB.isEmpty()){
-            leadList = new ArrayList<>();
-            leadList.add(new Lead("Ông", "Nguyễn Văn", " A", "5/12/2025", "Công ty X", "phong@gmail.com", "Mới"));
-
-            for ( Lead lead: leadList){
-                long id = db.addLead(lead);
-                lead.setID((int) id);
-            }
-        }
-        else{
-            leadList = new ArrayList<>(leadDB);
-        }
+        Executors.newSingleThreadExecutor().execute(()->{
+            leadDB = db.getAllLead();
+            requireActivity().runOnUiThread(()->{
+                leadList.clear();
+                leadList.addAll(leadDB);
+                adapter.notifyDataSetChanged();
+            });
+        });
     }
 
     @Override
@@ -157,9 +159,7 @@ public class leadFragment extends Fragment {
             boolean refresh = bundle.getBoolean(AppConstant.REFRESH, false);
             if(refresh){
                 // Load lại database
-                leadList.clear();
-                leadList.addAll(db.getAllLead());
-                adapter.notifyDataSetChanged();
+                reloadList();
             }
         });
     }
