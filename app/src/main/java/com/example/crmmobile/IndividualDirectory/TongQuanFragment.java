@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crmmobile.Adapter.AdapterCaNhan;
 import com.example.crmmobile.Adapter.AdapterHoatDong;
+import com.example.crmmobile.BottomSheet.BottomActionFragment;
+import com.example.crmmobile.BottomSheet.BottomHoatDongFragment;
 import com.example.crmmobile.IndividualDirectory.CaNhan;
 import com.example.crmmobile.DataBase.HoatDongRepository;
 import com.example.crmmobile.HoatDongDirectory.HoatDong;
@@ -25,8 +29,10 @@ import java.util.List;
 
 public class TongQuanFragment extends Fragment {
     private RecyclerView rvHoatDong;
-
+    private BottomActionFragment.OnActionListener listener;
     private AdapterHoatDong adapter;
+    private LinearLayout groupThemHoatDong;
+    private TextView btnThemHoatDong;
     private ArrayList<HoatDong> hoatDongList;
     //private FloatingActionButton btnAdd;
     private HoatDongRepository db;
@@ -51,7 +57,9 @@ public class TongQuanFragment extends Fragment {
         // 🔥 DÒNG BẠN BỊ THIẾU
         return inflater.inflate(R.layout.fragment_tong_quan, container, false);
     }
-
+    //    public interface OnActionListener {
+//        void onAddHoatDong(CaNhan cn);
+//    }
     @Nullable
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -63,6 +71,8 @@ public class TongQuanFragment extends Fragment {
         }
 
         rvHoatDong = view.findViewById(R.id.rvHoatDong);
+        groupThemHoatDong = view.findViewById(R.id.group_themhoatdong);
+        btnThemHoatDong = view.findViewById(R.id.btnthemhoatdong);
 
         db = new HoatDongRepository(requireContext());
 
@@ -72,6 +82,44 @@ public class TongQuanFragment extends Fragment {
 
         rvHoatDong.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvHoatDong.setAdapter(adapter);
+
+        // Xử lý click nút "Thêm hoạt động"
+        if (groupThemHoatDong != null) {
+            groupThemHoatDong.setOnClickListener(v -> showBottomSheetHoatDong());
+        }
+        if (btnThemHoatDong != null) {
+            btnThemHoatDong.setOnClickListener(v -> showBottomSheetHoatDong());
+        }
+
+        // Lắng nghe signal refresh từ BottomSheet
+        getParentFragmentManager().setFragmentResultListener("REFRESH_HOATDONG", this, (requestKey, bundle) -> {
+            boolean refresh = bundle.getBoolean("REFRESH", false);
+            if (refresh) {
+                refreshHoatDongList();
+            }
+        });
+    }
+
+    private void refreshHoatDongList() {
+        if (db != null && caNhan != null && caNhan.getId() > 0) {
+            List<HoatDong> listFromDB = db.getHoatDongByNguoiLienHe(caNhan.getId());
+            hoatDongList.clear();
+            hoatDongList.addAll(listFromDB);
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    private void showBottomSheetHoatDong() {
+        if (caNhan == null || caNhan.getId() <= 0) {
+            // Nếu không có CaNhan, không thể thêm hoạt động
+            return;
+        }
+
+        BottomHoatDongFragment bottom = new BottomHoatDongFragment();
+        bottom.setCaNhan(caNhan);
+        bottom.show(getParentFragmentManager(), "hoatdong");
     }
 
 
@@ -90,15 +138,7 @@ public class TongQuanFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Refresh danh sách khi fragment được resume (sau khi thêm hoạt động thành công)
-        if (db != null && caNhan != null && caNhan.getId() > 0) {
-            List<HoatDong> listFromDB = db.getHoatDongByNguoiLienHe(caNhan.getId());
-            hoatDongList.clear();
-            hoatDongList.addAll(listFromDB);
-            if (adapter != null) {
-                adapter.notifyDataSetChanged();
-            }
-        }
+        refreshHoatDongList();
     }
 
 

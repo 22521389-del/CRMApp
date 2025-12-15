@@ -20,7 +20,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.crmmobile.DataBase.HoatDongRepository;
 import com.example.crmmobile.HoatDongDirectory.HoatDong;
 import com.example.crmmobile.IndividualDirectory.CaNhan;
-import com.example.crmmobile.IndividualDirectory.DanhSachCaNhanActivity;
+
 import com.example.crmmobile.IndividualDirectory.HoatDongFragment;
 import com.example.crmmobile.IndividualDirectory.ThongTinLienHeActivity;
 import com.example.crmmobile.R;
@@ -141,7 +141,7 @@ public class BottomHoatDongFragment extends BottomSheetDialogFragment {
         String ngayBatDau = tvNgayBatDau.getText().toString();
         String thoiGianBatDau = tvGioBatDau.getText().toString();
         String thoiGianKetThuc = tvGioKetThuc.getText().toString();
-      //  String giaoCho = actNguoiPhuTrach.getText().toString();
+        //  String giaoCho = actNguoiPhuTrach.getText().toString();
 
         String tinhTrang = actTrangThai.getText().toString();
 
@@ -187,6 +187,9 @@ public class BottomHoatDongFragment extends BottomSheetDialogFragment {
             Toast.makeText(requireContext(),
                     "Lưu hoạt động thành công",
                     Toast.LENGTH_SHORT).show();
+            Bundle resultBundle = new Bundle();
+            resultBundle.putBoolean("REFRESH", true);
+            getParentFragmentManager().setFragmentResult("REFRESH_HOATDONG", resultBundle);
             dismiss();
         } else {
             Toast.makeText(requireContext(),
