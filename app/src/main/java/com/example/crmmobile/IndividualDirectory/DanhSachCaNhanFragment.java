@@ -7,18 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.crmmobile.Adapter.AdapterCaNhan;
 import com.example.crmmobile.BottomSheet.BottomActionFragment;
 import com.example.crmmobile.BottomSheet.BottomHoatDongFragment;
-import com.example.crmmobile.DataBase.CaNhanRepository;
 import com.example.crmmobile.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.crmmobile.Adapter.AdapterCaNhan;
+import com.example.crmmobile.DataBase.CaNhanRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,51 +37,71 @@ public class DanhSachCaNhanFragment extends Fragment {
     private FloatingActionButton btnAdd;
     private CaNhanRepository db;
 
-    private static final int REQ_ADD = 100;
-    private static final int REQ_EDIT = 101;
+    // ActivityResultLauncher cho ADD request
+    private ActivityResultLauncher<Intent> addCaNhanLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == android.app.Activity.RESULT_OK && result.getData() != null) {
+                    handleAddResult(result.getData());
+                }
+            }
+    );
 
-    public DanhSachCaNhanFragment() {
-        // Required empty public constructor
-    }
+    // ActivityResultLauncher cho EDIT request
+    private ActivityResultLauncher<Intent> editCaNhanLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == android.app.Activity.RESULT_OK && result.getData() != null) {
+                    handleEditResult(result.getData());
+                }
+            }
+    );
 
-    @Nullable
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState
-    ) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_danhsachcanhan, container, false);
 
         rvCaNhan = view.findViewById(R.id.rvCaNhan);
         btnAdd = view.findViewById(R.id.btn_add_contact);
         icBack = view.findViewById(R.id.ic_back);
 
+        // --- Khởi tạo DB ---
         db = new CaNhanRepository(requireContext());
 
+        // --- Load dữ liệu từ database ---
         loadCaNhan();
 
+        // --- Adapter + RecyclerView ---
         adapter = new AdapterCaNhan(requireContext(), caNhanList);
         rvCaNhan.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvCaNhan.setAdapter(adapter);
 
+        // --- Nút thêm mới ---
         btnAdd.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), ThongTinLienHeActivity.class);
-            startActivityForResult(intent, REQ_ADD);
+            addCaNhanLauncher.launch(intent);
         });
 
-        icBack.setOnClickListener(v -> requireActivity().onBackPressed());
+        // --- Nút back ---
+        icBack.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
 
+        // --- Xử lý sự kiện click item ---
         adapter.setOnItemClickListener(new AdapterCaNhan.OnItemClickListener() {
             @Override
             public void onMoreClick(CaNhan cn) {
+                // Tạo BottomActionFragment và truyền item + callback
                 BottomActionFragment bottomSheet = new BottomActionFragment();
                 bottomSheet.setCaNhan(cn, new BottomActionFragment.OnActionListener() {
-
                     @Override
                     public void onDelete(CaNhan deletedCn) {
+                        // Xóa khỏi database
                         db.delete(deletedCn.getId());
 
+                        // Xóa khỏi danh sách local và cập nhật RecyclerView
                         int index = -1;
                         for (int i = 0; i < caNhanList.size(); i++) {
                             if (caNhanList.get(i).getId() == deletedCn.getId()) {
@@ -95,6 +117,7 @@ public class DanhSachCaNhanFragment extends Fragment {
 
                     @Override
                     public void onEdit(CaNhan editCn) {
+                        // Mở activity ThongTinLienHeActivity ở chế độ edit, truyền dữ liệu
                         Intent intent = new Intent(requireContext(), ThongTinLienHeActivity.class);
                         intent.putExtra("mode", "edit");
                         intent.putExtra("id", editCn.getId());
@@ -116,17 +139,16 @@ public class DanhSachCaNhanFragment extends Fragment {
                         intent.putExtra("soCuocGoi", editCn.getSoCuocGoi());
                         intent.putExtra("soCuocHop", editCn.getSoCuocHop());
 
-                        startActivityForResult(intent, REQ_EDIT);
+                        editCaNhanLauncher.launch(intent);
                     }
 
                     @Override
                     public void onAddHoatDong(CaNhan cn) {
                         BottomHoatDongFragment bottom = new BottomHoatDongFragment();
-                        bottom.setCaNhan(cn);
+                        bottom.setCaNhan(cn);   // <<< gửi dữ liệu CaNhan
                         bottom.show(getParentFragmentManager(), "hoatdong");
                     }
                 });
-
                 bottomSheet.show(getParentFragmentManager(), "BottomAction");
             }
 
@@ -141,53 +163,93 @@ public class DanhSachCaNhanFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    private void handleAddResult(Intent data) {
+        CaNhan cn = new CaNhan();
 
-        if (resultCode != requireActivity().RESULT_OK || data == null) return;
+        // --- Lấy dữ liệu từ form ---
+        cn.setHoVaTen(data.getStringExtra("hoTen"));
+        cn.setTen(data.getStringExtra("ten"));
+        cn.setCongTy(data.getStringExtra("congTy"));
+        cn.setDanhXung(data.getStringExtra("danhXung"));
+        cn.setGioiTinh(data.getStringExtra("gioiTinh"));
+        cn.setDiDong(data.getStringExtra("diDong"));
+        cn.setEmail(data.getStringExtra("email"));
+        cn.setNgaySinh(data.getStringExtra("ngaySinh"));
+        cn.setDiaChi(data.getStringExtra("diaChi"));
+        cn.setQuanHuyen(data.getStringExtra("quanHuyen"));
+        cn.setTinhTP(data.getStringExtra("tinhTP"));
+        cn.setQuocGia(data.getStringExtra("quocGia"));
+        cn.setMoTa(data.getStringExtra("moTa"));
+        cn.setGhiChu(data.getStringExtra("ghiChu"));
+        cn.setGiaoCho(data.getStringExtra("giaoCho"));
 
-        // ADD
-        if (requestCode == REQ_ADD) {
-            CaNhan cn = new CaNhan();
-            cn.setHoVaTen(data.getStringExtra("hoTen"));
-            cn.setTen(data.getStringExtra("ten"));
-            cn.setCongTy(data.getStringExtra("congTy"));
-            cn.setDanhXung(data.getStringExtra("danhXung"));
-            cn.setGioiTinh(data.getStringExtra("gioiTinh"));
-            cn.setDiDong(data.getStringExtra("diDong"));
-            cn.setEmail(data.getStringExtra("email"));
-
+        // --- Ngày tạo mặc định hôm nay (nếu chưa set) ---
+        if (data.getStringExtra("ngayTao") != null) {
+            cn.setNgayTao(data.getStringExtra("ngayTao"));
+        } else {
             Calendar calendar = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
             cn.setNgayTao(sdf.format(calendar.getTime()));
-
-            long id = db.add(cn);
-            cn.setId((int) id);
-
-            caNhanList.add(cn);
-            adapter.notifyItemInserted(caNhanList.size() - 1);
         }
 
-        // EDIT
-        if (requestCode == REQ_EDIT) {
-            int id = data.getIntExtra("id", -1);
-            if (id == -1) return;
+        // --- Số cuộc gọi & meeting mặc định từ result nếu có ---
+        cn.setSoCuocGoi(data.getIntExtra("soCuocGoi", 2));
+        cn.setSoCuocHop(data.getIntExtra("soCuocHop", 2));
 
+        // --- Lưu vào database (nhận id trả về) ---
+        long newId = db.add(cn);
+        cn.setId((int)newId);
+
+        // --- Cập nhật RecyclerView ---
+        caNhanList.add(cn);
+        adapter.notifyItemInserted(caNhanList.size() - 1);
+        rvCaNhan.scrollToPosition(caNhanList.size() - 1);
+    }
+
+    private void handleEditResult(Intent data) {
+        int id = data.getIntExtra("id", -1);
+        if (id != -1) {
+            // Tìm model trong list theo id
+            int index = -1;
             for (int i = 0; i < caNhanList.size(); i++) {
                 if (caNhanList.get(i).getId() == id) {
-                    CaNhan cn = caNhanList.get(i);
-
-                    cn.setHoVaTen(data.getStringExtra("hoTen"));
-
-                    Calendar calendar = Calendar.getInstance();
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-                    cn.setNgaySua(sdf.format(calendar.getTime()));
-
-                    db.update(cn);
-                    adapter.notifyItemChanged(i);
+                    index = i;
                     break;
                 }
+            }
+            if (index != -1) {
+                CaNhan cn = caNhanList.get(index);
+
+                // cập nhật từ result
+                cn.setDanhXung(data.getStringExtra("danhXung"));
+                cn.setHoVaTen(data.getStringExtra("hoTen"));
+                cn.setTen(data.getStringExtra("ten"));
+                cn.setCongTy(data.getStringExtra("congTy"));
+                cn.setGioiTinh(data.getStringExtra("gioiTinh"));
+                cn.setDiDong(data.getStringExtra("diDong"));
+                cn.setEmail(data.getStringExtra("email"));
+                cn.setNgaySinh(data.getStringExtra("ngaySinh"));
+                cn.setDiaChi(data.getStringExtra("diaChi"));
+                cn.setQuanHuyen(data.getStringExtra("quanHuyen"));
+                cn.setTinhTP(data.getStringExtra("tinhTP"));
+                cn.setQuocGia(data.getStringExtra("quocGia"));
+                cn.setMoTa(data.getStringExtra("moTa"));
+                cn.setGhiChu(data.getStringExtra("ghiChu"));
+                cn.setGiaoCho(data.getStringExtra("giaoCho"));
+                cn.setSoCuocGoi(data.getIntExtra("soCuocGoi", cn.getSoCuocGoi()));
+                cn.setSoCuocHop(data.getIntExtra("soCuocHop", cn.getSoCuocHop()));
+
+                // Cập nhật ngày sửa
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                String ngaySuaHienTai = sdf.format(calendar.getTime());
+                cn.setNgaySua(ngaySuaHienTai);
+
+                // Cập nhật DB
+                db.update(cn);
+
+                // Cập nhật UI
+                adapter.notifyItemChanged(index);
             }
         }
     }
@@ -195,7 +257,17 @@ public class DanhSachCaNhanFragment extends Fragment {
     private void loadCaNhan() {
         List<CaNhan> listFromDB = db.getAllCaNhan();
         if (listFromDB.isEmpty()) {
+            // Nếu DB trống, khởi tạo danh sách mặc định
             caNhanList = new ArrayList<>();
+            caNhanList.add(new CaNhan("Anh","Nguyễn Văn", "A", "Công ty X", "01/01/2025", 2, 2));
+            caNhanList.add(new CaNhan("Chị", "Trần Thị", "B", "Công ty Y", "02/01/2025", 2, 2));
+            caNhanList.add(new CaNhan("Anh", "Lê Văn", "C", "Công ty Z", "03/01/2025", 2, 2));
+
+            // Lưu 3 item mặc định vào DB
+            for (CaNhan cn : caNhanList) {
+                long id = db.add(cn);
+                cn.setId((int) id);
+            }
         } else {
             caNhanList = new ArrayList<>(listFromDB);
         }
