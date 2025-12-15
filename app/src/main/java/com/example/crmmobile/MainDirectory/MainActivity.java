@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements main_screen.onMod
 
             navFooter.getMenu().findItem(R.id.nav_menu).setChecked(true);
         }
+
         if(moduleName.equals("Cá nhân")){
             Fragment danhsachcanhanFragment = new DanhSachCaNhanFragment();
 
