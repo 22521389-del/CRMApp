@@ -58,7 +58,7 @@ public class EditLeadActivity extends AppCompatActivity {
         btn_save.setOnClickListener(v -> {
             String first_name = viewModelLead.first_name.getValue();
             String phone_number = viewModelLead.phonenumber.getValue();
-            String Send_to = viewModelLead.Sendto.getValue();
+            String Send_to = viewModelLead.SendtoName.getValue();
 
             if (TextUtils.isEmpty(first_name)){
                 Toast.makeText(this, "Vui lòng nhập tên", Toast.LENGTH_SHORT).show();
@@ -94,7 +94,7 @@ public class EditLeadActivity extends AppCompatActivity {
         lead.setQuanHuyen(viewModelLead.District.getValue());
         lead.setQuocGia(viewModelLead.Nation.getValue());
         lead.setCongty(viewModelLead.company.getValue());
-        lead.setGiaocho(viewModelLead.Sendto.getValue());
+        lead.setGiaocho(viewModelLead.SendtoName.getValue());
         lead.setNganhnghe(viewModelLead.Job.getValue());
         lead.setMaThue(viewModelLead.Tax.getValue());
         lead.setNgayLienHe(viewModelLead.contact_day.getValue());
@@ -131,7 +131,7 @@ public class EditLeadActivity extends AppCompatActivity {
         viewModelLead.Job.setValue(lead.getNganhnghe());
         viewModelLead.number_of_employees.setValue(lead.getSoNV());
         viewModelLead.Revenue.setValue(lead.getDoanhThu());
-        viewModelLead.Sendto.setValue(lead.getGiaocho());
+        viewModelLead.SendtoName.setValue(lead.getGiaocho());
         viewModelLead.Tax.setValue(lead.getMaThue());
         viewModelLead.contact_day.setValue(lead.getNgayLienHe());
 

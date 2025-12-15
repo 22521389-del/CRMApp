@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +93,7 @@ public class create_Lead extends Fragment {
         String title = viewModelLead.title.getValue();
         String phone_number = viewModelLead.phonenumber.getValue();
         String job = viewModelLead.Job.getValue();
-        String Send_to = viewModelLead.Sendto.getValue();
+        Integer SentoID = viewModelLead.SendtoID.getValue();
         String Email = viewModelLead.Email.getValue();
         String Sex = viewModelLead.Sex.getValue();
         String contact_day = viewModelLead.contact_day.getValue();
@@ -106,7 +107,7 @@ public class create_Lead extends Fragment {
 
 
         LeadReposity db = new LeadReposity(requireContext());
-        if(first_name.isEmpty() || phone_number.isEmpty() || Send_to.isEmpty()){
+        if(TextUtils.isEmpty(first_name) || TextUtils.isEmpty(phone_number) || SentoID == null){
             Toast.makeText(getContext(), "Nhập tên và số điện thoại.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -119,7 +120,7 @@ public class create_Lead extends Fragment {
         lead.setEmail(Email);
         lead.setDienThoai(phone_number);
         lead.setGioitinh(Sex);
-        lead.setGiaocho(Send_to);
+        lead.setGiaochoID(SentoID);
         lead.setNgayLienHe(contact_day);
         lead.setNgaysinh(birthday);
         lead.setDiachi(Address);

@@ -6,6 +6,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
@@ -20,6 +22,8 @@ import com.example.crmmobile.R;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class another_lead_information extends Fragment {
@@ -44,7 +48,7 @@ public class another_lead_information extends Fragment {
         initVariables(view);
         viewModelLead = new ViewModelProvider(requireActivity()).get(ViewModelLead.class);
 
-        bindViewModeltoEditext(viewModelLead.Sendto, tv_sendto);
+        bindViewModeltoEditext(viewModelLead.SendtoName, tv_sendto);
         bindViewModeltoEditext(viewModelLead.company, company_name);
         bindViewModeltoEditext(viewModelLead.Tax, edt_tax);
         bindViewModeltoEditext(viewModelLead.number_of_employees, number_of_employees);
@@ -62,7 +66,7 @@ public class another_lead_information extends Fragment {
             setEmptyEditText();
         }
 
-        bindEditTexttoViewModel(tv_sendto, s -> viewModelLead.Sendto.setValue(s));
+        bindEditTexttoViewModel(tv_sendto, s -> viewModelLead.SendtoName.setValue(s));
         bindEditTexttoViewModel(company_name, s -> viewModelLead.company.setValue(s));
         bindEditTexttoViewModel(edt_tax, s -> viewModelLead.Tax.setValue(s));
         bindEditTexttoViewModel(number_of_employees, s -> viewModelLead.number_of_employees.setValue(s));
@@ -74,7 +78,7 @@ public class another_lead_information extends Fragment {
     }
 
     private void setEmptyEditText() {
-        viewModelLead.Sendto.setValue("");
+        viewModelLead.SendtoName.setValue("");
         viewModelLead.company.setValue("");
         viewModelLead.Tax.setValue("");
         viewModelLead.number_of_employees.setValue("");
@@ -86,7 +90,8 @@ public class another_lead_information extends Fragment {
     }
 
     private void getValueViewModel() {
-        viewModelLead.Sendto.setValue(lead.getGiaocho());
+        viewModelLead.SendtoName.setValue(lead.getGiaocho());
+        viewModelLead.SendtoID.setValue(lead.getGiaochoID());
         viewModelLead.company.setValue(lead.getCongty());
         viewModelLead.Tax.setValue(lead.getMaThue());
         viewModelLead.number_of_employees.setValue(lead.getSoNV());
@@ -100,6 +105,20 @@ public class another_lead_information extends Fragment {
     private void initVariables(View view) {
         company_name = view.findViewById(R.id.company_name);
         tv_sendto = view.findViewById(R.id.tv_sendto);
+        List<Nhanvien> Employees_list = new ArrayList<>();
+        Employees_list.add(new Nhanvien(1, "Tuấn Phong"));
+        Employees_list.add(new Nhanvien(2, "Tường Vy"));
+        Employees_list.add(new Nhanvien(3, "Ánh Xuân"));
+        Employees_list.add(new Nhanvien(4, "Đức Thành"));
+        ArrayAdapter<Nhanvien> AdapterEmployer = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, Employees_list);
+        tv_sendto.setAdapter(AdapterEmployer);
+        tv_sendto.setOnItemClickListener(((parent, view1, position, id) -> {
+            Nhanvien nv = (Nhanvien) parent.getItemAtPosition(position);
+
+            viewModelLead.SendtoID.setValue(nv.getId());
+            viewModelLead.SendtoName.setValue(nv.getHoten());
+        }));
+
         edt_tax = view.findViewById(R.id.edt_tax);
         number_of_employees = view.findViewById(R.id.number_of_employees);
         job_name = view.findViewById(R.id.job_name);

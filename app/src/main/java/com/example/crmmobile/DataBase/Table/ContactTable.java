@@ -1,11 +1,11 @@
 package com.example.crmmobile.DataBase.Table;
 
 public class ContactTable {
-    public static final String TABLE_NAME = "COMPANY";
+    public static final String TABLE_NAME = "CONTACT";
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " (" +
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "HOTEN TEXT," +
+                    "HOVATENDEM TEXT," +
                     "DANHXUNG TEXT," +
                     "TEN TEXT," +
                     "DIENTHOAI TEXT," +
@@ -20,7 +20,7 @@ public class ContactTable {
                     "CONGTY TEXT," +
                     "MOTA TEXT," +
                     "GHICHU TEXT," +
-                    "GIAOCHO TEXT," +
+                    "GIAOCHO INTEGER," +
                     "NGAYTAO TEXT," +
                     "NGAYSUA TEXT," + // THÊM CÁI NÀY VÀO
                     "CUOCGOI INTEGER," +

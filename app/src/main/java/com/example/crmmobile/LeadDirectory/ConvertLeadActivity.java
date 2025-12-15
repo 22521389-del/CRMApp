@@ -42,7 +42,6 @@ public class ConvertLeadActivity extends AppCompatActivity {
         setRequiredLabel(et_companyname, R.string.name_company);
         setRequiredLabel(et_job, R.string.job_infor);
         setRequiredLabel(et_source, R.string.source);
-        setRequiredLabel(et_firstname, R.string.first_name);
         setRequiredLabel(et_phonenumber, R.string.SDT);
         setRequiredLabel(et_ship, R.string.shipto);
 
@@ -56,13 +55,20 @@ public class ConvertLeadActivity extends AppCompatActivity {
         cb_organization.setOnCheckedChangeListener(setOrganizationChecked);
 
         if (lead != null){
-            Log.d("LEAD_DEBUG", "Ten = " + lead.getTen());
-            et_firstname.setText(lead.getTen());
+            setText();
         }
 
         save_button.setOnClickListener(v -> {
 
         });
+    }
+
+    private void setText() {
+        et_firstname.setText(lead.getTen());
+        ed_first_lastName.setText(lead.getHovaTendem());
+        ed_email.setText(lead.getEmail());
+        et_phonenumber.setText(lead.getDienThoai());
+        et_ship.setText(lead.getGiaocho());
     }
 
     private void setCheckInit() {

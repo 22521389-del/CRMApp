@@ -42,7 +42,7 @@ public class LeadReposity {
         values.put("MASOTHUE", lead.getMaThue());
         values.put("TINHTRANG", lead.getTinhTrang());
         values.put("MOTA", lead.getMota());
-        values.put("GIAOCHO", lead.getGiaocho());
+        values.put("GIAOCHO", lead.getGiaochoID());
         values.put("NGAYLIENHE", lead.getNgayLienHe());
 
         long newId = db.insert("LEAD", null, values);
@@ -81,7 +81,7 @@ public class LeadReposity {
                 lead.setMaThue(cursor.getString(cursor.getColumnIndexOrThrow("MASOTHUE")));
                 lead.setTinhTrang(cursor.getString(cursor.getColumnIndexOrThrow("TINHTRANG")));
                 lead.setMota(cursor.getString(cursor.getColumnIndexOrThrow("MOTA")));
-                lead.setGiaocho(cursor.getString(cursor.getColumnIndexOrThrow("GIAOCHO")));
+                lead.setGiaochoID(cursor.getInt(cursor.getColumnIndexOrThrow("GIAOCHO")));
                 lead.setNgayLienHe(cursor.getString(cursor.getColumnIndexOrThrow("NGAYLIENHE")));
                 list.add(lead);
             }while (cursor.moveToNext());
@@ -117,7 +117,7 @@ public class LeadReposity {
         values.put("MASOTHUE", lead.getMaThue());
         values.put("TINHTRANG", lead.getTinhTrang());
         values.put("MOTA", lead.getMota());
-        values.put("GIAOCHO", lead.getGiaocho());
+        values.put("GIAOCHO", lead.getGiaochoID());
         values.put("NGAYLIENHE", lead.getNgayLienHe());
 
         int result = db.update("LEAD", values, "ID=?", new String[]{String.valueOf(lead.getID())});
