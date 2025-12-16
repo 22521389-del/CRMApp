@@ -25,7 +25,7 @@ import java.util.List;
 public class DBCRMHandler extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "crm.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     public DBCRMHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

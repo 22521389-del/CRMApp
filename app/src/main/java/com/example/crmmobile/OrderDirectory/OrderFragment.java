@@ -119,7 +119,7 @@ public class OrderFragment extends Fragment {
 
         addActionItem(layoutActions, R.drawable.keep, "Ghim",
                 () -> Toast.makeText(requireContext(), "Đã ghim đơn hàng", Toast.LENGTH_SHORT).show());
-        addActionItem(layoutActions, R.drawable.cached, "Chuyển thành hóa đơn",
+        addActionItem(layoutActions, R.drawable.ic_loop, "Chuyển thành hóa đơn",
                 () -> Toast.makeText(requireContext(), "Chuyển hóa đơn thành công", Toast.LENGTH_SHORT).show());
         addActionItem(layoutActions, R.drawable.files, "Xuất file PDF",
                 () -> Toast.makeText(requireContext(), "Xuất file PDF...", Toast.LENGTH_SHORT).show());
@@ -127,7 +127,7 @@ public class OrderFragment extends Fragment {
                 () -> Toast.makeText(requireContext(), "Gửi thành công", Toast.LENGTH_SHORT).show());
         addActionItem(layoutActions, R.drawable.copy, "Nhân đôi",
                 () -> Toast.makeText(requireContext(), "Nhân đôi thành công", Toast.LENGTH_SHORT).show());
-        addActionItem(layoutActions, R.drawable.cancel, "Hủy đơn hàng", () -> {
+        addActionItem(layoutActions, R.drawable.ic_escape, "Hủy đơn hàng", () -> {
             new AlertDialog.Builder(requireContext())
                     .setTitle("Hủy đơn hàng")
                     .setMessage("Bạn có chắc muốn hủy đơn " + order.getOrderCode() + " không?")

@@ -36,7 +36,9 @@
     <string name="state_infor">Tình trạng</string>
     <string name="state_detail">Mô tả tình trạng</string>
     <string name="contact_day">Ngày liên hệ</string>
-    <string name="another_phone">Số điện thoại khác</string>
+    <string name="created_by">Người tạo</string>
+
+    <string name="person_in_charge">Người phụ trách</string>
     <string name="abort">Hủy bỏ</string>
     <string name="company_infor">Thông tin công ty</string>
     <string name="tax_code">Mã số thuế</string>

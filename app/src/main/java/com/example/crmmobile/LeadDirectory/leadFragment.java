@@ -19,14 +19,13 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.crmmobile.Adapter.AdapterLead;
 import com.example.crmmobile.AppConstant;
 import com.example.crmmobile.BottomSheet.BottomSheetActionLead;
-import com.example.crmmobile.DataBase.LeadReposity;
+import com.example.crmmobile.DataBase.LeadRepository;
 import com.example.crmmobile.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class leadFragment extends Fragment {
@@ -38,7 +37,7 @@ public class leadFragment extends Fragment {
     BottomNavigationView navFooter;
     ViewPager2 viewPager;
     FrameLayout contain;
-    private LeadReposity db;
+    private LeadRepository db;
 
     public ActivityResultLauncher<Intent> editLeadLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -75,7 +74,7 @@ public class leadFragment extends Fragment {
 
         recyclerLead.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        db = new LeadReposity(getContext());
+        db = new LeadRepository(getContext());
         leadList = new ArrayList<>();
 
         navFooter = requireActivity().findViewById(R.id.nav_footer);

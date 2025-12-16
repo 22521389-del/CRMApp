@@ -25,8 +25,10 @@ public class LeadTable {
                     "MASOTHUE TEXT," +
                     "TINHTRANG TEXT," +
                     "MOTA TEXT," +
+                    "NGUOITAO INTEGER," +
                     "GIAOCHO INTEGER," +
                     "NGAYLIENHE TEXT," +
+                    "FOREIGN KEY(NGUOITAO) REFERENCES NHANVIEN(ID) ON DELETE SET NULL," +
                     "FOREIGN KEY(GIAOCHO) REFERENCES NHANVIEN(ID) ON DELETE SET NULL" +
                     ");";
 }

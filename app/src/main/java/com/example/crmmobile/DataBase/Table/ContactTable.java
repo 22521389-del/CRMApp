@@ -5,7 +5,7 @@ public class ContactTable {
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " (" +
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "HOVATENDEM TEXT," +
+                    "HOTEN TEXT," +
                     "DANHXUNG TEXT," +
                     "TEN TEXT," +
                     "DIENTHOAI TEXT," +

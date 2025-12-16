@@ -10,6 +10,11 @@ public class Nhanvien {
         this.id = id;
         this.hoten = hoten;
     }
+    public Nhanvien(String hoten){
+        this.hoten = hoten;
+    }
+
+    public Nhanvien(){}
 
     public int getId() {
         return id;

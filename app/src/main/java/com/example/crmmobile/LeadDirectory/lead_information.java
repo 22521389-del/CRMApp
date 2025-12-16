@@ -2,6 +2,8 @@ package com.example.crmmobile.LeadDirectory;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,13 +20,18 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.crmmobile.AppConstant;
+import com.example.crmmobile.DataBase.NhanVienRepository;
 import com.example.crmmobile.R;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 public class lead_information extends Fragment {
@@ -33,7 +40,7 @@ public class lead_information extends Fragment {
     private TextInputLayout birthday_layout,day_contact_layout;
     private TextInputEditText state_detail, edt_birthday, edt_family_name,
             edt_first_name, edt_phone_number, edt_email, edt_contact_day;
-    private MaterialAutoCompleteTextView edtTitle, edt_sex, edt_potential, edt_state;
+    private MaterialAutoCompleteTextView edtTitle, edt_sex, edt_potential, edt_state,edt_created_by;
 
     public interface StringUpdater{
         void update(String s);
@@ -49,9 +56,8 @@ public class lead_information extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        initVariables(view);
         viewModelLead = new ViewModelProvider(requireActivity()).get(ViewModelLead.class);
+        initVariables(view);
 
         bindViewModeltoEditext(viewModelLead.title, edtTitle);
         bindViewModeltoEditext(viewModelLead.hovatendem, edt_family_name);
@@ -61,8 +67,8 @@ public class lead_information extends Fragment {
         bindViewModeltoEditext(viewModelLead.Sex, edt_sex);
         bindViewModeltoEditext(viewModelLead.Birthday, edt_birthday);
         bindViewModeltoEditext(viewModelLead.state, edt_state);
-        bindViewModeltoEditext(viewModelLead.state_detail, state_detail);
         bindViewModeltoEditext(viewModelLead.contact_day, edt_contact_day);
+        bindViewModeltoEditext(viewModelLead.CreatedByName, edt_created_by);
 
         Bundle args = getArguments();
         if (args != null && args.getSerializable(AppConstant.KEY_LEAD_DATA) != null){ //edit lead
@@ -81,9 +87,9 @@ public class lead_information extends Fragment {
         bindEditTexttoViewModel(edt_sex, s -> viewModelLead.Sex.setValue(s));
         bindEditTexttoViewModel(edt_birthday, s -> viewModelLead.Birthday.setValue(s));
         bindEditTexttoViewModel(edt_state, s-> viewModelLead.state.setValue(s));
-        bindEditTexttoViewModel(state_detail, s -> viewModelLead.state_detail.setValue(s));
         bindEditTexttoViewModel(edt_potential, s -> viewModelLead.potential.setValue(s));
         bindEditTexttoViewModel(edt_contact_day, s -> viewModelLead.contact_day.setValue(s));
+        bindEditTexttoViewModel(edt_created_by, s -> viewModelLead.CreatedByName.setValue(s));
     }
 
     private void getValueViewModel() {
@@ -95,8 +101,8 @@ public class lead_information extends Fragment {
         viewModelLead.Sex.setValue(lead.getGioitinh());
         viewModelLead.Birthday.setValue(lead.getNgaysinh());
         viewModelLead.state.setValue(lead.getTinhTrang());
-        viewModelLead.state_detail.setValue(lead.getMota());
         viewModelLead.contact_day.setValue(lead.getNgayLienHe());
+        viewModelLead.CreatedByID.setValue(lead.getNguoitaoID());
     }
 
     private void setEmptyEditText() {
@@ -108,17 +114,22 @@ public class lead_information extends Fragment {
         viewModelLead.Sex.setValue("");
         viewModelLead.Birthday.setValue("");
         viewModelLead.state.setValue("");
-        viewModelLead.state_detail.setValue("");
         viewModelLead.contact_day.setValue("");
+        viewModelLead.CreatedByName.setValue("");
+        viewModelLead.CreatedByID.setValue(null);
     }
 
     private void bindViewModeltoEditext(MutableLiveData<String> title, EditText editText) {
         title.observe(getViewLifecycleOwner(), v->{
-            if (v != null && !v.equals(editText.getText().toString())){
+            if (v == null) return;
+            String curr = editText.getText() != null ? editText.getText().toString() : "";
+            if (!v.equals(curr)){
                 if(editText instanceof MaterialAutoCompleteTextView){
                     ((MaterialAutoCompleteTextView)editText).setText(v,false);
                 }else{
-                    editText.setText(v);
+                    if (!editText.hasFocus()){
+                        editText.setText(v);
+                    }
                 }
             }
         });
@@ -151,13 +162,36 @@ public class lead_information extends Fragment {
         ArrayAdapter<String> AdapterStates = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1, states);
         edt_state.setAdapter(AdapterStates);
 
-        state_detail = view.findViewById(R.id.state_detail);
         edt_potential = view.findViewById(R.id.edt_potential);
 
         edt_contact_day = view.findViewById(R.id.edt_contact_day);
         day_contact_layout = view.findViewById(R.id.day_contact_layout);
         day_contact_layout.setEndIconOnClickListener(v -> {
             showDatePicker(edt_contact_day);
+        });
+        edt_created_by = view.findViewById(R.id.edt_created_by);
+        initCreateBy();
+    }
+
+    private void initCreateBy() {
+        Executor executor = Executors.newSingleThreadExecutor();
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        executor.execute(()->{
+            NhanVienRepository nhanVienRepository = new NhanVienRepository(requireContext());
+            nhanVienRepository.AddNhanVien();
+            List<Nhanvien> Employees_list = nhanVienRepository.getAllNhanVien();
+            mainHandler.post(()->{
+                ArrayAdapter<Nhanvien> AdapterEmployer =
+                        new ArrayAdapter<>(requireContext(),
+                                android.R.layout.simple_list_item_1,
+                                Employees_list);
+                edt_created_by.setAdapter(AdapterEmployer);
+                edt_created_by.setOnItemClickListener(((parent, view1, position, id) -> {
+                    Nhanvien nv = (Nhanvien) parent.getItemAtPosition(position);
+                    viewModelLead.CreatedByID.setValue(nv.getId());
+                    viewModelLead.CreatedByName.setValue(nv.getHoten());
+                }));
+            });
         });
     }
 

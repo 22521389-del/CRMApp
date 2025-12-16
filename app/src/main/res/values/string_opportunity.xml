@@ -95,6 +95,7 @@
     <string name="hint_description">Mô tả</string>
     <string name="section_opportunity_management">Thông tin quản lý</string>
     <string name="hint_management">Giao cho<font color='#FF0000'>*</font></string>
+    <string name="hint_created_by">Người tạo<font color='#FF0000'>*</font></string>
     <string name="auto_management">Ha Nguyen</string>
     <string name="cancel">Hủy</string>
     <string name="save">Lưu</string>

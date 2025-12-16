@@ -1,5 +1,6 @@
 package com.example.crmmobile.LeadDirectory;
 
+import android.nfc.Tag;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,21 +18,18 @@ import android.widget.Toast;
 
 import com.example.crmmobile.Adapter.AdapterCreateLead;
 import com.example.crmmobile.AppConstant;
-import com.example.crmmobile.DataBase.LeadReposity;
+import com.example.crmmobile.DataBase.LeadRepository;
 import com.example.crmmobile.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 public class create_Lead extends Fragment {
-
-    ImageButton back_btn;
+    private static final String TAG = "CREATE_LEAD";
+    private ImageButton back_btn;
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
-
     private MaterialButton btnSave, btnAbort;
     private ViewModelLead viewModelLead;
     
@@ -93,6 +92,7 @@ public class create_Lead extends Fragment {
         String title = viewModelLead.title.getValue();
         String phone_number = viewModelLead.phonenumber.getValue();
         String job = viewModelLead.Job.getValue();
+        String SendtoName = viewModelLead.SendtoName.getValue();
         Integer SentoID = viewModelLead.SendtoID.getValue();
         String Email = viewModelLead.Email.getValue();
         String Sex = viewModelLead.Sex.getValue();
@@ -107,10 +107,22 @@ public class create_Lead extends Fragment {
         String Tax = viewModelLead.Tax.getValue();
         String Number_of_Employees = viewModelLead.number_of_employees.getValue();
         String Revenue = viewModelLead.Revenue.getValue();
+        String description = viewModelLead.description.getValue();
+        Integer Created_by_ID = viewModelLead.CreatedByID.getValue();
 
-        LeadReposity db = new LeadReposity(requireContext());
-        if(TextUtils.isEmpty(first_name) || TextUtils.isEmpty(phone_number) || SentoID == null){
-            Toast.makeText(getContext(), "Nhập tên và số điện thoại.", Toast.LENGTH_SHORT).show();
+        LeadRepository db = new LeadRepository(requireContext());
+        if(TextUtils.isEmpty(first_name)){
+            Toast.makeText(getContext(), "Vui lòng nhập tên.", Toast.LENGTH_SHORT).show();
+        }
+        if (TextUtils.isEmpty(phone_number)){
+            Toast.makeText(getContext(), "Vui lòng nhập số điện thoại.", Toast.LENGTH_SHORT).show();
+        }
+        if (SentoID == null){
+            Toast.makeText(getContext(), "Vui lòng nhập giao cho.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (Created_by_ID == null){
+            Toast.makeText(getContext(), "Vui lòng chọn người tạo.", Toast.LENGTH_SHORT).show();
             return;
         }
         Lead lead = new Lead();
@@ -122,6 +134,7 @@ public class create_Lead extends Fragment {
         lead.setEmail(Email);
         lead.setDienThoai(phone_number);
         lead.setGioitinh(Sex);
+        lead.setGiaocho(SendtoName);
         lead.setGiaochoID(SentoID);
         lead.setNgayLienHe(contact_day);
         lead.setNgaysinh(birthday);
@@ -130,12 +143,17 @@ public class create_Lead extends Fragment {
         lead.setTinh(Province);
         lead.setQuocGia(Nation);
         lead.setQuanHuyen(District);
+        lead.setMota(description);
         lead.setChucvu(position_company);
         lead.setMaThue(Tax);
         lead.setSoNV(Number_of_Employees);
         lead.setDoanhThu(Revenue);
+        lead.setNguoitaoID(Created_by_ID);
 
         db.addLead(lead);
+        Log.e(TAG, "SendtoID = " + viewModelLead.SendtoID.getValue());
+        Log.e(TAG, "Send to Name = " + viewModelLead.SendtoName.getValue());
+        Log.e(TAG, "CreatedByID = " + viewModelLead.CreatedByID.getValue());
 
         //Thông báo cho fragment refresh dữ liệu
         Bundle result = new Bundle();

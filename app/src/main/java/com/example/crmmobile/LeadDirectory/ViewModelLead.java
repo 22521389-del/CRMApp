@@ -24,6 +24,8 @@ public class ViewModelLead extends ViewModel {
     public MutableLiveData<String> description = new MutableLiveData<>();
     public MutableLiveData<String> SendtoName = new MutableLiveData<>();
     public MutableLiveData<Integer> SendtoID = new MutableLiveData<>();
+    public MutableLiveData<String> CreatedByName = new MutableLiveData<>();
+    public MutableLiveData<Integer> CreatedByID = new MutableLiveData<>();
     public MutableLiveData<String> potential = new MutableLiveData<>();
     public MutableLiveData<String> contact_day = new MutableLiveData<>();
     public MutableLiveData<String> Tax = new MutableLiveData<>();
