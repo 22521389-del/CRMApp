@@ -25,6 +25,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 
+import com.example.crmmobile.IndividualDirectory.CaNhan;
 import com.example.crmmobile.R;
 
 public class OpportunityFormFragment extends Fragment {
@@ -193,8 +194,8 @@ public class OpportunityFormFragment extends Fragment {
             if (list.get(pos) instanceof Company)
                 formVM.setSelectedCompanyId(((Company) list.get(pos)).getId());
 
-            if (list.get(pos) instanceof Contact)
-                formVM.setSelectedContactId(((Contact) list.get(pos)).getId());
+            if (list.get(pos) instanceof CaNhan)
+                formVM.setSelectedContactId(((CaNhan) list.get(pos)).getId());
 
             if (list.get(pos) instanceof Employee)
                 formVM.setSelectedManagementId(((Employee) list.get(pos)).getId());

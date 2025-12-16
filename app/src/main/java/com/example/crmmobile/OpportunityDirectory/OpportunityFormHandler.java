@@ -2,7 +2,10 @@
 package com.example.crmmobile.OpportunityDirectory;
 
 import android.text.TextUtils;
-import android.util.Log;
+
+import com.example.crmmobile.IndividualDirectory.CaNhan;
+
+import org.jspecify.annotations.Nullable;
 
 import java.text.ParseException;
 import java.util.List;
@@ -106,8 +109,8 @@ public class OpportunityFormHandler {
         return "";
     }
 
-    public String findContactName(int id, List<Contact> list) {
-        for (Contact c : list) if (c.getId() == id) return c.getFull_name();
+    public String findContactName(int id, @Nullable List<CaNhan> list) {
+        for (CaNhan c : list) if (c.getId() == id) return c.getHoVaTen();
         return "";
     }
 

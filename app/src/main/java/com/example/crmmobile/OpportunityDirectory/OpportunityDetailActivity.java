@@ -75,13 +75,16 @@ public class OpportunityDetailActivity extends AppCompatActivity {
 
         detailVM.loadOpportunityById(opportunityId);
 
+        detailVM.getUI().observe(this, ui -> {
+            if (ui == null) return;
+
+            bindData(ui);
+        });
+
         detailVM.getOpportunity().observe(this, o -> {
             Log.d("OD_DEBUG", "observe opportunity = " + o);
             if (o != null) {
                 opportunity = o;
-
-                // BIND DATA
-                bindData(opportunity);
 
                 if (!isPipelineSetup) {
                     setupViewPager();
@@ -93,6 +96,8 @@ public class OpportunityDetailActivity extends AppCompatActivity {
                 updatePipelineClickability(o);
             }
         });
+
+
 
         actionVM.getActionSuccess().observe(this, success -> {
             if (Boolean.TRUE.equals(success)) {
@@ -115,6 +120,25 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         });
 
     }
+
+    private void bindData(OpportunityDetailUI ui) {
+        if (ui == null) return;
+
+        Log.d("DETAIL_BIND",
+                "bind status=" + ui.status +
+                        " price=" + ui.price
+        );
+
+        // Giá trị
+        tvPrice.setText(formatCurrency(ui.price));
+        tvStatus.setText(ui.status);
+
+        // Tên đã được map
+        tvCompany.setText(ui.companyName);
+        tvCreator.setText(ui.contactName);
+        tvAssignee.setText(ui.contactName);
+    }
+
 
     private final ActivityResultLauncher<Intent> updateLauncher =
             registerForActivityResult(
@@ -283,35 +307,29 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         if (ivStep5.isClickable()) ivStep5.setOnClickListener(stepClickListener);
     }
 
-    private void bindData(Opportunity o) {
-        if (o == null) return;
+//    private void bindData(Opportunity o) {
+//        if (o == null) return;
+//
+//        Log.d("DETAIL_BIND",
+//                "bind status=" + o.getStatus() +
+//                        " price=" + o.getPrice()
+//        );
+//
+//        tvPrice.setText(formatCurrency(o.getPrice()));
+//        tvStatus.setText(o.getStatus());
+//
+//        // Tạm thời set id (sau này map sang tên)
+//        tvCompany.setText("Company ID: " + o.getCompany());
+//        tvCreator.setText("Creator ID: " + o.getManagement());
+//        tvAssignee.setText("Assignee ID: " + o.getManagement());
+//    }
 
-        Log.d("DETAIL_BIND",
-                "bind status=" + o.getStatus() +
-                        " price=" + o.getPrice()
-        );
 
-        tvPrice.setText(formatCurrency(o.getPrice()));
-        tvStatus.setText(o.getStatus());
-
-        // Tạm thời set id (sau này map sang tên)
-        tvCompany.setText("Company ID: " + o.getCompany());
-        tvCreator.setText("Creator ID: " + o.getManagement());
-        tvAssignee.setText("Assignee ID: " + o.getManagement());
-    }
 
     private String formatCurrency(double amount) {
         return String.format("%,.0f đ", amount);
     }
 
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if (opportunityId != -1) {
-//            detailVM.loadOpportunityById(opportunityId);
-//        }
-//    }
 
     @Override
     protected void onResume() {

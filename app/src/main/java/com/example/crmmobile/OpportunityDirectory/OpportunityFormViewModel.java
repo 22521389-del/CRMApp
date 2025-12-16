@@ -7,20 +7,27 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.crmmobile.DataBase.CaNhanRepository;
+import com.example.crmmobile.IndividualDirectory.CaNhan;
+
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.List;
 
 public class OpportunityFormViewModel extends AndroidViewModel {
 
+    private CaNhanRepository caNhanRepo;
     private CompanyRepository companyRepo;
-    private ContactRepository contactRepo;
+//    private ContactRepository contactRepo;
     private EmployeeRepository employeeRepo;
     private OpportunityRepository oppRepo;
 
     private OpportunityFormHandler handler = new OpportunityFormHandler();
 
     private final MutableLiveData<List<Company>> companies = new MutableLiveData<>();
-    private final MutableLiveData<List<Contact>> contacts = new MutableLiveData<>();
+//    private final MutableLiveData<List<Contact>> contacts = new MutableLiveData<>();
+    private final MutableLiveData<List<CaNhan>> contacts = new MutableLiveData<>();
+
     private final MutableLiveData<List<Employee>> employees = new MutableLiveData<>();
     private MutableLiveData<Opportunity> editing = new MutableLiveData<>();
 
@@ -33,7 +40,8 @@ public class OpportunityFormViewModel extends AndroidViewModel {
         super(app);
 
         companyRepo  = new CompanyRepository(null);
-        contactRepo  = new ContactRepository(null);
+//        contactRepo  = new ContactRepository(null);
+        caNhanRepo = new CaNhanRepository(app);
         employeeRepo = new EmployeeRepository(null);
 //        app crash khi open edit form vi quen khoi tao repository
         oppRepo      = new OpportunityRepository(app);
@@ -43,12 +51,15 @@ public class OpportunityFormViewModel extends AndroidViewModel {
 
     private void loadDropdownData() {
         companies.setValue(companyRepo.getAllCompanies());
-        contacts.setValue(contactRepo.getAllContacts());
+//        contacts.setValue(contactRepo.getAllContacts());
+        contacts.setValue(caNhanRepo.getAllCaNhan());
         employees.setValue(employeeRepo.getAllEmployees());
     }
 
     public LiveData<List<Company>> getCompanies() { return companies; }
-    public LiveData<List<Contact>> getContacts() { return contacts; }
+//    public LiveData<List<Contact>> getContacts() { return contacts; }
+    public LiveData<List<CaNhan>> getContacts() { return contacts; }
+
     public LiveData<List<Employee>> getEmployees() { return employees; }
     public LiveData<Opportunity> getEditingOpportunity() {
         return editing;

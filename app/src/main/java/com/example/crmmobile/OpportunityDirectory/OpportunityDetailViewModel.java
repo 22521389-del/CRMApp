@@ -6,47 +6,128 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.crmmobile.DataBase.CaNhanRepository;
+import com.example.crmmobile.IndividualDirectory.CaNhan;
 
 public class OpportunityDetailViewModel extends AndroidViewModel {
 
-    private OpportunityRepository oppRepo;
-    private MutableLiveData<Opportunity> editing = new MutableLiveData<>();
+//    private OpportunityRepository oppRepo;
+//    private MutableLiveData<Opportunity> editing = new MutableLiveData<>();
+//    public OpportunityDetailViewModel(@NonNull Application app) {
+//        super(app);
+//        oppRepo = OpportunityRepository.getInstance(app);
+//    }
+//    public void loadOpportunityById(int id) {
+//        Log.d("DETAIL_VM", "loadOpportunityById(" + id + ")");
+//        Opportunity o = oppRepo.getById(id);
+//        Opportunity copy = new Opportunity(
+//                o.getId(),
+//                o.getTitle(),
+//                o.getCompany(),
+//                o.getContact(),
+//                o.getPrice(),
+//                o.getStatus(),
+//                o.getDate(),
+//                o.getExpectedDate2(),
+//                o.getDescription(),
+//                o.getManagement(),
+//                o.getCallCount(),
+//                o.getMessageCount()
+//        );
+//
+//        Log.d("DETAIL_VM",
+//                "emit status=" + copy.getStatus() +
+//                        " hash=" + System.identityHashCode(copy)
+//        );
+//
+//        editing.setValue(copy);
+//    }
+//    public LiveData<Opportunity> getOpportunity() {
+//        return editing;
+//    }
 
+//    sau khi cho contact link opportunity
+
+    private OpportunityRepository oppRepo;
+    private CompanyRepository companyRepo;
+    private CaNhanRepository caNhanRepo;
+    private EmployeeRepository employeeRepo;
+
+    private final MediatorLiveData<OpportunityDetailUI> ui = new MediatorLiveData<>();
+    private final MutableLiveData<Opportunity> opportunityLD = new MutableLiveData<>();
+    private Opportunity current;
 
     public OpportunityDetailViewModel(@NonNull Application app) {
         super(app);
         oppRepo = OpportunityRepository.getInstance(app);
+        companyRepo = new CompanyRepository(null);
+        caNhanRepo = new CaNhanRepository(app);
+        employeeRepo = new EmployeeRepository(null);
     }
 
     public void loadOpportunityById(int id) {
-        Log.d("DETAIL_VM", "loadOpportunityById(" + id + ")");
         Opportunity o = oppRepo.getById(id);
-        Opportunity copy = new Opportunity(
-                o.getId(),
-                o.getTitle(),
-                o.getCompany(),
-                o.getContact(),
-                o.getPrice(),
-                o.getStatus(),
-                o.getDate(),
-                o.getExpectedDate2(),
-                o.getDescription(),
-                o.getManagement(),
-                o.getCallCount(),
-                o.getMessageCount()
-        );
+        current = o;
 
-        Log.d("DETAIL_VM",
-                "emit status=" + copy.getStatus() +
-                        " hash=" + System.identityHashCode(copy)
-        );
+        opportunityLD.setValue(o); // PIPELINE NHẬN OBJECT
 
-        editing.setValue(copy);
+        tryEmit(); // emit UI
     }
 
+
+    private void tryEmit() {
+        if (current == null) return;
+
+        String companyName = findCompanyName(current.getCompany());
+        String contactName = findContactName(current.getContact());
+        String managerName = findEmployeeName(current.getManagement());
+
+        OpportunityDetailUI uiModel = new OpportunityDetailUI(
+                current.getId(),
+                current.getTitle(),
+                current.getCompany(), companyName,
+                current.getContact(), contactName,
+                current.getManagement(), managerName,
+                current.getPrice(),
+                current.getStatus(),
+                current.getDate(),
+                current.getExpectedDate2(),
+                current.getDescription()
+        );
+
+        ui.setValue(uiModel);
+    }
 
     public LiveData<Opportunity> getOpportunity() {
-        return editing;
+        return opportunityLD;
     }
+
+    public LiveData<OpportunityDetailUI> getUI() {
+        return ui;
+    }
+
+    // ===== mapping helpers =====
+
+    private String findCompanyName(int id) {
+        for (Company c : companyRepo.getAllCompanies())
+            if (c.getId() == id) return c.getName();
+        return "";
+    }
+
+    private String findContactName(int id) {
+        for (CaNhan c : caNhanRepo.getAllIdName())
+            if (c.getId() == id) return c.getHoVaTen();
+        return "";
+    }
+
+    private String findEmployeeName(int id) {
+        for (Employee e : employeeRepo.getAllEmployees())
+            if (e.getId() == id) return e.getName();
+        return "";
+    }
+
+
 }
