@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,8 +52,13 @@ public class AdapterHoatDong extends RecyclerView.Adapter<AdapterHoatDong.ViewHo
         holder.fillgioketthuc.setText(hd.getThoiGianKetThuc());
         holder.fillngay.setText(hd.getNgayBatDau());
         holder.filltrangthai.setText(hd.getTinhTrang());
-        holder.fillbinhluan.setText("2");
-
+       // holder.fillbinhluan.setText("2");
+        if (hd.getType() != null && hd.getType().equals("call")) {
+            holder.icType.setImageResource(R.drawable.ic_call);
+        } else {
+            // Mặc định hoặc type = "meeting"
+            holder.icType.setImageResource(R.drawable.ic_meeting);
+        }
 
 //        // --- Click vào icon "More" ---
 //        holder.icMore.setOnClickListener(v -> {
@@ -73,6 +79,7 @@ public class AdapterHoatDong extends RecyclerView.Adapter<AdapterHoatDong.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView filltencuochop, fillgiobatdau, fillgioketthuc, fillngay, filltrangthai, fillbinhluan;
+        ImageView icType;
 
 
         ViewHolder(View itemView) {
@@ -83,6 +90,9 @@ public class AdapterHoatDong extends RecyclerView.Adapter<AdapterHoatDong.ViewHo
             fillngay = itemView.findViewById(R.id.fillngay);
             filltrangthai = itemView.findViewById(R.id.filltrangthai);
             fillbinhluan = itemView.findViewById(R.id.fillbinhluan);
+            icType = itemView.findViewById(R.id.ic_type);
+
+
 
         }
     }

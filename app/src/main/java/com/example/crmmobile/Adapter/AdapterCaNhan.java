@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.widget.ImageView;
 
+import com.example.crmmobile.DataBase.HoatDongRepository;
+import com.example.crmmobile.HoatDongDirectory.HoatDong;
 import com.example.crmmobile.IndividualDirectory.CaNhan;
 import com.example.crmmobile.R;
 
@@ -19,6 +21,8 @@ public class AdapterCaNhan extends RecyclerView.Adapter<AdapterCaNhan.ViewHolder
     private Context context;
     private List<CaNhan> caNhanList;
     private OnItemClickListener listener;
+
+    private HoatDongRepository hoatDongRepository;
 
 
     public interface OnItemClickListener {
@@ -33,6 +37,7 @@ public class AdapterCaNhan extends RecyclerView.Adapter<AdapterCaNhan.ViewHolder
     public AdapterCaNhan(Context context, List<CaNhan> caNhanList) {
         this.context = context;
         this.caNhanList = caNhanList;
+        this.hoatDongRepository = new HoatDongRepository(context);
     }
 
     @NonNull
@@ -50,8 +55,25 @@ public class AdapterCaNhan extends RecyclerView.Adapter<AdapterCaNhan.ViewHolder
         holder.tvTen.setText(cn.getTen());
         holder.tvCongTy.setText(cn.getCongTy());
         holder.tvNgay.setText(cn.getNgayTao());
-        holder.tvCuocGoi.setText(String.valueOf(cn.getSoCuocGoi()));
-        holder.tvMeeting.setText(String.valueOf(cn.getSoCuocHop()));
+        // Đếm số cuộc gọi và cuộc họp từ database
+        int callCount = 0;
+        int meetingCount = 0;
+
+        if (cn.getId() > 0 && hoatDongRepository != null) {
+            List<HoatDong> hoatDongList = hoatDongRepository.getHoatDongByNguoiLienHe(cn.getId());
+            for (HoatDong hd : hoatDongList) {
+                String type = hd.getType();
+                if ("call".equalsIgnoreCase(type)) {
+                    callCount++;
+                } else if ("meeting".equalsIgnoreCase(type)) {
+                    meetingCount++;
+                }
+            }
+        }
+
+        holder.tvCuocGoi.setText(String.valueOf(callCount));
+        holder.tvMeeting.setText(String.valueOf(meetingCount));
+
 
         // --- Click vào icon "More" ---
         holder.icMore.setOnClickListener(v -> {
@@ -75,6 +97,12 @@ public class AdapterCaNhan extends RecyclerView.Adapter<AdapterCaNhan.ViewHolder
         notifyItemInserted(caNhanList.size() - 1);
     }
 
+    public void setData(List<CaNhan> newList) {
+        this.caNhanList = newList != null ? newList : new java.util.ArrayList<>();
+        notifyDataSetChanged();
+    }
+
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvDanhXung, tvHoTen, tvTen, tvCongTy, tvNgay, tvCuocGoi, tvMeeting;
         ImageView icMore;
@@ -91,4 +119,6 @@ public class AdapterCaNhan extends RecyclerView.Adapter<AdapterCaNhan.ViewHolder
             icMore = itemView.findViewById(R.id.ic_more);
         }
     }
+
+
 }

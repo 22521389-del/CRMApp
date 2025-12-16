@@ -64,6 +64,12 @@ public class HoatDongRepository {
             values.putNull("GIAOCHO");
         }
 
+        if (hoatDong.getType() != null) {
+            values.put("TYPE", hoatDong.getType());
+        } else {
+            values.putNull("TYPE");
+        }
+
         long result = -1;
         try {
             result = db.insert("HOATDONG", null, values);
@@ -96,12 +102,14 @@ public class HoatDongRepository {
                 int nguoiLienHeIndex = cursor.getColumnIndexOrThrow("NGUOILIENHE");
                 int coHoiIndex = cursor.getColumnIndexOrThrow("COHOI");
                 int giaoChoIndex = cursor.getColumnIndexOrThrow("GIAOCHO");
+                int typeIndex = cursor.getColumnIndex("TYPE");
 
                 // Xử lý NULL cho các foreign keys
                 int nhanVien = cursor.isNull(nhanVienIndex) ? 0 : cursor.getInt(nhanVienIndex);
                 int nguoiLienHe = cursor.isNull(nguoiLienHeIndex) ? 0 : cursor.getInt(nguoiLienHeIndex);
                 int coHoi = cursor.isNull(coHoiIndex) ? 0 : cursor.getInt(coHoiIndex);
                 int giaoCho = cursor.isNull(giaoChoIndex) ? 0 : cursor.getInt(giaoChoIndex);
+                String type = cursor.isNull(typeIndex) ? null : cursor.getString(typeIndex);
 
                 HoatDong hd = new HoatDong(
                         cursor.getInt(cursor.getColumnIndexOrThrow("ID")),
@@ -115,7 +123,8 @@ public class HoatDongRepository {
                         nguoiLienHe,
                         coHoi,
                         cursor.getString(cursor.getColumnIndexOrThrow("MOTA")),
-                        giaoCho
+                        giaoCho,
+                        type
                 );
 
                 list.add(hd);
@@ -142,12 +151,14 @@ public class HoatDongRepository {
                 int nguoiLienHeIndex = cursor.getColumnIndexOrThrow("NGUOILIENHE");
                 int coHoiIndex = cursor.getColumnIndexOrThrow("COHOI");
                 int giaoChoIndex = cursor.getColumnIndexOrThrow("GIAOCHO");
+                int typeIndex = cursor.getColumnIndex("TYPE");
 
                 // Xử lý NULL cho các foreign keys
                 int nhanVien = cursor.isNull(nhanVienIndex) ? 0 : cursor.getInt(nhanVienIndex);
                 int nguoiLienHe = cursor.isNull(nguoiLienHeIndex) ? 0 : cursor.getInt(nguoiLienHeIndex);
                 int coHoi = cursor.isNull(coHoiIndex) ? 0 : cursor.getInt(coHoiIndex);
                 int giaoCho = cursor.isNull(giaoChoIndex) ? 0 : cursor.getInt(giaoChoIndex);
+                String type = cursor.isNull(typeIndex) ? null : cursor.getString(typeIndex);
 
                 HoatDong hd = new HoatDong(
                         cursor.getInt(cursor.getColumnIndexOrThrow("ID")),
@@ -161,7 +172,8 @@ public class HoatDongRepository {
                         nguoiLienHe,
                         coHoi,
                         cursor.getString(cursor.getColumnIndexOrThrow("MOTA")),
-                        giaoCho
+                        giaoCho,
+                        type
                 );
 
                 list.add(hd);
@@ -172,4 +184,6 @@ public class HoatDongRepository {
         db.close();
         return list;
     }
+
+
 }
