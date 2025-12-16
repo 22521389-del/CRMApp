@@ -38,6 +38,9 @@ public class TongQuanFragment extends Fragment {
     private HoatDongRepository db;
     private CaNhan caNhan;
 
+    private TextView tvCallCount, tvMeetingCount;
+
+
     private static final int REQ_ADD = 100;
     private static final int REQ_EDIT = 101;
 
@@ -73,6 +76,8 @@ public class TongQuanFragment extends Fragment {
         rvHoatDong = view.findViewById(R.id.rvHoatDong);
         groupThemHoatDong = view.findViewById(R.id.group_themhoatdong);
         btnThemHoatDong = view.findViewById(R.id.btnthemhoatdong);
+        tvCallCount = view.findViewById(R.id.fillslcuocgoi);
+        tvMeetingCount = view.findViewById(R.id.fillslcuochop);
 
         db = new HoatDongRepository(requireContext());
 
@@ -100,6 +105,37 @@ public class TongQuanFragment extends Fragment {
         });
     }
 
+    private void updateActivityStats() {
+        if (caNhan == null || caNhan.getId() <= 0) {
+            if (tvCallCount != null) tvCallCount.setText("0");
+            if (tvMeetingCount != null) tvMeetingCount.setText("0");
+            return;
+        }
+
+        if (db == null) {
+            db = new HoatDongRepository(requireContext());
+        }
+
+        int callCount = 0;
+        int meetingCount = 0;
+
+        List<HoatDong> listFromDB = db.getHoatDongByNguoiLienHe(caNhan.getId());
+        for (HoatDong hd : listFromDB) {
+            String type = hd.getType();
+            if ("call".equalsIgnoreCase(type)) {
+                callCount++;
+            } else if ("meeting".equalsIgnoreCase(type)) {
+                meetingCount++;
+            }
+        }
+
+        if (tvCallCount != null) {
+            tvCallCount.setText("" + callCount);
+        }
+        if (tvMeetingCount != null) {
+            tvMeetingCount.setText("" + meetingCount);
+        }
+    }
     private void refreshHoatDongList() {
         if (db != null && caNhan != null && caNhan.getId() > 0) {
             List<HoatDong> listFromDB = db.getHoatDongByNguoiLienHe(caNhan.getId());
@@ -108,8 +144,13 @@ public class TongQuanFragment extends Fragment {
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
             }
+
+            // Cập nhật số cuộc gọi/cuộc họp trong fragment
+            updateActivityStats();
+
         }
     }
+
 
     private void showBottomSheetHoatDong() {
         if (caNhan == null || caNhan.getId() <= 0) {
@@ -139,7 +180,10 @@ public class TongQuanFragment extends Fragment {
     public void onResume() {
         super.onResume();
         refreshHoatDongList();
+        updateActivityStats();
     }
+
+
 
 
 }

@@ -141,7 +141,7 @@
         android:id="@+id/ic_meeting"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@drawable/ic_comment"
+        android:src="@drawable/ic_meeting"
         android:tint="@color/icon_comment"
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toEndOf="@id/fill_cuocgoi"
