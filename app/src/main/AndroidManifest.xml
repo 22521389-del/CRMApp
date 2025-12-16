@@ -15,7 +15,7 @@
             android:name=".LeadDirectory.DetailLeadActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile" />
-        <activity android:name=".LeadDirectory.ConvertLead_Activity"
+        <activity android:name=".LeadDirectory.ConvertLeadActivity"
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
         <activity android:name=".QuoteDirectory.QuoteDetailActivity"
@@ -64,9 +64,14 @@
             android:exported="false"
             android:theme="@style/Theme.CRMMobile"/>
 
-        <activity android:name=".IndividualDirectory.DanhSachCaNhanActivity"
+        <activity
+            android:name=".OrderDirectory.SOCreate1Activity"
             android:exported="false"
-            android:theme="@style/Theme.CRMMobile"/>
+            android:parentActivityName=".OrderDirectory.OrderFragment" /> <!-- Chọn sản phẩm -->
+        <activity
+            android:name=".OrderDirectory.ProductPickActivity"
+            android:exported="false"
+            android:parentActivityName=".OrderDirectory.SOCreate1Activity" />
 
         <activity android:name=".MainDirectory.MainActivity"
             android:exported="true"

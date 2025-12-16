@@ -19,7 +19,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.util.List;
 
 public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.OrderViewHolder> {
-
     private List<Order> orders;
     private Context context;
 
@@ -107,8 +106,8 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.OrderViewHol
     //Hàm tạo 1 item_action
     private void addActionItem(LinearLayout parent, int iconRes, String text, Runnable onClick) {
         View itemView = LayoutInflater.from(context).inflate(R.layout.item_action, parent, false);
-        ImageView icon = itemView.findViewById(R.id.img_action_icon);
-        TextView label = itemView.findViewById(R.id.tv_action);
+        ImageView icon = itemView.findViewById(R.id.actionIcon);
+        TextView label = itemView.findViewById(R.id.actionText);
         icon.setImageResource(iconRes);
         label.setText(text);
 

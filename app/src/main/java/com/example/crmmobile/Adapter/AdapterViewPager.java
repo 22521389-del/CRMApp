@@ -43,7 +43,6 @@ public class AdapterViewPager extends FragmentStateAdapter {
                 return new Calendar();
             default:
                 return new main_screen();
-
         }
     }
 

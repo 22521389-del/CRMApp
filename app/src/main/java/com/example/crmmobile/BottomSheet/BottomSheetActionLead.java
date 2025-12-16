@@ -1,7 +1,6 @@
 package com.example.crmmobile.BottomSheet;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,24 +8,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.crmmobile.LeadDirectory.Lead;
-import com.example.crmmobile.LeadDirectory.ConvertLead_Activity;
-import com.example.crmmobile.LeadDirectory.EditLeadActivity;
 import com.example.crmmobile.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-
-import java.util.List;
 
 public class BottomSheetActionLead {
 
     public interface OnActionListenerLead{
         void onEdit(Lead lead);
         void onDelete(Lead lead);
+        void onConvertLead(Lead lead);
     }
     private static void addActionItemLead(Context context, LinearLayout parent, int iconRes, String text, Runnable run){
         View view = LayoutInflater.from(context).inflate(R.layout.item_action, parent, false);
 
-        ImageView icon_action = view.findViewById(R.id.img_action_icon);
-        TextView text_action = view.findViewById(R.id.tv_action);
+        ImageView icon_action = view.findViewById(R.id.actionIcon);
+        TextView text_action = view.findViewById(R.id.actionText);
 
         icon_action.setImageResource(iconRes);
         text_action.setText(text);
@@ -54,8 +50,7 @@ public class BottomSheetActionLead {
         addActionItemLead(context, layoutAction, R.drawable.ic_mail, "Gửi Email", null);
         addActionItemLead(context, layoutAction, R.drawable.ic_calendar, "Thêm hoạt động", null);
         addActionItemLead(context, layoutAction, R.drawable.ic_loop, "Chuyển đổi Lead", ()->{
-            Intent intent = new Intent(context, ConvertLead_Activity.class);
-            context.startActivity(intent);
+            if (listener != null) listener.onConvertLead(lead);
             dialog.dismiss();
         });
         addActionItemLead(context, layoutAction, R.drawable.ic_pencil, "Chỉnh sửa", ()->{
@@ -63,17 +58,11 @@ public class BottomSheetActionLead {
             dialog.dismiss();
         });
         addActionItemLead(context, layoutAction, R.drawable.ic_garbage, "Xóa", () ->{
-//            reload.run();
-//            dialog.dismiss();
             if(listener != null) listener.onDelete(lead);
             dialog.dismiss();
         });
 
         dialog.setContentView(view);
         dialog.show();
-    }
-
-    public static void DeleteBottomSheet(Context context, Lead item, int position){
-
     }
 }

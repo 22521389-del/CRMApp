@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingBottom="@dimen/margin_action"
-    android:background="@color/white">
+    android:background="@color/bg_lead">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,13 +88,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:background="@color/bg_lead"
+            android:layout_marginStart="@dimen/margin20"
+            android:layout_marginEnd="@dimen/margin20">
             
             <ImageView
                 android:id="@+id/iv_user"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_margin="@dimen/start_margin"
+                
                 android:src="@drawable/ic_user"
                 android:contentDescription="@null"/>
             <TextView
@@ -111,8 +114,8 @@
             android:id="@+id/phone_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/start_margin"
-            android:layout_marginEnd="@dimen/start_margin"
+            android:layout_marginStart="@dimen/margin20"
+            android:layout_marginEnd="@dimen/margin20"
             android:layout_marginTop="@dimen/start_margin"
             android:layout_gravity="center_vertical">
 
@@ -131,7 +134,6 @@
                 android:textColor="@color/seemore_color"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-
                 />
             <ImageView
                 android:id="@+id/phone_icon"

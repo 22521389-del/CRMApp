@@ -35,7 +35,7 @@
     <string name="birthday">Ngày sinh</string>
     <string name="state_infor">Tình trạng</string>
     <string name="state_detail">Mô tả tình trạng</string>
-    <string name="another_email">Email khác</string>
+    <string name="contact_day">Ngày liên hệ</string>
     <string name="another_phone">Số điện thoại khác</string>
     <string name="abort">Hủy bỏ</string>
     <string name="company_infor">Thông tin công ty</string>
@@ -72,4 +72,12 @@
 
     <string name="thongtinmota">Thông tin mô tả</string>
     <string name="mota">Mô tả</string>
+    <string name="untitled" />
+    <string name="hint_tieude">Tiêu đề <font color="#FF0000">*</font></string>
+    <string name="hint_cong_ty">Công ty <font color="#FF0000">*</font></string>
+    <string name="hint_ngay_dat_hang">Ngày đặt hàng <font color="#FF0000">*</font></string>
+    <string name="add">Thêm</string>
+    <string name="create_order">Tạo đơn hàng</string>
+    <string name="choose_product">Chọn sản phẩm</string>
+    <string name="search_products">Tìm kiếm sản phẩm</string>
 </resources>

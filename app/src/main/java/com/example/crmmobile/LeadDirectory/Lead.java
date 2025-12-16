@@ -24,6 +24,7 @@ public class Lead implements Serializable {
     private String MaThue;
     private String QuanHuyen;
     private String Tinh;
+    private String Thanhpho;
     private String QuocGia;
 
     public Lead(){}
@@ -36,6 +37,14 @@ public class Lead implements Serializable {
         this.Congty = congty;
         this.Email = Email;
         this.TinhTrang = TinhTrang;
+    }
+
+    public String getThanhpho() {
+        return Thanhpho;
+    }
+
+    public void setThanhpho(String thanhpho) {
+        Thanhpho = thanhpho;
     }
 
     public String getQuocGia() {

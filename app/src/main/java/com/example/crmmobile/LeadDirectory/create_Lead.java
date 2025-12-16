@@ -91,6 +91,7 @@ public class create_Lead extends Fragment {
         String company = viewModelLead.company.getValue();
         String title = viewModelLead.title.getValue();
         String phone_number = viewModelLead.phonenumber.getValue();
+        String job = viewModelLead.Job.getValue();
         String Send_to = viewModelLead.Sendto.getValue();
         String Email = viewModelLead.Email.getValue();
         String Sex = viewModelLead.Sex.getValue();
@@ -112,6 +113,7 @@ public class create_Lead extends Fragment {
         Lead lead = new Lead();
         lead.setHovaTendem(hovatendem);
         lead.setCongty(company);
+        lead.setNganhnghe(job);
         lead.setTen(first_name);
         lead.setTitle(title);
         lead.setEmail(Email);
