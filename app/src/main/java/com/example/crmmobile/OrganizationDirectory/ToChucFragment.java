@@ -152,21 +152,21 @@ public class ToChucFragment extends Fragment
                 "Công ty TNHH CloudGO", "Công nghệ", "09/07/2025",
                 true,
                 ToChuc.TrangThai.KHONG_QUAN_TAM, "2", "2", false,
-                Arrays.asList(R.drawable.avt4jpg, R.drawable.avatar_man, R.drawable.avatar_girl)
+                Arrays.asList(R.drawable.avatar_girl, R.drawable.avatar_man, R.drawable.avatar_girl)
         ));
         // 2. Hasaki
         toChucList.add(new ToChuc(
                 "Công ty TNHH Hasaki Beauty & Spa", "Mỹ phẩm", "12/10/2025",
                 true,
                 ToChuc.TrangThai.CO_CO_HOI, "2", "1", true,
-                Arrays.asList(R.drawable.avt4jpg, R.drawable.avatar_man)
+                Arrays.asList(R.drawable.avatar_man, R.drawable.avatar_man)
         ));
         // 3. Chiaki
         toChucList.add(new ToChuc(
                 "Công ty Cổ phần Thương mại Chiaki", "Mua sắm", "18/09/2025",
                 true,
                 ToChuc.TrangThai.NONE, "2", "1", true,
-                Arrays.asList(R.drawable.avt4jpg, R.drawable.avatar_man)
+                Arrays.asList(R.drawable.avatar_girl, R.drawable.avatar_man)
         ));
         // 4. IMAP
         toChucList.add(new ToChuc(

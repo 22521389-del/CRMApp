@@ -103,6 +103,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
+                    android:textColorHint="@color/icon_infor"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/job_name"
@@ -123,14 +124,14 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    app:endIconMode="custom"
-                    app:endIconDrawable="@drawable/ic_dong"
+                    app:endIconMode="dropdown_menu"
                     android:textColorHint="@color/icon_infor">
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/edt_revenue"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:inputType="none"
                         android:hint="@string/revenue_infor"
                         android:textSize="14sp"
                         android:paddingStart="4dp"

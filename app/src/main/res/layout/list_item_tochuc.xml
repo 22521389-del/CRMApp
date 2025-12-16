@@ -184,7 +184,7 @@
             android:id="@+id/avatar1"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/avt4jpg"
+            android:src="@drawable/avatar_girl"
             android:layout_marginEnd="-8dp"
             app:civ_border_color="@color/white"
             app:civ_border_width="1dp"

@@ -35,7 +35,8 @@ public class DetailFragment extends Fragment {
     private ConstraintLayout cl_addinfordescript;
     private TextView tv_full_name, tv_first_name, tv_sex, tv_birthday, tv_phone,
             tv_email, tv_state, tv_revenue, tv_tax, tv_job_name,tv_address,
-            tv_district, tv_province, tv_nation;
+            tv_district, tv_province, tv_nation, tv_description, tv_company,
+            tv_number_of_employees;
     private Lead lead;
 
     public DetailFragment() {
@@ -82,6 +83,9 @@ public class DetailFragment extends Fragment {
         bindLiveDataToTextView(viewModelLead.Province, tv_province);
         bindLiveDataToTextView(viewModelLead.Nation, tv_nation);
         bindLiveDataToTextView(viewModelLead.Revenue, tv_revenue);
+        bindLiveDataToTextView(viewModelLead.description, tv_description);
+        bindLiveDataToTextView(viewModelLead.company, tv_company);
+        bindLiveDataToTextView(viewModelLead.number_of_employees, tv_number_of_employees);
 
         setupaddInfor(iv_addinforaddress, cl_addinforaddress);
         setupaddInfor(iv_addinforlead, cl_inforlead);
@@ -110,6 +114,9 @@ public class DetailFragment extends Fragment {
         tv_district = view.findViewById(R.id.tv_district);
         tv_province = view.findViewById(R.id.tv_province);
         tv_nation = view.findViewById(R.id.tv_nation);
+        tv_description = view.findViewById(R.id.tv_description);
+        tv_company = view.findViewById(R.id.tv_company);
+        tv_number_of_employees = view.findViewById(R.id.tv_number_of_employees);
 
         iv_addinforlead = view.findViewById(R.id.iv_addinfor);
         cl_inforlead = view.findViewById(R.id.cl_infor_lead);

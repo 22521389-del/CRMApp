@@ -19,13 +19,14 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.crmmobile.Adapter.AdapterLead;
 import com.example.crmmobile.AppConstant;
 import com.example.crmmobile.BottomSheet.BottomSheetActionLead;
-import com.example.crmmobile.DataBase.LeadReposity;
+import com.example.crmmobile.DataBase.LeadRepository;
 import com.example.crmmobile.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class leadFragment extends Fragment {
     RecyclerView recyclerLead;
@@ -36,7 +37,7 @@ public class leadFragment extends Fragment {
     BottomNavigationView navFooter;
     ViewPager2 viewPager;
     FrameLayout contain;
-    private LeadReposity db;
+    private LeadRepository db;
 
     public ActivityResultLauncher<Intent> editLeadLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -53,9 +54,15 @@ public class leadFragment extends Fragment {
             });
 
     private void reloadList() {
-        leadList.clear();
-        leadList.addAll(db.getAllLead());
-        adapter.notifyDataSetChanged();
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<Lead> data = db.getAllLead();
+
+            requireActivity().runOnUiThread(() -> {
+                leadList.clear();
+                leadList.addAll(data);
+                adapter.notifyDataSetChanged();
+            });
+        });
     }
 
     @Override
@@ -67,9 +74,8 @@ public class leadFragment extends Fragment {
 
         recyclerLead.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        db = new LeadReposity(getContext());
-
-        loadLead();
+        db = new LeadRepository(getContext());
+        leadList = new ArrayList<>();
 
         navFooter = requireActivity().findViewById(R.id.nav_footer);
         contain = requireActivity().findViewById(R.id.main_container);
@@ -128,24 +134,19 @@ public class leadFragment extends Fragment {
             }
         });
         recyclerLead.setAdapter(adapter);
+        loadLead();
         return view;
     }
 
     private void loadLead() {
-        leadDB = db.getAllLead();
-
-        if(leadDB.isEmpty()){
-            leadList = new ArrayList<>();
-            leadList.add(new Lead("Ông", "Nguyễn Văn", " A", "5/12/2025", "Công ty X", "phong@gmail.com", "Mới"));
-
-            for ( Lead lead: leadList){
-                long id = db.addLead(lead);
-                lead.setID((int) id);
-            }
-        }
-        else{
-            leadList = new ArrayList<>(leadDB);
-        }
+        Executors.newSingleThreadExecutor().execute(()->{
+            leadDB = db.getAllLead();
+            requireActivity().runOnUiThread(()->{
+                leadList.clear();
+                leadList.addAll(leadDB);
+                adapter.notifyDataSetChanged();
+            });
+        });
     }
 
     @Override
@@ -157,9 +158,7 @@ public class leadFragment extends Fragment {
             boolean refresh = bundle.getBoolean(AppConstant.REFRESH, false);
             if(refresh){
                 // Load lại database
-                leadList.clear();
-                leadList.addAll(db.getAllLead());
-                adapter.notifyDataSetChanged();
+                reloadList();
             }
         });
     }

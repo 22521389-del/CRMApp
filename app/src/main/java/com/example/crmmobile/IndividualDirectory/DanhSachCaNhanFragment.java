@@ -1,10 +1,14 @@
 package com.example.crmmobile.IndividualDirectory;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -33,7 +37,9 @@ public class DanhSachCaNhanFragment extends Fragment {
     private ImageView icBack;
     private RecyclerView rvCaNhan;
     private AdapterCaNhan adapter;
+    private EditText searchInput;
     private ArrayList<CaNhan> caNhanList;
+    private ArrayList<CaNhan> allCaNhanList;
     private FloatingActionButton btnAdd;
     private CaNhanRepository db;
 
@@ -64,6 +70,7 @@ public class DanhSachCaNhanFragment extends Fragment {
         rvCaNhan = view.findViewById(R.id.rvCaNhan);
         btnAdd = view.findViewById(R.id.btn_add_contact);
         icBack = view.findViewById(R.id.ic_back);
+        searchInput = view.findViewById(R.id.edt_search);
 
         // --- Khởi tạo DB ---
         db = new CaNhanRepository(requireContext());
@@ -75,6 +82,8 @@ public class DanhSachCaNhanFragment extends Fragment {
         adapter = new AdapterCaNhan(requireContext(), caNhanList);
         rvCaNhan.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvCaNhan.setAdapter(adapter);
+
+        setupSearch();
 
         // --- Nút thêm mới ---
         btnAdd.setOnClickListener(v -> {
@@ -100,6 +109,12 @@ public class DanhSachCaNhanFragment extends Fragment {
                     public void onDelete(CaNhan deletedCn) {
                         // Xóa khỏi database
                         db.delete(deletedCn.getId());
+
+                        if (allCaNhanList != null) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                allCaNhanList.removeIf(cn -> cn.getId() == deletedCn.getId());
+                            }
+                        }
 
                         // Xóa khỏi danh sách local và cập nhật RecyclerView
                         int index = -1;
@@ -163,6 +178,29 @@ public class DanhSachCaNhanFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Lắng nghe signal refresh từ BottomHoatDongFragment
+        getParentFragmentManager().setFragmentResultListener("REFRESH_HOATDONG", this, (requestKey, bundle) -> {
+            boolean refresh = bundle.getBoolean("REFRESH", false);
+            if (refresh && adapter != null) {
+                // Refresh adapter để cập nhật số cuộc gọi/cuộc họp
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Refresh adapter khi quay lại màn hình để đảm bảo số liệu luôn cập nhật
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     private void handleAddResult(Intent data) {
         CaNhan cn = new CaNhan();
 
@@ -201,9 +239,23 @@ public class DanhSachCaNhanFragment extends Fragment {
         cn.setId((int)newId);
 
         // --- Cập nhật RecyclerView ---
-        caNhanList.add(cn);
-        adapter.notifyItemInserted(caNhanList.size() - 1);
-        rvCaNhan.scrollToPosition(caNhanList.size() - 1);
+        if (allCaNhanList == null) {
+            allCaNhanList = new ArrayList<>();
+        }
+        allCaNhanList.add(cn);
+
+        // Kiểm tra xem có đang search không
+        String currentQuery = searchInput != null ? searchInput.getText().toString() : "";
+        if (currentQuery.trim().isEmpty()) {
+            // Nếu không có query, thêm vào danh sách hiển thị
+            caNhanList.add(cn);
+            adapter.notifyItemInserted(caNhanList.size() - 1);
+            rvCaNhan.scrollToPosition(caNhanList.size() - 1);
+        } else {
+            // Nếu đang search, filter lại
+            filterCaNhan(currentQuery);
+        }
+
     }
 
     private void handleEditResult(Intent data) {
@@ -247,9 +299,24 @@ public class DanhSachCaNhanFragment extends Fragment {
 
                 // Cập nhật DB
                 db.update(cn);
+                // Cập nhật danh sách gốc
+                if (allCaNhanList != null) {
+                    for (int i = 0; i < allCaNhanList.size(); i++) {
+                        if (allCaNhanList.get(i).getId() == id) {
+                            allCaNhanList.set(i, cn);
+                            break;
+                        }
+                    }
+                }
 
                 // Cập nhật UI
                 adapter.notifyItemChanged(index);
+                // Nếu đang search, filter lại
+                String currentQuery = searchInput != null ? searchInput.getText().toString() : "";
+                if (currentQuery != null && !currentQuery.trim().isEmpty()) {
+                    filterCaNhan(currentQuery);
+                }
+
             }
         }
     }
@@ -258,18 +325,66 @@ public class DanhSachCaNhanFragment extends Fragment {
         List<CaNhan> listFromDB = db.getAllCaNhan();
         if (listFromDB.isEmpty()) {
             // Nếu DB trống, khởi tạo danh sách mặc định
-            caNhanList = new ArrayList<>();
-            caNhanList.add(new CaNhan("Anh","Nguyễn Văn", "A", "Công ty X", "01/01/2025", 2, 2));
-            caNhanList.add(new CaNhan("Chị", "Trần Thị", "B", "Công ty Y", "02/01/2025", 2, 2));
-            caNhanList.add(new CaNhan("Anh", "Lê Văn", "C", "Công ty Z", "03/01/2025", 2, 2));
+            allCaNhanList = new ArrayList<>();
+            allCaNhanList.add(new CaNhan("Anh","Nguyễn Văn", "A", "Công ty X", "01/01/2025", 2, 2));
+            allCaNhanList.add(new CaNhan("Chị", "Trần Thị", "B", "Công ty Y", "02/01/2025", 2, 2));
+            allCaNhanList.add(new CaNhan("Anh", "Lê Văn", "C", "Công ty Z", "03/01/2025", 2, 2));
 
             // Lưu 3 item mặc định vào DB
-            for (CaNhan cn : caNhanList) {
+            for (CaNhan cn : allCaNhanList) {
                 long id = db.add(cn);
                 cn.setId((int) id);
             }
         } else {
-            caNhanList = new ArrayList<>(listFromDB);
+            allCaNhanList = new ArrayList<>(listFromDB);
+        }
+        caNhanList = new ArrayList<>(allCaNhanList);
+    }
+
+    private void setupSearch() {
+        if (searchInput == null) return;
+
+        searchInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterCaNhan(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
+    private void filterCaNhan(String query) {
+        if (allCaNhanList == null) {
+            allCaNhanList = new ArrayList<>(caNhanList);
+        }
+
+        caNhanList.clear();
+
+        if (query == null || query.trim().isEmpty()) {
+            // Nếu query rỗng, hiển thị tất cả
+            caNhanList.addAll(allCaNhanList);
+        } else {
+            // Filter theo tên (hoVaTen + ten)
+            String searchQuery = query.toLowerCase().trim();
+            for (CaNhan cn : allCaNhanList) {
+                String fullName = (cn.getHoVaTen() + " " + cn.getTen()).toLowerCase();
+                if (fullName.contains(searchQuery)) {
+                    caNhanList.add(cn);
+                }
+            }
+        }
+
+        // Cập nhật adapter
+        if (adapter != null) {
+            adapter.setData(caNhanList);
         }
     }
+
 }

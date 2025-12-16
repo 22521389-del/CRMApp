@@ -2,42 +2,47 @@ package com.example.crmmobile.LeadDirectory;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.graphics.shapes.Utils;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.crmmobile.Adapter.AdapterEditLead;
 import com.example.crmmobile.AppConstant;
-import com.example.crmmobile.DataBase.LeadReposity;
+import com.example.crmmobile.DataBase.LeadRepository;
+import com.example.crmmobile.DataBase.NhanVienRepository;
 import com.example.crmmobile.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 public class EditLeadActivity extends AppCompatActivity {
+    private static final String TAG = "EDIT_ACTIVITY";
     private ImageButton btn_back;
     private TabLayout tabLayout;
     private ViewPager2 vp_tab;
     private ViewModelLead viewModelLead;
     private Lead lead;
     private MaterialButton btn_abort;
-    private LeadReposity db;
+    private LeadRepository db;
     private MaterialButton btn_save;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_lead);
+        viewModelLead = new ViewModelProvider(this).get(ViewModelLead.class);
 
         initVariables();
-
         lead = (Lead) getIntent().getSerializableExtra(AppConstant.LEAD_OBJECT);
-        viewModelLead = new ViewModelProvider(this).get(ViewModelLead.class);
 
         if(lead != null){
             setValues();
@@ -54,11 +59,14 @@ public class EditLeadActivity extends AppCompatActivity {
         btn_back.setOnClickListener(v -> {
             finish();
         });
+        btn_abort.setOnClickListener(v -> {
+            finish();
+        });
 
         btn_save.setOnClickListener(v -> {
             String first_name = viewModelLead.first_name.getValue();
             String phone_number = viewModelLead.phonenumber.getValue();
-            String Send_to = viewModelLead.Sendto.getValue();
+            String Send_to = viewModelLead.SendtoName.getValue();
 
             if (TextUtils.isEmpty(first_name)){
                 Toast.makeText(this, "Vui lòng nhập tên", Toast.LENGTH_SHORT).show();
@@ -79,7 +87,7 @@ public class EditLeadActivity extends AppCompatActivity {
 
     private void updateLead() {
         Intent intent = new Intent();
-        db = new LeadReposity(this);
+        db = new LeadRepository(this);
 
         lead.setHovaTendem(viewModelLead.hovatendem.getValue());
         lead.setTen(viewModelLead.first_name.getValue());
@@ -94,11 +102,13 @@ public class EditLeadActivity extends AppCompatActivity {
         lead.setQuanHuyen(viewModelLead.District.getValue());
         lead.setQuocGia(viewModelLead.Nation.getValue());
         lead.setCongty(viewModelLead.company.getValue());
-        lead.setGiaocho(viewModelLead.Sendto.getValue());
+        lead.setGiaocho(viewModelLead.SendtoName.getValue());
+        lead.setGiaochoID(viewModelLead.SendtoID.getValue());
+        lead.setNguoitaoID(viewModelLead.CreatedByID.getValue());
         lead.setNganhnghe(viewModelLead.Job.getValue());
         lead.setMaThue(viewModelLead.Tax.getValue());
         lead.setNgayLienHe(viewModelLead.contact_day.getValue());
-//        lead.setDoanhThu(viewModelLead.);
+        lead.setMota(viewModelLead.description.getValue());
 
         db.updateLead(lead);
 
@@ -131,9 +141,25 @@ public class EditLeadActivity extends AppCompatActivity {
         viewModelLead.Job.setValue(lead.getNganhnghe());
         viewModelLead.number_of_employees.setValue(lead.getSoNV());
         viewModelLead.Revenue.setValue(lead.getDoanhThu());
-        viewModelLead.Sendto.setValue(lead.getGiaocho());
+        viewModelLead.description.setValue(lead.getMota());
+
+        Executor executor = Executors.newSingleThreadExecutor();
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        executor.execute(()->{
+            NhanVienRepository nhanVienRepository = new NhanVienRepository(this);
+            String tenNV = nhanVienRepository.getNameByID(lead.getGiaochoID());
+            String TenNVTao = nhanVienRepository.getNameByID(lead.getNguoitaoID());
+            mainHandler.post(()->{
+                viewModelLead.SendtoID.setValue(lead.getGiaochoID());
+                viewModelLead.SendtoName.setValue(tenNV);
+                viewModelLead.CreatedByID.setValue(lead.getNguoitaoID());
+                viewModelLead.CreatedByName.setValue(TenNVTao);
+                Log.e(TAG, "Tên người phụ trách:" + tenNV);
+                Log.e(TAG, "Tên người tạo: " + TenNVTao);
+            });
+        });
         viewModelLead.Tax.setValue(lead.getMaThue());
         viewModelLead.contact_day.setValue(lead.getNgayLienHe());
-
     }
 }

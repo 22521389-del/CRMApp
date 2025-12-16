@@ -10,10 +10,10 @@ import com.example.crmmobile.LeadDirectory.Lead;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeadReposity {
+public class LeadRepository {
     DBCRMHandler dbHelper;
 
-    public LeadReposity(Context context){
+    public LeadRepository(Context context){
         dbHelper = new DBCRMHandler(context);
     }
 
@@ -42,7 +42,8 @@ public class LeadReposity {
         values.put("MASOTHUE", lead.getMaThue());
         values.put("TINHTRANG", lead.getTinhTrang());
         values.put("MOTA", lead.getMota());
-        values.put("GIAOCHO", lead.getGiaocho());
+        values.put("GIAOCHO", lead.getGiaochoID());
+        values.put("NGUOITAO", lead.getNguoitaoID());
         values.put("NGAYLIENHE", lead.getNgayLienHe());
 
         long newId = db.insert("LEAD", null, values);
@@ -81,7 +82,8 @@ public class LeadReposity {
                 lead.setMaThue(cursor.getString(cursor.getColumnIndexOrThrow("MASOTHUE")));
                 lead.setTinhTrang(cursor.getString(cursor.getColumnIndexOrThrow("TINHTRANG")));
                 lead.setMota(cursor.getString(cursor.getColumnIndexOrThrow("MOTA")));
-                lead.setGiaocho(cursor.getString(cursor.getColumnIndexOrThrow("GIAOCHO")));
+                lead.setGiaochoID(cursor.getInt(cursor.getColumnIndexOrThrow("GIAOCHO")));
+                lead.setNguoitaoID(cursor.getInt(cursor.getColumnIndexOrThrow("NGUOITAO")));
                 lead.setNgayLienHe(cursor.getString(cursor.getColumnIndexOrThrow("NGAYLIENHE")));
                 list.add(lead);
             }while (cursor.moveToNext());
@@ -117,7 +119,8 @@ public class LeadReposity {
         values.put("MASOTHUE", lead.getMaThue());
         values.put("TINHTRANG", lead.getTinhTrang());
         values.put("MOTA", lead.getMota());
-        values.put("GIAOCHO", lead.getGiaocho());
+        values.put("GIAOCHO", lead.getGiaochoID());
+        values.put("NGUOITAO", lead.getNguoitaoID());
         values.put("NGAYLIENHE", lead.getNgayLienHe());
 
         int result = db.update("LEAD", values, "ID=?", new String[]{String.valueOf(lead.getID())});
@@ -130,5 +133,13 @@ public class LeadReposity {
         SQLiteDatabase db = this.dbHelper.getWritableDatabase();
         db.delete("LEAD", "ID=?", new String[]{String.valueOf(id)});
         db.close();
+    }
+
+    public void updateStatus(int leadID, String status){
+        SQLiteDatabase db = this.dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("TINHTRANG", status);
+        db.update("LEAD", values, "ID=?", new String[]{String.valueOf(leadID)});
     }
 }

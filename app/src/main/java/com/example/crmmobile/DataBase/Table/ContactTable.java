@@ -20,7 +20,7 @@ public class ContactTable {
                     "CONGTY TEXT," +
                     "MOTA TEXT," +
                     "GHICHU TEXT," +
-                    "GIAOCHO TEXT," +
+                    "GIAOCHO INTEGER," +
                     "NGAYTAO TEXT," +
                     "NGAYSUA TEXT," + // THÊM CÁI NÀY VÀO
                     "CUOCGOI INTEGER," +

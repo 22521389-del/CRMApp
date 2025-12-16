@@ -3,6 +3,7 @@ package com.example.crmmobile.Adapter;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.example.crmmobile.R;
 import com.google.android.material.chip.Chip;
 
 public class AdapterLead extends RecyclerView.Adapter<AdapterLead.LeadViewHolder> {
+    private static final String TAG = "ADAPTER_LEAD";
     private List<Lead> dataList;
     private onItemClickListener listener;
     private Map<String, Integer> stateColor;
@@ -48,6 +50,7 @@ public class AdapterLead extends RecyclerView.Adapter<AdapterLead.LeadViewHolder
 
     public static class LeadViewHolder extends RecyclerView.ViewHolder{
         TextView tv_name, tv_Company, tv_day, tv_job;
+        ImageView iv_created_by, iv_sendto;
         ImageButton ivDots;
         Chip chip_status;
 
@@ -59,6 +62,8 @@ public class AdapterLead extends RecyclerView.Adapter<AdapterLead.LeadViewHolder
             ivDots = itemView.findViewById(R.id.iv_dots);
             chip_status = itemView.findViewById(R.id.chip_status);
             tv_job = itemView.findViewById(R.id.tv_job);
+            iv_sendto = itemView.findViewById(R.id.iv_sendto);
+            iv_created_by = itemView.findViewById(R.id.iv_created_by);
         }
 
     }
@@ -92,6 +97,12 @@ public class AdapterLead extends RecyclerView.Adapter<AdapterLead.LeadViewHolder
         viewHolder.tv_Company.setText(lead.getCongty());
         viewHolder.tv_day.setText(lead.getNgayLienHe());
         viewHolder.tv_job.setText(lead.getNganhnghe());
+        int level = getIconNhanVien(lead.getGiaochoID());
+        viewHolder.iv_sendto.setImageLevel(level);
+        int create_by_level = getIconNhanVien(lead.getNguoitaoID());
+        viewHolder.iv_created_by.setImageLevel(create_by_level);
+        Log.e(TAG, "ID Giao cho: " + lead.getGiaochoID());
+        Log.e(TAG, "ID Người tạo: " + lead.getNguoitaoID());
 
         viewHolder.ivDots.setOnClickListener(v -> {
             if(listener != null){
@@ -109,5 +120,25 @@ public class AdapterLead extends RecyclerView.Adapter<AdapterLead.LeadViewHolder
     @Override
     public int getItemCount(){
         return dataList.size();
+    }
+
+    private int getIconNhanVien(int nhanvien){
+        int result;
+        if(nhanvien == 1){
+            result = 0;
+        }
+        else if (nhanvien == 2){
+            result  = 1;
+        }
+        else if (nhanvien == 3){
+            result  = 2;
+        }
+        else if (nhanvien == 4){
+            result  = 3;
+        }
+        else {
+            result = 4;
+        }
+        return result;
     }
 }

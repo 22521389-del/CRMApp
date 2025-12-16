@@ -16,7 +16,10 @@ public class Lead implements Serializable {
     private String Congty;
     private String TinhTrang;
     private String Mota;
+    private String Nguoitao;
+    private Integer NguoitaoID;
     private String Giaocho;
+    private Integer GiaochoID;
     private String NgayLienHe;
     private String Nganhnghe;
     private String SoNV;
@@ -37,6 +40,22 @@ public class Lead implements Serializable {
         this.Congty = congty;
         this.Email = Email;
         this.TinhTrang = TinhTrang;
+    }
+
+    public String getNguoitao() {
+        return Nguoitao;
+    }
+
+    public void setNguoitao(String nguoitao) {
+        Nguoitao = nguoitao;
+    }
+
+    public Integer getNguoitaoID() {
+        return NguoitaoID;
+    }
+
+    public void setNguoitaoID(Integer nguoitaoID) {
+        NguoitaoID = nguoitaoID;
     }
 
     public String getThanhpho() {
@@ -213,6 +232,14 @@ public class Lead implements Serializable {
 
     public void setGiaocho(String giaocho) {
         Giaocho = giaocho;
+    }
+
+    public Integer getGiaochoID() {
+        return GiaochoID;
+    }
+
+    public void setGiaochoID(Integer giaochoID) {
+        GiaochoID = giaochoID;
     }
 
     public String getNgayLienHe() {
