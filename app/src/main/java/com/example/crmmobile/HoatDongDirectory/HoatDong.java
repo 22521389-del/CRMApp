@@ -17,6 +17,7 @@ public class HoatDong implements Serializable {
     private int coHoi;
     private String moTa;
     private int giaoCho;
+    private String type;
 
     // Constructor dùng khi INSERT
     public HoatDong(int id, String tenHoatDong,
@@ -29,7 +30,8 @@ public class HoatDong implements Serializable {
                     int nguoiLienHe,
                     int coHoi,
                     String moTa,
-                    int giaoCho) {
+                    int giaoCho,
+                    String type) {
         this.id = id;
         this.tenHoatDong = tenHoatDong;
         this.thoiGianBatDau = thoiGianBatDau;
@@ -42,14 +44,17 @@ public class HoatDong implements Serializable {
         this.coHoi = coHoi;
         this.moTa = moTa;
         this.giaoCho = giaoCho;
+        this.type = type;
     }
 
-    public HoatDong(String tenHoatDong, String thoiGianBatDau,String thoiGianKetThuc, String ngayBatDau, String tinhTrang){
+    public HoatDong(String tenHoatDong, String thoiGianBatDau,String thoiGianKetThuc, String ngayBatDau, String tinhTrang, String type){
         this.tenHoatDong = tenHoatDong;
         this.thoiGianBatDau = thoiGianBatDau;
         this.thoiGianKetThuc = thoiGianKetThuc;
         this.ngayBatDau = ngayBatDau;
         this.tinhTrang = tinhTrang;
+        this.type = type;
+
     }
 
     // Constructor dùng khi INSERT
@@ -63,7 +68,8 @@ public class HoatDong implements Serializable {
                     int nguoiLienHe,
                     int coHoi,
                     String moTa,
-                    int giaoCho) {
+                    int giaoCho,
+                    String type) {
 
         this.tenHoatDong = tenHoatDong;
         this.thoiGianBatDau = thoiGianBatDau;
@@ -76,6 +82,7 @@ public class HoatDong implements Serializable {
         this.coHoi = coHoi;
         this.moTa = moTa;
         this.giaoCho = giaoCho;
+        this.type = type;
     }
 
 
@@ -91,6 +98,10 @@ public class HoatDong implements Serializable {
     public int getCoHoi() { return coHoi; }
 
     public String getMoTa() { return moTa; }
+
+    public String getType(){
+        return type;
+    }
 
     public int getGiaoCho() { return giaoCho; }
 
@@ -141,6 +152,10 @@ public class HoatDong implements Serializable {
 
     public void setGiaoCho(int giaoCho) {
         this.giaoCho = giaoCho;
+    }
+
+    public void setType(String type){
+        this.type = type;
     }
 
 }

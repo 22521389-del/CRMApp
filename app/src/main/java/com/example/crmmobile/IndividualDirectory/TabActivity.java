@@ -45,12 +45,15 @@ public class TabActivity extends AppCompatActivity {
         bundleTongQuan.putSerializable("CANHAN_DATA", currentCaNhan);
         tongQuanFragment.setArguments(bundleTongQuan);
         setFragment(tongQuanFragment);
-
         setActiveTab(tabTongQuan);
 
         // --- Xử lý sự kiện click các tab ---
         tabTongQuan.setOnClickListener(v -> {
-            setFragment(new TongQuanFragment());
+            TongQuanFragment fragment = new TongQuanFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("CANHAN_DATA", currentCaNhan);
+            fragment.setArguments(bundle);
+            setFragment(fragment);
             setActiveTab(tabTongQuan);
         });
 

@@ -43,6 +43,9 @@ public class BottomHoatDongFragment extends BottomSheetDialogFragment {
     private TextView tvNgayBatDau, tvGioBatDau;
     private TextView tvNgayKetThuc, tvGioKetThuc;
 
+    private String currentType = "call";
+
+
 
 
     private AutoCompleteTextView actTrangThai, actNguoiPhuTrach;
@@ -106,12 +109,14 @@ public class BottomHoatDongFragment extends BottomSheetDialogFragment {
         iccall.setOnClickListener(v -> {
             setFragment(new HoatDongFragment());
             setActiveTab(iccall);
+            currentType = "call";
             tv_title.setText("Cuộc gọi");
         });
 
         icmeeting.setOnClickListener(v -> {
             setFragment(new HoatDongFragment());
             setActiveTab(icmeeting);
+            currentType = "meeting";
             tv_title.setText("Cuộc họp");
         });
 
@@ -176,7 +181,8 @@ public class BottomHoatDongFragment extends BottomSheetDialogFragment {
                 nguoiLienHe, //
                 coHoi,
                 moTa,
-                giaoCho
+                giaoCho,
+                currentType
         );
 
         HoatDongRepository repository = new HoatDongRepository(requireContext());

@@ -16,6 +16,7 @@ public class HoatdongTable {
                     "COHOI INT," +
                     "MOTA TEXT," +
                     "GIAOCHO INTEGER," +
+                    "TYPE TEXT," +
                     "FOREIGN KEY(NHANVIEN) REFERENCES NHANVIEN(ID) ON DELETE SET NULL," +
                     "FOREIGN KEY(TOCHUC) REFERENCES CONGTY(ID) ON DELETE SET NULL," +
                     "FOREIGN KEY(NGUOILIENHE) REFERENCES CONTACT(ID) ON DELETE SET NULL," +
