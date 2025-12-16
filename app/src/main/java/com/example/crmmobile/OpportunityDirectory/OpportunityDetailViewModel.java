@@ -1,6 +1,7 @@
 package com.example.crmmobile.OpportunityDirectory;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -19,8 +20,29 @@ public class OpportunityDetailViewModel extends AndroidViewModel {
     }
 
     public void loadOpportunityById(int id) {
+        Log.d("DETAIL_VM", "loadOpportunityById(" + id + ")");
         Opportunity o = oppRepo.getById(id);
-        editing.postValue(o); // luôn emit
+        Opportunity copy = new Opportunity(
+                o.getId(),
+                o.getTitle(),
+                o.getCompany(),
+                o.getContact(),
+                o.getPrice(),
+                o.getStatus(),
+                o.getDate(),
+                o.getExpectedDate2(),
+                o.getDescription(),
+                o.getManagement(),
+                o.getCallCount(),
+                o.getMessageCount()
+        );
+
+        Log.d("DETAIL_VM",
+                "emit status=" + copy.getStatus() +
+                        " hash=" + System.identityHashCode(copy)
+        );
+
+        editing.setValue(copy);
     }
 
 

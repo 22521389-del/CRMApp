@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
@@ -36,11 +38,26 @@ public class OpportunityDetailActivity extends AppCompatActivity {
 
     boolean isPipelineSetup = false;
 
+    private TextView tvCompany, tvPrice, tvStatus, tvCreator, tvAssignee;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("OD_DEBUG", "onCreate()");
         setContentView(R.layout.activity_opportunity_detail);
+
+        View headerRoot = findViewById(R.id.layout_opportunity_detail_header);
+
+// info header
+        tvCompany  = headerRoot.findViewById(R.id.tv_company_name);
+        tvPrice    = headerRoot.findViewById(R.id.tv_value);
+        tvStatus   = headerRoot.findViewById(R.id.tv_opportunity_status);
+
+// owner
+        tvCreator  = headerRoot.findViewById(R.id.tv_opportunity_creator_name);
+        tvAssignee = headerRoot.findViewById(R.id.tv_opportunity_assignee_name);
+
 
         ivBack = findViewById(R.id.iv_opportunity_detail_back);
         tabLayout = findViewById(R.id.tl_opportunity_detail_tabs);
@@ -64,7 +81,7 @@ public class OpportunityDetailActivity extends AppCompatActivity {
                 opportunity = o;
 
                 // BIND DATA
-                bindData(findViewById(android.R.id.content), opportunity);
+                bindData(opportunity);
 
                 if (!isPipelineSetup) {
                     setupViewPager();
@@ -92,10 +109,24 @@ public class OpportunityDetailActivity extends AppCompatActivity {
             Intent intent = new Intent(this, OpportunityFormActivity.class);
             intent.putExtra("mode", "update");
             intent.putExtra("id", opportunityId);
-            startActivity(intent);
+//            startActivity(intent);
+            updateLauncher.launch(intent);
+
         });
 
     }
+
+    private final ActivityResultLauncher<Intent> updateLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == RESULT_OK) {
+                            Log.d("DETAIL", "Form updated → reload DB");
+                            detailVM.loadOpportunityById(opportunityId);
+                        }
+                    }
+            );
+
 
     private void setupViewPager() {
 
@@ -133,9 +164,6 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         // set mặc định cho start line
         vStep1Start.setBackgroundResource(R.color.blue);
 
-        // Khởi tạo ViewModel (sử dụng this vì trong Activity)
-        actionVM = new ViewModelProvider(this).get(OpportunityActionViewModel.class);
-
         // Click vào bước → mở BottomSheet
         View.OnClickListener stepClickListener = v -> {
             OpportunityActionBottomSheet.newInstance(opportunityId)
@@ -148,12 +176,6 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         ivStep4.setOnClickListener(stepClickListener);
         ivStep5.setOnClickListener(stepClickListener);
 
-        // observe CHỈ 1 LẦN
-        actionVM.getActionSuccess().observe(this, success -> {
-            if (Boolean.TRUE.equals(success)) {
-                detailVM.loadOpportunityById(opportunityId); // reload chuẩn
-            }
-        });
     }
 
     private void updatePipelineUI(Opportunity opportunity) {
@@ -261,14 +283,13 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         if (ivStep5.isClickable()) ivStep5.setOnClickListener(stepClickListener);
     }
 
-    private void bindData(View view, Opportunity o) {
+    private void bindData(Opportunity o) {
         if (o == null) return;
 
-        TextView tvCompany = view.findViewById(R.id.tv_company_name);
-        TextView tvPrice = view.findViewById(R.id.tv_value);
-        TextView tvStatus = view.findViewById(R.id.tv_opportunity_status);
-        TextView tvCreator = view.findViewById(R.id.tv_opportunity_creator_name);
-        TextView tvAssignee = view.findViewById(R.id.tv_opportunity_assignee_name);
+        Log.d("DETAIL_BIND",
+                "bind status=" + o.getStatus() +
+                        " price=" + o.getPrice()
+        );
 
         tvPrice.setText(formatCurrency(o.getPrice()));
         tvStatus.setText(o.getStatus());
@@ -283,6 +304,14 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         return String.format("%,.0f đ", amount);
     }
 
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (opportunityId != -1) {
+//            detailVM.loadOpportunityById(opportunityId);
+//        }
+//    }
 
     @Override
     protected void onResume() {

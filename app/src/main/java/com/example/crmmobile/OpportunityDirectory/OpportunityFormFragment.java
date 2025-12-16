@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -268,6 +269,10 @@ public class OpportunityFormFragment extends Fragment {
         etDesc.setText(existing.getDescription());
         etStage.setText(existing.getStatus(), false);
 
+        formVM.setSelectedCompanyId(existing.getCompany());
+        formVM.setSelectedContactId(existing.getContact());
+        formVM.setSelectedManagementId(existing.getManagement());
+
         etCompany.setText(
                 handler.findCompanyName(existing.getCompany(), formVM.getCompanies().getValue()),
                 false
@@ -282,6 +287,16 @@ public class OpportunityFormFragment extends Fragment {
                 handler.findEmployeeName(existing.getManagement(), formVM.getEmployees().getValue()),
                 false
         );
+
+        Log.d("BUG_TEST", "populateForm()");
+        Log.d("BUG_TEST", "existing.company = " + existing.getCompany());
+        Log.d("BUG_TEST", "existing.contact = " + existing.getContact());
+        Log.d("BUG_TEST", "existing.management = " + existing.getManagement());
+
+        Log.d("BUG_TEST", "VM before set:");
+        Log.d("BUG_TEST", "selectedCompanyId = " + formVM.getSelectedCompanyId());
+        Log.d("BUG_TEST", "selectedContactId = " + formVM.getSelectedContactId());
+        Log.d("BUG_TEST", "selectedManagementId = " + formVM.getSelectedManagementId());
     }
 
     private void saveForm() throws ParseException {
@@ -304,17 +319,41 @@ public class OpportunityFormFragment extends Fragment {
                 etDesc.getText().toString()
         );
 
+        Log.d("BUG_TEST", "===== SAVE FORM =====");
+        Log.d("BUG_TEST", "mode = " + mode);
+
+        Log.d("BUG_TEST", "name UI = " + etName.getText().toString());
+        Log.d("BUG_TEST", "price UI = " + etValue.getText().toString());
+        Log.d("BUG_TEST", "date1 UI = " + etDate1.getText().toString());
+        Log.d("BUG_TEST", "date2 UI = " + etDate2.getText().toString());
+
+        Log.d("BUG_TEST", "selectedCompanyId = " + formVM.getSelectedCompanyId());
+        Log.d("BUG_TEST", "selectedContactId = " + formVM.getSelectedContactId());
+        Log.d("BUG_TEST", "selectedManagementId = " + formVM.getSelectedManagementId());
+
         OpportunityViewModel vm = new ViewModelProvider(requireActivity()).get(OpportunityViewModel.class);
 
-        if ("update".equals(mode)
-) {
+        if ("update".equals(mode)) {
+            Log.d("OP_FORM_DEBUG", "saveForm() START update DB");
             vm.update(o);
             Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+            Log.d("OP_FORM_DEBUG", "DB UPDATE DONE → finish activity");
         } else {
             vm.add(o);
             Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_SHORT).show();
         }
 
-        requireActivity().getSupportFragmentManager().popBackStack();
+        // RẢ KẾT QUẢ CHO DETAIL ACTIVITY
+        requireActivity().setResult(AppCompatActivity.RESULT_OK);
+        requireActivity().finish();
+
+        Log.d("BUG_TEST", "Opportunity to save:");
+        Log.d("BUG_TEST", "id = " + o.getId());
+        Log.d("BUG_TEST", "company = " + o.getCompany());
+        Log.d("BUG_TEST", "contact = " + o.getContact());
+        Log.d("BUG_TEST", "management = " + o.getManagement());
+
     }
+
+
 }

@@ -3,6 +3,7 @@ package com.example.crmmobile.OpportunityDirectory;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -28,12 +29,26 @@ public class OpportunityRepository {
     }
 
     public Opportunity getById(int id) {
-        return dao.getById(id);
+
+//        return dao.getById(id);
+
+        Opportunity o = dao.getById(id);
+        Log.d("REPO_DEBUG",
+                "getById() id=" + id +
+                        " status=" + o.getStatus() +
+                        " hash=" + System.identityHashCode(o)
+        );
+        return o;
     }
     public long add(Opportunity opportunity) {
         return dao.add(opportunity);
     }
     public void update(Opportunity opportunity) {
+        Log.d("BUG_TEST", "REPO.update()");
+        Log.d("BUG_TEST", "id = " + opportunity.getId());
+        Log.d("BUG_TEST", "company = " + opportunity.getCompany());
+        Log.d("BUG_TEST", "contact = " + opportunity.getContact());
+        Log.d("BUG_TEST", "management = " + opportunity.getManagement());
         dao.update(opportunity);
     }
     public void delete(int id) {

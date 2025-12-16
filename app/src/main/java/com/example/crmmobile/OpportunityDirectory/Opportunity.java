@@ -136,7 +136,7 @@ public class Opportunity {
         this.expectedDate2 = expectedDate2;
     }
 
-    public void setdescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

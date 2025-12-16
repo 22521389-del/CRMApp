@@ -2,6 +2,7 @@
 package com.example.crmmobile.OpportunityDirectory;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.util.List;
@@ -22,14 +23,54 @@ public class OpportunityFormHandler {
             int managementId
     ) throws ParseException {
 
-        int id = (MODE_UPDATE.equals(mode) && existing != null)
-                ? existing.getId()
-                : 0;
+        // ================= UPDATE =================
+        if (MODE_UPDATE.equals(mode) && existing != null) {
 
+
+            if (!TextUtils.isEmpty(title)) {
+                existing.setTitle(title);
+            }
+
+            if (!TextUtils.isEmpty(priceStr)) {
+                existing.setPrice(parsePrice(priceStr));
+            }
+
+            if (!TextUtils.isEmpty(stage)) {
+                existing.setStatus(stage);
+            }
+
+            if (!TextUtils.isEmpty(date1)) {
+                existing.setDate(date1);
+            }
+
+            if (!TextUtils.isEmpty(date2)) {
+                existing.setExpectedDate2(date2);
+            }
+
+            if (!TextUtils.isEmpty(desc)) {
+                existing.setDescription(desc);
+            }
+
+            if (companyId > 0) {
+                existing.setCompany(companyId);
+            }
+
+            if (contactId > 0) {
+                existing.setContact(contactId);
+            }
+
+            if (managementId > 0) {
+                existing.setManagement(managementId);
+            }
+
+            return existing;
+        }
+
+        // ================= CREATE =================
         double price = parsePrice(priceStr);
 
         return new Opportunity(
-                id,
+                0,
                 title,
                 companyId,
                 contactId,
@@ -43,6 +84,7 @@ public class OpportunityFormHandler {
                 0
         );
     }
+
 
     public boolean validateTitle(String title) {
         return !TextUtils.isEmpty(title);

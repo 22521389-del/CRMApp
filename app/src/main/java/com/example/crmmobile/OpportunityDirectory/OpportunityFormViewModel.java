@@ -89,6 +89,15 @@ public class OpportunityFormViewModel extends AndroidViewModel {
         );
     }
 
+    public void saveOpportunity(String mode, Opportunity o) {
+        if ("create".equals(mode)) {
+            oppRepo.add(o);
+        } else if ("update".equals(mode)) {
+            oppRepo.update(o);
+        }
+    }
+
+
     public OpportunityFormHandler getHandler() {
         return handler;
     }
