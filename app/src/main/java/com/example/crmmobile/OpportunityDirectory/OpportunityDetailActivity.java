@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.crmmobile.MainDirectory.InitClass;
+import com.example.crmmobile.MainDirectory.Recent;
+import com.example.crmmobile.MainDirectory.RecentViewModel;
 import com.example.crmmobile.OpportunityDirectory.Opportunity;
 import com.example.crmmobile.R;
 import com.google.android.material.tabs.TabLayout;
@@ -97,8 +100,6 @@ public class OpportunityDetailActivity extends AppCompatActivity {
             }
         });
 
-
-
         actionVM.getActionSuccess().observe(this, success -> {
             if (Boolean.TRUE.equals(success)) {
                 // reload từ DB
@@ -118,6 +119,8 @@ public class OpportunityDetailActivity extends AppCompatActivity {
             updateLauncher.launch(intent);
 
         });
+
+        saveRecentOpportunity();
 
     }
 
@@ -339,5 +342,17 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         }
     }
 
+
+    private void saveRecentOpportunity() {
+        if (opportunity == null) return;
+
+        RecentViewModel recentViewModel = new ViewModelProvider(this).get(RecentViewModel.class);
+        Recent recent = new Recent();
+        recent.setObjectType("OPPORTUNITY");
+        recent.setObjectID(InitClass.getIconRecent(recent.getObjectType()));
+        recent.setName(opportunity.getTitle());
+        recent.setTime(System.currentTimeMillis());
+        recentViewModel.upsertRecent(recent);
+    }
 
 }
