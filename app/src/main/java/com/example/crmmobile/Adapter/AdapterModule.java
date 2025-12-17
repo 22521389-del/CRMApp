@@ -10,12 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crmmobile.R;
-import com.example.crmmobile.MainDirectory.item_module;
+import com.example.crmmobile.MainDirectory.Module;
 
 import java.util.List;
 
 public class AdapterModule extends RecyclerView.Adapter<AdapterModule.ModuleViewHolder> {
-    private List<item_module> itemModules;
+    private List<Module> itemModules;
     private onClickItemListener Listener;
 
 
@@ -27,7 +27,7 @@ public class AdapterModule extends RecyclerView.Adapter<AdapterModule.ModuleView
         void onLeadMenuClick(int position);
     }
 
-    public AdapterModule(List<item_module> itemModules, onClickItemListener listener){
+    public AdapterModule(List<Module> itemModules, onClickItemListener listener){
         this.itemModules = itemModules;
         this.Listener = listener;
     }
@@ -43,7 +43,7 @@ public class AdapterModule extends RecyclerView.Adapter<AdapterModule.ModuleView
     @Override
     public void onBindViewHolder(@NonNull ModuleViewHolder holder, int position) {
         //get item_module at position in itemModules list
-        item_module item = itemModules.get(position);
+        Module item = itemModules.get(position);
 
         //Assign from item_module into TextView in ViewHolder
         holder.tv_icon.setText(item.getName());

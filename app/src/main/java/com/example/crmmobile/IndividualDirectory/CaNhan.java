@@ -21,6 +21,7 @@ public class CaNhan implements Serializable {
     private String moTa;
     private String ghiChu;
     private String giaoCho;
+    private Integer GiaoChoID;
     private int soCuocGoi;
     private int soCuocHop;
 
@@ -100,6 +101,14 @@ public class CaNhan implements Serializable {
 
     public String getGiaoCho() { return giaoCho; }
     public void setGiaoCho(String giaoCho) { this.giaoCho = giaoCho; }
+
+    public Integer getGiaoChoID() {
+        return GiaoChoID;
+    }
+
+    public void setGiaoChoID(Integer giaoChoID) {
+        GiaoChoID = giaoChoID;
+    }
 
     public int getSoCuocGoi() { return soCuocGoi; }
     public void setSoCuocGoi(int soCuocGoi) { this.soCuocGoi = soCuocGoi; }

@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.crmmobile.MainDirectory.InitClass;
+import com.example.crmmobile.MainDirectory.Recent;
+import com.example.crmmobile.MainDirectory.RecentViewModel;
 import com.example.crmmobile.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -39,12 +42,13 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.vp_opportunity_detail_content);
         detailEdit = findViewById(R.id.iv_opportunity_detail_edit);
 
+
         // Nhận dữ liệu từ Intent - crashed vi pineline nhan du lieu null, tạo biến mới trong hàm, che khuất biến toàn cục.
 //        Opportunity opportunity = (Opportunity) getIntent().getSerializableExtra("opportunity");
 
         opportunity = (Opportunity) getIntent().getSerializableExtra("opportunity");
 
-
+        saveRecentOpportunity();
         // Danh sách tab
         List<String> tabTitles = Arrays.asList("Tổng quan", "Chi tiết", "Nhật ký", "Hoạt động");
 
@@ -76,6 +80,18 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         // --- Pipeline Logic ---
         setupPipeline();
 
+    }
+
+    private void saveRecentOpportunity() {
+        if (opportunity == null) return;
+
+        RecentViewModel recentViewModel = new ViewModelProvider(this).get(RecentViewModel.class);
+        Recent recent = new Recent();
+        recent.setObjectType("OPPORTUNITY");
+        recent.setObjectID(InitClass.getIconRecent(recent.getObjectType()));
+        recent.setName(opportunity.getTitle());
+        recent.setTime(System.currentTimeMillis());
+        recentViewModel.upsertRecent(recent);
     }
 
     private void setupPipeline() {

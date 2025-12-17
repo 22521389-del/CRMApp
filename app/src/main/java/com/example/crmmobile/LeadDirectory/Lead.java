@@ -16,6 +16,7 @@ public class Lead implements Serializable {
     private String Congty;
     private String TinhTrang;
     private String Mota;
+    private String Ghichu;
     private String Nguoitao;
     private Integer NguoitaoID;
     private String Giaocho;
@@ -56,6 +57,14 @@ public class Lead implements Serializable {
 
     public void setNguoitaoID(Integer nguoitaoID) {
         NguoitaoID = nguoitaoID;
+    }
+
+    public String getGhichu() {
+        return Ghichu;
+    }
+
+    public void setGhichu(String ghichu) {
+        Ghichu = ghichu;
     }
 
     public String getThanhpho() {

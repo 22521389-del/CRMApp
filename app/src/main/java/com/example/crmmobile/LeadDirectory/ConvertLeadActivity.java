@@ -1,7 +1,10 @@
 package com.example.crmmobile.LeadDirectory;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -14,11 +17,16 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.crmmobile.AppConstant;
 import com.example.crmmobile.DataBase.CaNhanRepository;
 import com.example.crmmobile.DataBase.LeadRepository;
+import com.example.crmmobile.DataBase.NhanVienRepository;
 import com.example.crmmobile.IndividualDirectory.CaNhan;
 import com.example.crmmobile.R;
 import com.google.android.material.button.MaterialButton;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 public class ConvertLeadActivity extends AppCompatActivity {
+    private static final String TAG = "CONVERT_LEAD";
     private EditText et_chance, et_sale_step, et_opportrate, et_predicted, et_opportvalue,
             et_companyname, et_job, et_source, et_firstname, et_phonenumber, et_ship,
             ed_first_lastName, ed_email;
@@ -78,15 +86,17 @@ public class ConvertLeadActivity extends AppCompatActivity {
         }
 
         CaNhan cn = new CaNhan();
+        cn.setDanhXung(lead.getTitle());
         cn.setHoVaTen(ed_first_lastName.getText().toString());
         cn.setTen(et_firstname.getText().toString());
+        cn.setCongTy(lead.getCongty());
+        cn.setGioiTinh(lead.getGioitinh());
         cn.setEmail(ed_email.getText().toString());
         cn.setDiDong(et_phonenumber.getText().toString());
-//        cn.setGiaoCho(et_ship.getText().toString());
-        cn.setCongTy(lead.getCongty());
-        cn.setDiaChi(lead.getDiachi());
         cn.setNgaySinh(lead.getNgaysinh());
-        cn.setGioiTinh(lead.getGioitinh());
+        cn.setNgayTao(lead.getNgayLienHe());
+        cn.setGiaoChoID(lead.getGiaochoID());
+        cn.setDiaChi(lead.getDiachi());
         cn.setQuanHuyen(lead.getQuanHuyen());
         cn.setTinhTP(lead.getTinh());
         cn.setQuocGia(lead.getQuocGia());
@@ -111,7 +121,21 @@ public class ConvertLeadActivity extends AppCompatActivity {
         ed_first_lastName.setText(lead.getHovaTendem());
         ed_email.setText(lead.getEmail());
         et_phonenumber.setText(lead.getDienThoai());
-        et_ship.setText(lead.getGiaocho());
+        int Send_toID = lead.getGiaochoID();
+        Log.e(TAG, "ID send: " + Send_toID);
+        Executor executor = Executors.newSingleThreadExecutor();
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        executor.execute(()->{
+            NhanVienRepository nhanVienRepository = new NhanVienRepository(this);
+            String tenNV = nhanVienRepository.getNameByID(lead.getGiaochoID());
+            mainHandler.post(()->{
+                viewModelLead.SendtoID.setValue(Send_toID);
+                viewModelLead.SendtoName.setValue(tenNV);
+                et_ship.setText(tenNV);
+                Log.e(TAG, "Tên người phụ trách:" + tenNV);
+            });
+        });
     }
 
     private void setCheckInit() {
@@ -186,6 +210,4 @@ public class ConvertLeadActivity extends AppCompatActivity {
         String hint = getString(stringid) + " <font color='#FF0000'> * </font>";
         et.setHint(Html.fromHtml(hint));
     }
-
-
 }

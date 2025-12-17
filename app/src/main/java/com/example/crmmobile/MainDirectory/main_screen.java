@@ -5,28 +5,39 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.crmmobile.Adapter.AdapterModule;
+import com.example.crmmobile.Adapter.AdapterRecent;
+import com.example.crmmobile.DataBase.RecentRepository;
 import com.example.crmmobile.R;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 public class main_screen extends Fragment {
 
-    private RecyclerView rl_module;
+    private RecyclerView rl_module, recycler_recent;
     private AdapterModule adapter;
-    private List<item_module> itemModules;
-
+    private AdapterRecent adapter_recent;
+    private RecentViewModel recentViewModel;
+    private List<Module> itemModules;
     private onModuleItemSelectedListener itemModuleSelectedListener;
+    private RecentRepository recentRepository;
+    private Handler timeHandler;
 
     public interface onModuleItemSelectedListener{
         void onModuleSelectedListener(String moduleNames);
@@ -62,20 +73,21 @@ public class main_screen extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_main_screen, container, false);
-
+        recentViewModel = new ViewModelProvider(requireActivity()).get(RecentViewModel.class);
+        recentRepository = new RecentRepository(requireContext());
         rl_module = view.findViewById(R.id.rl_module);
-        //shrink icon see more
-        TextView tvSeemore = view.findViewById(R.id.tv_seemore);
+        recycler_recent = view.findViewById(R.id.recycler_recent);
+        timeHandler = new Handler(Looper.getMainLooper());
 
         itemModules = Arrays.asList(
-                    new item_module("Tổ chức", R.drawable.ic_company),
-                    new item_module("Cá nhân", R.drawable.ic_individual),
-                    new item_module("Báo giá", R.drawable.ic_quote),
-                    new item_module("Hóa đơn", R.drawable.ic_bill),
-                    new item_module("Hợp đồng", R.drawable.ic_contract),
-                    new item_module("Báo cáo", R.drawable.ic_chart),
-                    new item_module("Cơ hội", R.drawable.ic_target),
-                    new item_module("CSKH", R.drawable.customer_care)
+                    new Module("Tổ chức", R.drawable.ic_company),
+                    new Module("Cá nhân", R.drawable.ic_individual),
+                    new Module("Báo giá", R.drawable.ic_quote),
+                    new Module("Hóa đơn", R.drawable.ic_bill),
+                    new Module("Hợp đồng", R.drawable.ic_contract),
+                    new Module("Báo cáo", R.drawable.ic_chart),
+                    new Module("Cơ hội", R.drawable.ic_target),
+                    new Module("CSKH", R.drawable.customer_care)
         );
 
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 4);
@@ -99,6 +111,48 @@ public class main_screen extends Fragment {
         //Assign adapter
         rl_module.setAdapter(adapter);
 
+        //recent
+        GridLayoutManager layout = new GridLayoutManager(getContext(), 2);
+        recycler_recent.addItemDecoration(new VerticalSpaceItemDecoration(
+                (int) getResources().getDisplayMetrics().density * 30
+        ));
+        recycler_recent.setLayoutManager(layout);
+        adapter_recent = new AdapterRecent(new ArrayList<>());
+        recycler_recent.setAdapter(adapter_recent);
+
+        recentViewModel.getRecentList()
+                .observe(getViewLifecycleOwner(), recents -> {
+                    adapter_recent.updateData(recents);
+                });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (recentViewModel != null){
+            recentViewModel.loadRecent();
+        }
+
+        //tự động cập nhật thời gian
+        if (timeHandler != null){
+            timeHandler.post(timeRunnable);
+        }
+    }
+
+    private Runnable timeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (adapter_recent != null){
+                adapter_recent.notifyDataSetChanged();
+            }
+            timeHandler.postDelayed(this, 60000);
+        }
+    };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        timeHandler.removeCallbacks(timeRunnable);
     }
 }

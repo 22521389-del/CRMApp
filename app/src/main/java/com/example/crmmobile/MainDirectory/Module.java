@@ -1,10 +1,10 @@
 package com.example.crmmobile.MainDirectory;
 
-public class item_module {
+public class Module {
     private String name;
     private int iconimg;
 
-    public item_module(String name, int iconimg){
+    public Module(String name, int iconimg){
         this.iconimg = iconimg;
         this.name = name;
     }

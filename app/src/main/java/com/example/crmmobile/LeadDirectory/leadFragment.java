@@ -2,15 +2,20 @@ package com.example.crmmobile.LeadDirectory;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,15 +34,18 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 public class leadFragment extends Fragment {
-    RecyclerView recyclerLead;
-    AdapterLead adapter;
-    List<Lead> leadDB;
-    ArrayList<Lead> leadList;
-    FloatingActionButton lead_create_button;
-    BottomNavigationView navFooter;
-    ViewPager2 viewPager;
-    FrameLayout contain;
+    private RecyclerView recyclerLead;
+    private AdapterLead adapter;
+    private List<Lead> leadDB;
+    private ArrayList<Lead> leadList;
+    private FloatingActionButton lead_create_button;
+    private BottomNavigationView navFooter;
+    private ViewPager2 viewPager;
+    private FrameLayout contain;
     private LeadRepository db;
+    private ConstraintLayout serch_bar_Lead;
+    private EditText text_search;
+    private ImageView filter_button;
 
     public ActivityResultLauncher<Intent> editLeadLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -55,11 +63,11 @@ public class leadFragment extends Fragment {
 
     private void reloadList() {
         Executors.newSingleThreadExecutor().execute(() -> {
-            List<Lead> data = db.getAllLead();
+            leadDB = db.getAllLead();
 
             requireActivity().runOnUiThread(() -> {
                 leadList.clear();
-                leadList.addAll(data);
+                leadList.addAll(leadDB);
                 adapter.notifyDataSetChanged();
             });
         });
@@ -71,6 +79,9 @@ public class leadFragment extends Fragment {
 
         recyclerLead = view.findViewById(R.id.LeadRecycler);
         lead_create_button = view.findViewById(R.id.btn_add_lead);
+        serch_bar_Lead = view.findViewById(R.id.serch_bar_Lead);
+        text_search = view.findViewById(R.id.text_search);
+        filter_button = view.findViewById(R.id.filter_button);
 
         recyclerLead.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -80,6 +91,23 @@ public class leadFragment extends Fragment {
         navFooter = requireActivity().findViewById(R.id.nav_footer);
         contain = requireActivity().findViewById(R.id.main_container);
         viewPager = requireActivity().findViewById(R.id.viewPager);
+
+        text_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterLead(s.toString());
+            }
+        });
 
         lead_create_button.setOnClickListener(v -> {
             Fragment createFragment = new create_Lead();
@@ -136,6 +164,24 @@ public class leadFragment extends Fragment {
         recyclerLead.setAdapter(adapter);
         loadLead();
         return view;
+    }
+
+    private void filterLead(String key) {
+        if (leadDB == null) return;
+        key = key.toLowerCase().trim();
+        leadList.clear();
+        if(key.isEmpty()){
+            leadList.addAll(leadDB);
+        }else {
+            for (Lead lead : leadDB){
+                if (lead.getTen().toLowerCase().contains(key)
+                        || lead.getHovaTendem().toLowerCase().contains(key)
+                        || lead.getTitle().toLowerCase().contains(key)){
+                    leadList.add(lead);
+                }
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void loadLead() {

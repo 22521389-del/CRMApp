@@ -25,6 +25,9 @@ public class LeadTable {
                     "MASOTHUE TEXT," +
                     "TINHTRANG TEXT," +
                     "MOTA TEXT," +
+                    "GHICHU TEXT," +
+                    "TIEMNANG TEXT," +
+                    "DANHGIA TEXT," +
                     "NGUOITAO INTEGER," +
                     "GIAOCHO INTEGER," +
                     "NGAYLIENHE TEXT," +

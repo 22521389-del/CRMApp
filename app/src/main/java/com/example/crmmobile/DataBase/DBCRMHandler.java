@@ -15,6 +15,7 @@ import com.example.crmmobile.DataBase.Table.GopyTable;
 import com.example.crmmobile.DataBase.Table.HoatdongTable;
 import com.example.crmmobile.DataBase.Table.LeadTable;
 import com.example.crmmobile.DataBase.Table.NhanVienTable;
+import com.example.crmmobile.DataBase.Table.RecentAccessTable;
 import com.example.crmmobile.DataBase.Table.SanPhamTable;
 import com.example.crmmobile.IndividualDirectory.CaNhan;
 
@@ -25,7 +26,7 @@ import java.util.List;
 public class DBCRMHandler extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "crm.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     public DBCRMHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -53,12 +54,14 @@ public class DBCRMHandler extends SQLiteOpenHelper {
         db.execSQL(GopyTable.CREATE_TABLE);
         // 10. Bảng SANPHAM
         db.execSQL(SanPhamTable.CREATE_TABLE);
+        // 11. Bảng RECENT
+        db.execSQL(RecentAccessTable.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Xóa bảng cũ
-        String[] tables = {"NHANVIEN", "COMPANY", "LEAD", "CONTACT", "COHOI", "BAOGIA", "DONHANG", "HOATDONG", "GOPY", "SANPHAM"};
+        String[] tables = {"NHANVIEN", "COMPANY", "LEAD", "CONTACT", "COHOI", "BAOGIA", "DONHANG", "HOATDONG", "GOPY", "SANPHAM", "RECENT"};
         for (String table : tables) {
             db.execSQL("DROP TABLE IF EXISTS " + table);
         }
