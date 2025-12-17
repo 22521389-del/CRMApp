@@ -11,19 +11,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.crmmobile.OpportunityDirectory.Opportunity;
 import com.example.crmmobile.R;
 
 public class OpportunityDetailTabOverviewFragment extends Fragment {
 
-    private Opportunity opportunity;
+    private int opportunityId;
+    private OpportunityDetailViewModel detailVM;
+
     private TextView tvTitle, tvPrice, tvDate, tvStatus, tvCallCount, tvMessageCount, tvExchange;
 
-    public static OpportunityDetailTabOverviewFragment newInstance(Opportunity opportunity) {
+    public static OpportunityDetailTabOverviewFragment newInstance(int opportunityId) {
         OpportunityDetailTabOverviewFragment fragment = new OpportunityDetailTabOverviewFragment();
         Bundle args = new Bundle();
-        args.putSerializable("opportunity", opportunity);
+        args.putInt("opportunity_id", opportunityId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -32,8 +35,12 @@ public class OpportunityDetailTabOverviewFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            opportunity = (Opportunity) getArguments().getSerializable("opportunity");
+            opportunityId = getArguments().getInt("opportunity_id");
         }
+
+        //LẤY ViewModel CHUNG VỚI ACTIVITY
+        detailVM = new ViewModelProvider(requireActivity())
+                .get(OpportunityDetailViewModel.class);
     }
 
     @Nullable
@@ -59,6 +66,14 @@ public class OpportunityDetailTabOverviewFragment extends Fragment {
         LinearLayout layoutOpportunity2 = view.findViewById(R.id.layout_comment_content);
         setupToggle(ivOpportunity2, layoutOpportunity2);
 
+        detailVM.getOpportunity().observe(
+                getViewLifecycleOwner(),
+                opportunity -> {
+                    if (opportunity != null) {
+                        bindData(view, opportunity);
+                    }
+                }
+        );
 
     }
 
@@ -75,5 +90,18 @@ public class OpportunityDetailTabOverviewFragment extends Fragment {
             toggleIcon.setImageResource(isVisible ? R.drawable.ic_arrow_down : R.drawable.ic_arrow_up);
         });
     }
+
+
+
+    private void bindData(View view, Opportunity o) {
+//        TextView tvTitle = view.findViewById(R.id.tv_title);
+//        TextView tvPrice = view.findViewById(R.id.tv_price);
+//        TextView tvStatus = view.findViewById(R.id.tv_status);
+//
+//        tvTitle.setText(o.getName());
+//        tvPrice.setText(String.valueOf(o.getAmount()));
+//        tvStatus.setText(o.getStatus());
+    }
+
 
 }

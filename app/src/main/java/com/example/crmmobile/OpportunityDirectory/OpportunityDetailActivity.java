@@ -2,9 +2,13 @@ package com.example.crmmobile.OpportunityDirectory;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.view.View;
+import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
@@ -12,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.crmmobile.MainDirectory.InitClass;
 import com.example.crmmobile.MainDirectory.Recent;
 import com.example.crmmobile.MainDirectory.RecentViewModel;
+import com.example.crmmobile.OpportunityDirectory.Opportunity;
 import com.example.crmmobile.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -27,33 +32,136 @@ public class OpportunityDetailActivity extends AppCompatActivity {
     private OpportunityDetailPagerAdapter pagerAdapter;
 
     // pipeline
-    private OpportunityActionViewModel viewModel;
+    private OpportunityActionViewModel actionVM;
     private ImageView ivStep1, ivStep2, ivStep3, ivStep4, ivStep5;
     private View vStep1Start, vStep1, vStep2, vStep3, vStep4;
-    private com.example.crmmobile.OpportunityDirectory.Opportunity opportunity;
+    private int opportunityId = -1;
+    private Opportunity opportunity;
+    private OpportunityDetailViewModel detailVM;
+
+    boolean isPipelineSetup = false;
+
+    private TextView tvCompany, tvPrice, tvStatus, tvCreator, tvAssignee;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("OD_DEBUG", "onCreate()");
         setContentView(R.layout.activity_opportunity_detail);
+
+        View headerRoot = findViewById(R.id.layout_opportunity_detail_header);
+
+// info header
+        tvCompany  = headerRoot.findViewById(R.id.tv_company_name);
+        tvPrice    = headerRoot.findViewById(R.id.tv_value);
+        tvStatus   = headerRoot.findViewById(R.id.tv_opportunity_status);
+
+// owner
+        tvCreator  = headerRoot.findViewById(R.id.tv_opportunity_creator_name);
+        tvAssignee = headerRoot.findViewById(R.id.tv_opportunity_assignee_name);
+
 
         ivBack = findViewById(R.id.iv_opportunity_detail_back);
         tabLayout = findViewById(R.id.tl_opportunity_detail_tabs);
         viewPager = findViewById(R.id.vp_opportunity_detail_content);
         detailEdit = findViewById(R.id.iv_opportunity_detail_edit);
 
+// cẩn thâ truyền đúng intent key "id" từ list fragment để tránh lỗi render
+        opportunityId = getIntent().getIntExtra("id", -1);
+        Log.d("OD_DEBUG", "opportunityId = " + opportunityId);
 
-        // Nhận dữ liệu từ Intent - crashed vi pineline nhan du lieu null, tạo biến mới trong hàm, che khuất biến toàn cục.
-//        Opportunity opportunity = (Opportunity) getIntent().getSerializableExtra("opportunity");
+        actionVM = new ViewModelProvider(this)
+                .get(OpportunityActionViewModel.class);
 
-        opportunity = (Opportunity) getIntent().getSerializableExtra("opportunity");
+        detailVM = new ViewModelProvider(this).get(OpportunityDetailViewModel.class);
+
+        detailVM.loadOpportunityById(opportunityId);
+
+        detailVM.getUI().observe(this, ui -> {
+            if (ui == null) return;
+
+            bindData(ui);
+        });
+
+        detailVM.getOpportunity().observe(this, o -> {
+            Log.d("OD_DEBUG", "observe opportunity = " + o);
+            if (o != null) {
+                opportunity = o;
+
+                if (!isPipelineSetup) {
+                    setupViewPager();
+                    setupPipeline(); // init 1 lần
+                    isPipelineSetup = true;
+                }
+
+                updatePipelineUI(o);
+                updatePipelineClickability(o);
+            }
+        });
+
+        actionVM.getActionSuccess().observe(this, success -> {
+            if (Boolean.TRUE.equals(success)) {
+                // reload từ DB
+                detailVM.loadOpportunityById(opportunityId);
+            }
+        });
+
+        // Nút back
+        ivBack.setOnClickListener(v -> finish());
+
+        // Nút chỉnh sửa (cây bút)
+        detailEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OpportunityFormActivity.class);
+            intent.putExtra("mode", "update");
+            intent.putExtra("id", opportunityId);
+//            startActivity(intent);
+            updateLauncher.launch(intent);
+
+        });
 
         saveRecentOpportunity();
+
+    }
+
+    private void bindData(OpportunityDetailUI ui) {
+        if (ui == null) return;
+
+        Log.d("DETAIL_BIND",
+                "bind status=" + ui.status +
+                        " price=" + ui.price
+        );
+
+        // Giá trị
+        tvPrice.setText(formatCurrency(ui.price));
+        tvStatus.setText(ui.status);
+
+        // Tên đã được map
+        tvCompany.setText(ui.companyName);
+        tvCreator.setText(ui.contactName);
+        tvAssignee.setText(ui.contactName);
+    }
+
+
+    private final ActivityResultLauncher<Intent> updateLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == RESULT_OK) {
+                            Log.d("DETAIL", "Form updated → reload DB");
+                            detailVM.loadOpportunityById(opportunityId);
+                        }
+                    }
+            );
+
+
+    private void setupViewPager() {
+
         // Danh sách tab
-        List<String> tabTitles = Arrays.asList("Tổng quan", "Chi tiết", "Nhật ký", "Hoạt động");
+        List<String> tabTitles = Arrays.asList("Tổng quan", "Chi tiết");
 
         // Gắn adapter
-        pagerAdapter = new OpportunityDetailPagerAdapter(this, tabTitles, opportunity);
+        pagerAdapter = new OpportunityDetailPagerAdapter(this, tabTitles.size(), opportunityId);
         viewPager.setAdapter(pagerAdapter);
 
         // Gắn TabLayout với ViewPager
@@ -64,34 +172,6 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         // Mặc định mở tab đầu tiên
         viewPager.setCurrentItem(0);
 
-        // Nút back
-        ivBack.setOnClickListener(v -> finish());
-
-        // Nút chỉnh sửa (cây bút)
-        detailEdit.setOnClickListener(v -> {
-            Intent intent = new Intent(this, OpportunityFormActivity.class);
-            intent.putExtra("mode", "update");
-            intent.putExtra("opportunity", opportunity);
-            intent.putExtra("position", -1);
-            startActivity(intent);
-        });
-
-
-        // --- Pipeline Logic ---
-        setupPipeline();
-
-    }
-
-    private void saveRecentOpportunity() {
-        if (opportunity == null) return;
-
-        RecentViewModel recentViewModel = new ViewModelProvider(this).get(RecentViewModel.class);
-        Recent recent = new Recent();
-        recent.setObjectType("OPPORTUNITY");
-        recent.setObjectID(InitClass.getIconRecent(recent.getObjectType()));
-        recent.setName(opportunity.getTitle());
-        recent.setTime(System.currentTimeMillis());
-        recentViewModel.upsertRecent(recent);
     }
 
     private void setupPipeline() {
@@ -111,12 +191,9 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         // set mặc định cho start line
         vStep1Start.setBackgroundResource(R.color.blue);
 
-        // Khởi tạo ViewModel (sử dụng this vì trong Activity)
-        viewModel = new ViewModelProvider(this).get(OpportunityActionViewModel.class);
-
         // Click vào bước → mở BottomSheet
         View.OnClickListener stepClickListener = v -> {
-            OpportunityActionBottomSheet.newInstance(opportunity)
+            OpportunityActionBottomSheet.newInstance(opportunityId)
                     .show(getSupportFragmentManager(), "ActionSheet");
         };
 
@@ -126,19 +203,10 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         ivStep4.setOnClickListener(stepClickListener);
         ivStep5.setOnClickListener(stepClickListener);
 
-        // Lắng nghe kết quả cập nhật
-        viewModel.getActionSuccess().observe(this, success -> {
-            if (success != null && success) {
-                updatePipelineUI();
-            }
-        });
-
-        // Lần đầu hiển thị pipeline
-        updatePipelineUI();
-        updatePipelineClickability(); // cập nhật clickability
     }
 
-    private void updatePipelineUI() {
+    private void updatePipelineUI(Opportunity opportunity) {
+        if (opportunity == null) return;
         // Đổi icon và màu theo stage hiện tại
         String status = opportunity.getStatus();
 
@@ -196,7 +264,9 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         vStep4.setBackgroundResource(R.color.gray);
     }
 
-    private void updatePipelineClickability() {
+    private void updatePipelineClickability(Opportunity opportunity) {
+        if (opportunity == null) return;
+
         // Lấy status hiện tại
         String status = opportunity.getStatus();
 
@@ -229,7 +299,7 @@ public class OpportunityDetailActivity extends AppCompatActivity {
 
         // Gắn click listener cho step hiện tại
         View.OnClickListener stepClickListener = v -> {
-            OpportunityActionBottomSheet.newInstance(opportunity)
+            OpportunityActionBottomSheet.newInstance(opportunityId)
                     .show(getSupportFragmentManager(), "ActionSheet");
         };
 
@@ -240,5 +310,49 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         if (ivStep5.isClickable()) ivStep5.setOnClickListener(stepClickListener);
     }
 
+//    private void bindData(Opportunity o) {
+//        if (o == null) return;
+//
+//        Log.d("DETAIL_BIND",
+//                "bind status=" + o.getStatus() +
+//                        " price=" + o.getPrice()
+//        );
+//
+//        tvPrice.setText(formatCurrency(o.getPrice()));
+//        tvStatus.setText(o.getStatus());
+//
+//        // Tạm thời set id (sau này map sang tên)
+//        tvCompany.setText("Company ID: " + o.getCompany());
+//        tvCreator.setText("Creator ID: " + o.getManagement());
+//        tvAssignee.setText("Assignee ID: " + o.getManagement());
+//    }
+
+
+
+    private String formatCurrency(double amount) {
+        return String.format("%,.0f đ", amount);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (opportunityId != -1) {
+            detailVM.loadOpportunityById(opportunityId);
+        }
+    }
+
+
+    private void saveRecentOpportunity() {
+        if (opportunity == null) return;
+
+        RecentViewModel recentViewModel = new ViewModelProvider(this).get(RecentViewModel.class);
+        Recent recent = new Recent();
+        recent.setObjectType("OPPORTUNITY");
+        recent.setObjectID(InitClass.getIconRecent(recent.getObjectType()));
+        recent.setName(opportunity.getTitle());
+        recent.setTime(System.currentTimeMillis());
+        recentViewModel.upsertRecent(recent);
+    }
 
 }

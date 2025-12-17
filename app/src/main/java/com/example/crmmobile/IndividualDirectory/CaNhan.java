@@ -115,4 +115,11 @@ public class CaNhan implements Serializable {
 
     public int getSoCuocHop() { return soCuocHop; }
     public void setSoCuocHop(int soCuocHop) { this.soCuocHop = soCuocHop; }
+
+//    Xuan them vao de hien thi dropdown nguoi lien he trong form opportunity
+//    ham quan trong de dropdown hien thi dung name
+    @Override
+    public String toString() {
+        return hoVaTen;
+    }
 }

@@ -44,7 +44,7 @@ public class OpportunityDAO {
         SQLiteDatabase db = DBCRMHandler.getWritableDatabase();
         try {
             ContentValues values = new ContentValues();
-            values.put("TENCOIHOI", opportunity.getTitle());
+            values.put("TENCOHOI", opportunity.getTitle());
             values.put("CONGTY", opportunity.getCompany());
             values.put("NGUOILIENHE", opportunity.getContact());
             values.put("GIATRI", opportunity.getPrice());

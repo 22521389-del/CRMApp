@@ -3,6 +3,7 @@ package com.example.crmmobile.OpportunityDirectory;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -26,18 +27,28 @@ public class OpportunityRepository {
     public List<Opportunity> getAll() {
         return dao.getAll();
     }
-//    public Opportunity getById(int id) {
-//        for (Opportunity o : dao.getAll()) if (o.getId() == id) return o;
-//        return null;
-//    }
 
     public Opportunity getById(int id) {
-        return dao.getById(id);
+
+//        return dao.getById(id);
+
+        Opportunity o = dao.getById(id);
+        Log.d("REPO_DEBUG",
+                "getById() id=" + id +
+                        " status=" + o.getStatus() +
+                        " hash=" + System.identityHashCode(o)
+        );
+        return o;
     }
     public long add(Opportunity opportunity) {
         return dao.add(opportunity);
     }
     public void update(Opportunity opportunity) {
+        Log.d("BUG_TEST", "REPO.update()");
+        Log.d("BUG_TEST", "id = " + opportunity.getId());
+        Log.d("BUG_TEST", "company = " + opportunity.getCompany());
+        Log.d("BUG_TEST", "contact = " + opportunity.getContact());
+        Log.d("BUG_TEST", "management = " + opportunity.getManagement());
         dao.update(opportunity);
     }
     public void delete(int id) {
@@ -47,12 +58,27 @@ public class OpportunityRepository {
     public interface Callback { void onComplete(boolean success); }
 
     public void updateStage(Opportunity opportunity, String newStage, String note, Callback callback) {
-        // Giả lập call API
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            opportunity.setStatus(newStage);
+            Opportunity updated = new Opportunity(
+                    opportunity.getId(),
+                    opportunity.getTitle(),
+                    opportunity.getCompany(),
+                    opportunity.getContact(),
+                    opportunity.getPrice(),
+                    newStage,
+                    opportunity.getDate(),
+                    opportunity.getExpectedDate2(),
+                    opportunity.getDescription(),
+                    opportunity.getManagement(),
+                    opportunity.getCallCount(),
+                    opportunity.getMessageCount()
+            );
+
+            dao.update(updated);   // ghi xuống DB
             callback.onComplete(true);
         }, 1000);
     }
+
 }
 
 
