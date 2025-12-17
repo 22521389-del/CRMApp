@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,7 +18,10 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.crmmobile.Adapter.AdapterTab;
 import com.example.crmmobile.AppConstant;
 import com.example.crmmobile.DataBase.NhanVienRepository;
+import com.example.crmmobile.DataBase.RecentRepository;
 import com.example.crmmobile.MainDirectory.InitClass;
+import com.example.crmmobile.MainDirectory.Recent;
+import com.example.crmmobile.MainDirectory.RecentViewModel;
 import com.example.crmmobile.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.tabs.TabLayout;
@@ -29,6 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import kotlinx.coroutines.internal.StackTraceRecoveryKt;
 
 public class DetailLeadActivity extends AppCompatActivity {
     private static final String TAG = "DETAIL_ACTIVITY";
@@ -48,6 +52,7 @@ public class DetailLeadActivity extends AppCompatActivity {
         initVariables();
         viewModelLead = new ViewModelProvider(this).get(ViewModelLead.class);
         lead = (Lead) getIntent().getSerializableExtra(AppConstant.LEAD_OBJECT);
+        saveRecentLead();
 
         String full_name = lead.getTitle() + " " + lead.getHovaTendem() +" " + lead.getTen();
         tv_user.setText(full_name);
@@ -81,6 +86,22 @@ public class DetailLeadActivity extends AppCompatActivity {
             }
         }).attach();
 
+    }
+
+    private void saveRecentLead() {
+        if (lead == null) return;
+
+        RecentViewModel recentViewModel = new ViewModelProvider(this).get(RecentViewModel.class);
+
+        Recent recent = new Recent();
+        recent.setObjectType("LEAD");
+        recent.setObjectID(lead.getID());
+        String full_name = lead.getTitle() + " " + lead.getHovaTendem() + " " + lead.getTen();
+        recent.setName(full_name);
+        recent.setTime(System.currentTimeMillis());
+        recentViewModel.upsertRecent(recent);
+        Log.e("RECENT", "Saved recent lead: " + recent.getName());
+        Log.e("RECENT", "Saved Name: " + lead.getTen());
     }
 
     private void MapIDtoNameText() {
@@ -132,6 +153,7 @@ public class DetailLeadActivity extends AppCompatActivity {
     }
 
     private void setValues() {
+        viewModelLead.title.setValue(lead.getTitle());
         viewModelLead.hovatendem.setValue(lead.getHovaTendem());
         viewModelLead.first_name.setValue(lead.getTen());
         viewModelLead.Sex.setValue(lead.getGioitinh());

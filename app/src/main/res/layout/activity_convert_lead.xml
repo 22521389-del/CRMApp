@@ -5,37 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/cl_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent">
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_margin="@dimen/margin_action"
             android:src="@drawable/arrow_back"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
+            android:contentDescription="@null"/>
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/convert_lead"
-            android:textSize="@dimen/text"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="@dimen/text18"
             android:layout_margin="@dimen/margin_action"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_back"
             />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scroll_convert"
@@ -413,7 +405,7 @@
                         android:id="@+id/ed_ship"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/shipto"
+                        android:hint="@string/hint_management"
                         android:background="@android:color/transparent"
                         android:textSize="@dimen/text18"
                         app:layout_constraintStart_toStartOf="parent"
