@@ -3,6 +3,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.crmmobile.IndividualDirectory.CaNhan;
 
@@ -141,4 +142,35 @@ public class CaNhanRepository {
         db.close();
         return result;
     }
+
+// Xuan them vao de lay du lieu id + name cua nguoi lien he cho dropdown trong form
+    public List<CaNhan> getAllIdName() {
+        List<CaNhan> list = new ArrayList<>();
+
+        SQLiteDatabase db = dbHandler.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT ID, HOTEN FROM CONTACT",
+                null
+        );
+
+        Log.d("DEBUG_CaNhanRepo", "cursor count = " + cursor.getCount());
+
+        while (cursor.moveToNext()) {
+            CaNhan cn = new CaNhan();
+            cn.setId(cursor.getInt(cursor.getColumnIndexOrThrow("ID")));
+            cn.setHoVaTen(cursor.getString(cursor.getColumnIndexOrThrow("HOTEN")));
+
+            list.add(cn);
+
+            Log.d("DEBUG_CaNhanRepo",
+                    "Loaded: id=" + cn.getId() + ", name=" + cn.getHoVaTen());
+        }
+
+        cursor.close();
+        db.close();
+
+        return list;
+    }
+
+
 }

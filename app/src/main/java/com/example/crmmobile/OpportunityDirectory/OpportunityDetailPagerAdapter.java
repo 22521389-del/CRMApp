@@ -11,35 +11,38 @@ import com.example.crmmobile.OpportunityDirectory.Opportunity;
 
 public class OpportunityDetailPagerAdapter extends FragmentStateAdapter {
 
-    private final List<String> tabTitles;
-    private final Opportunity opportunity;
+    private final int tabCount;
+    private final int opportunityId;
 
-    public OpportunityDetailPagerAdapter(@NonNull FragmentActivity fragmentActivity,
-                                         List<String> tabTitles,
-                                         Opportunity opportunity) {
+    public OpportunityDetailPagerAdapter(
+            @NonNull FragmentActivity fragmentActivity,
+            int tabCount,
+            int opportunityId
+    ) {
         super(fragmentActivity);
-        this.tabTitles = tabTitles;
-        this.opportunity = opportunity;
+        this.tabCount = tabCount;
+        this.opportunityId = opportunityId;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        String title = tabTitles.get(position);
-        switch (title) {
-            case "Tổng quan":
-                return OpportunityDetailTabOverviewFragment.newInstance(opportunity);
-            case "Chi tiết":
-                return OpportunityDetailTabInfoFragment.newInstance(opportunity);
+        switch (position) {
+            case 0:
+                return OpportunityDetailTabOverviewFragment
+                        .newInstance(opportunityId);
+
+            case 1:
+                return OpportunityDetailTabInfoFragment
+                        .newInstance(opportunityId);
+
             default:
                 return new EmptyFragment();
         }
-
-
     }
 
     @Override
     public int getItemCount() {
-        return tabTitles.size();
+        return tabCount;
     }
 }

@@ -10,24 +10,28 @@ import com.example.crmmobile.R;
 
 
 public class OpportunityFormActivity extends AppCompatActivity {
+    private int opportunityId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_opportunity_form);
+        setContentView(R.layout.activity_opportunity_form);
 
         // Lấy intent
         String mode = getIntent().getStringExtra("mode");
-        Opportunity opportunity = (Opportunity) getIntent().getSerializableExtra("opportunity");
+        opportunityId = getIntent().getIntExtra("id", -1);
 
         // Gọi fragment chỉ với 2 tham số: object + mode
 
+
+
         OpportunityFormFragment fragment =
-                OpportunityFormFragment.newInstance(opportunity, mode);
+                OpportunityFormFragment.newInstance(opportunityId, mode);
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.layout_opportunity_form, fragment)
+                .replace(R.id.fragment_container, fragment)
                 .commit();
     }
+
 }

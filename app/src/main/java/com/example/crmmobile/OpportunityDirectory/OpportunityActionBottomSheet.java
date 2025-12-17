@@ -18,12 +18,12 @@ import com.google.android.material.textfield.TextInputEditText;
 public class OpportunityActionBottomSheet extends BottomSheetDialogFragment {
 
     private OpportunityActionViewModel viewModel;
-    private com.example.crmmobile.OpportunityDirectory.Opportunity opportunity;
+    private int opportunityId = -1;
 
-    public static OpportunityActionBottomSheet newInstance(Opportunity opportunity) {
+    public static OpportunityActionBottomSheet newInstance(int opportunityId) {
         OpportunityActionBottomSheet sheet = new OpportunityActionBottomSheet();
         Bundle args = new Bundle();
-        args.putSerializable("opportunity", opportunity);
+        args.putInt("opportunity_id", opportunityId);
         sheet.setArguments(args);
         return sheet;
     }
@@ -33,7 +33,11 @@ public class OpportunityActionBottomSheet extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_opportunity_stage_transition, container, false);
-        opportunity = (Opportunity) getArguments().getSerializable("opportunity");
+
+        if (getArguments() != null) {
+            opportunityId = getArguments().getInt("opportunity_id", -1);
+        }
+
         viewModel = new ViewModelProvider(requireActivity()).get(OpportunityActionViewModel.class);
 
         AutoCompleteTextView spNextStage = view.findViewById(R.id.sp_next_sales_stage);
@@ -43,9 +47,8 @@ public class OpportunityActionBottomSheet extends BottomSheetDialogFragment {
         btnSave.setOnClickListener(v -> {
             String nextStage = spNextStage.getText().toString();
             String note = etNote.getText().toString();
-            if (opportunity != null) {
-                // Gọi theo id thay vì object
-                viewModel.changeStage(opportunity.getId(), nextStage, note);
+            if (opportunityId != -1) {
+                viewModel.changeStage(opportunityId, nextStage, note);
             }
             dismiss();
         });
