@@ -42,6 +42,9 @@ public class LeadRepository {
         values.put("MASOTHUE", lead.getMaThue());
         values.put("TINHTRANG", lead.getTinhTrang());
         values.put("MOTA", lead.getMota());
+        values.put("GHICHU", lead.getGhichu());
+        values.put("TIEMNANG", lead.getTiemnang());
+        values.put("DANHGIA", lead.getDanhgia());
         values.put("GIAOCHO", lead.getGiaochoID());
         values.put("NGUOITAO", lead.getNguoitaoID());
         values.put("NGAYLIENHE", lead.getNgayLienHe());
@@ -82,6 +85,9 @@ public class LeadRepository {
                 lead.setMaThue(cursor.getString(cursor.getColumnIndexOrThrow("MASOTHUE")));
                 lead.setTinhTrang(cursor.getString(cursor.getColumnIndexOrThrow("TINHTRANG")));
                 lead.setMota(cursor.getString(cursor.getColumnIndexOrThrow("MOTA")));
+                lead.setGhichu(cursor.getString(cursor.getColumnIndexOrThrow("GHICHU")));
+                lead.setTiemnang(cursor.getString(cursor.getColumnIndexOrThrow("TIEMNANG")));
+                lead.setDanhgia(cursor.getString(cursor.getColumnIndexOrThrow("DANHGIA")));
                 lead.setGiaochoID(cursor.getInt(cursor.getColumnIndexOrThrow("GIAOCHO")));
                 lead.setNguoitaoID(cursor.getInt(cursor.getColumnIndexOrThrow("NGUOITAO")));
                 lead.setNgayLienHe(cursor.getString(cursor.getColumnIndexOrThrow("NGAYLIENHE")));
@@ -119,6 +125,9 @@ public class LeadRepository {
         values.put("MASOTHUE", lead.getMaThue());
         values.put("TINHTRANG", lead.getTinhTrang());
         values.put("MOTA", lead.getMota());
+        values.put("GHICHU", lead.getGhichu());
+        values.put("TIEMNANG", lead.getTiemnang());
+        values.put("DANHGIA", lead.getDanhgia());
         values.put("GIAOCHO", lead.getGiaochoID());
         values.put("NGUOITAO", lead.getNguoitaoID());
         values.put("NGAYLIENHE", lead.getNgayLienHe());
@@ -141,5 +150,47 @@ public class LeadRepository {
 
         values.put("TINHTRANG", status);
         db.update("LEAD", values, "ID=?", new String[]{String.valueOf(leadID)});
+    }
+
+    public Lead getLeadByID(int id){
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        Lead lead = null;
+
+        Cursor cursor = db.rawQuery("SELECT * FROM LEAD WHERE ID=?", new String[]{String.valueOf(id)});
+
+        if(cursor.moveToFirst()){
+            lead = new Lead();
+            lead.setID(cursor.getInt(cursor.getColumnIndexOrThrow("ID")));
+            lead.setTitle(cursor.getString(cursor.getColumnIndexOrThrow("TITLE")));
+            lead.setHovaTendem(cursor.getString(cursor.getColumnIndexOrThrow("HOVATENDEM")));
+            lead.setTen(cursor.getString(cursor.getColumnIndexOrThrow("TEN")));
+            lead.setDienThoai(cursor.getString(cursor.getColumnIndexOrThrow("DIENTHOAI")));
+            lead.setEmail(cursor.getString(cursor.getColumnIndexOrThrow("EMAIL")));
+            lead.setNgaysinh(cursor.getString(cursor.getColumnIndexOrThrow("NGAYSINH")));
+            lead.setNganhnghe(cursor.getString(cursor.getColumnIndexOrThrow("NGANHNGHE")));
+            lead.setGioitinh(cursor.getString(cursor.getColumnIndexOrThrow("GIOITINH")));
+            lead.setDiachi(cursor.getString(cursor.getColumnIndexOrThrow("DIACHI")));
+            lead.setQuanHuyen(cursor.getString(cursor.getColumnIndexOrThrow("QUANHUYEN")));
+            lead.setTinh(cursor.getString(cursor.getColumnIndexOrThrow("TINH")));
+            lead.setThanhpho(cursor.getString(cursor.getColumnIndexOrThrow("THANHPHO")));
+            lead.setQuocGia(cursor.getString(cursor.getColumnIndexOrThrow("QUOCGIA")));
+            lead.setChucvu(cursor.getString(cursor.getColumnIndexOrThrow("CHUCVU")));
+            lead.setCongty(cursor.getString(cursor.getColumnIndexOrThrow("CONGTY")));
+            lead.setDoanhThu(cursor.getString(cursor.getColumnIndexOrThrow("DOANHTHU")));
+            lead.setSoNV(cursor.getString(cursor.getColumnIndexOrThrow("SONV")));
+            lead.setMaThue(cursor.getString(cursor.getColumnIndexOrThrow("MASOTHUE")));
+            lead.setTinhTrang(cursor.getString(cursor.getColumnIndexOrThrow("TINHTRANG")));
+            lead.setMota(cursor.getString(cursor.getColumnIndexOrThrow("MOTA")));
+            lead.setGhichu(cursor.getString(cursor.getColumnIndexOrThrow("GHICHU")));
+            lead.setTiemnang(cursor.getString(cursor.getColumnIndexOrThrow("TIEMNANG")));
+            lead.setDanhgia(cursor.getString(cursor.getColumnIndexOrThrow("DANHGIA")));
+            lead.setGiaochoID(cursor.getInt(cursor.getColumnIndexOrThrow("GIAOCHO")));
+            lead.setNguoitaoID(cursor.getInt(cursor.getColumnIndexOrThrow("NGUOITAO")));
+            lead.setNgayLienHe(cursor.getString(cursor.getColumnIndexOrThrow("NGAYLIENHE")));
+        }
+        cursor.close();
+        db.close();
+
+        return lead;
     }
 }

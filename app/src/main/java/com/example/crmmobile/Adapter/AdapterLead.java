@@ -31,7 +31,7 @@ public class AdapterLead extends RecyclerView.Adapter<AdapterLead.LeadViewHolder
 
     public interface onItemClickListener {
         void onDotsClick(Lead item, int position);
-        void onMenuClick(Lead lead);
+        void onMenuClick(Lead lead, int id);
     }
 
     public AdapterLead(Context context, List<Lead> dataList, onItemClickListener listener){
@@ -112,7 +112,7 @@ public class AdapterLead extends RecyclerView.Adapter<AdapterLead.LeadViewHolder
 
         viewHolder.itemView.setOnClickListener(v -> {
             if(listener != null){
-                listener.onMenuClick(lead);
+                listener.onMenuClick(lead, lead.getID());
             }
         });
     }

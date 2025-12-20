@@ -20,7 +20,7 @@ public class ViewModelLead extends ViewModel {
     public MutableLiveData<String> position_company = new MutableLiveData<>();
     public MutableLiveData<String> number_of_employees = new MutableLiveData<>();
     public MutableLiveData<String> state = new MutableLiveData<>();
-    public MutableLiveData<String> state_detail = new MutableLiveData<>();
+    public MutableLiveData<String> Note = new MutableLiveData<>();
     public MutableLiveData<String> description = new MutableLiveData<>();
     public MutableLiveData<String> SendtoName = new MutableLiveData<>();
     public MutableLiveData<Integer> SendtoID = new MutableLiveData<>();
@@ -30,4 +30,5 @@ public class ViewModelLead extends ViewModel {
     public MutableLiveData<String> contact_day = new MutableLiveData<>();
     public MutableLiveData<String> Tax = new MutableLiveData<>();
     public MutableLiveData<String> Revenue = new MutableLiveData<>();
+    public MutableLiveData<String> Evaluate = new MutableLiveData<>();
 }

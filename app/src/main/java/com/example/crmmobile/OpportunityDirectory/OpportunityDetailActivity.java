@@ -88,6 +88,7 @@ public class OpportunityDetailActivity extends AppCompatActivity {
             Log.d("OD_DEBUG", "observe opportunity = " + o);
             if (o != null) {
                 opportunity = o;
+                saveRecentOpportunity();
 
                 if (!isPipelineSetup) {
                     setupViewPager();
@@ -119,8 +120,6 @@ public class OpportunityDetailActivity extends AppCompatActivity {
             updateLauncher.launch(intent);
 
         });
-
-        saveRecentOpportunity();
 
     }
 
@@ -352,7 +351,7 @@ public class OpportunityDetailActivity extends AppCompatActivity {
         recent.setObjectID(InitClass.getIconRecent(recent.getObjectType()));
         recent.setName(opportunity.getTitle());
         recent.setTime(System.currentTimeMillis());
+        Log.e("OPPORTUNITY", "Name" + recent.getName());
         recentViewModel.upsertRecent(recent);
     }
-
 }

@@ -114,6 +114,7 @@
                 android:layout_marginStart="@dimen/margin_base"/>
         </LinearLayout>
 
+<!--        Email and phone-->
         <LinearLayout
             android:id="@+id/phone_email"
             android:layout_width="match_parent"
@@ -124,15 +125,9 @@
             android:layout_marginTop="@dimen/start_margin"
             android:layout_gravity="center_vertical">
 
-<!--            Left-->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
@@ -156,26 +151,10 @@
                         android:contentDescription="@null"/>
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_company"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/tv_phone"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="@dimen/start_margin"
-                    android:text="Công ty ABC"
-                    />
-            </LinearLayout>
-<!--            Right-->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/tv_email"
                         android:layout_width="wrap_content"
@@ -196,24 +175,49 @@
                         app:layout_constraintBaseline_toBaselineOf="@id/tv_email"
                         android:contentDescription="@null"/>
                 </LinearLayout>
+        </LinearLayout>
+<!--        End email and phone    -->
 
-                <com.google.android.material.chip.Chip
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin20"
+            android:layout_marginEnd="@dimen/margin20"
+            android:layout_marginTop="@dimen/margin7"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/tv_company"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Công ty ABC"
+                android:ellipsize="end"
+                android:maxLines="1"
+                />
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
                     android:id="@+id/chip_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mới"
+                    android:text="Cần quan tâm"
                     android:textSize="12sp"
-                    app:chipCornerRadius="15dp"/>
-                </LinearLayout>
-            </LinearLayout>
+                    android:textColor="#1B74E4"
+                    android:background="@drawable/chip_evaluation"/>
+            </FrameLayout>
         </LinearLayout>
 
+<!--        Create by and person in charge-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginStart="@dimen/margin20"
-            android:layout_marginEnd="@dimen/margin20">
+            android:layout_marginEnd="@dimen/margin20"
+            android:layout_marginTop="@dimen/top_padding">
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -285,7 +289,8 @@
                         />
 
                 </LinearLayout>
-
+            </LinearLayout>
         </LinearLayout>
+<!--        End Create by and person in charge-->
     </LinearLayout>
 </LinearLayout>

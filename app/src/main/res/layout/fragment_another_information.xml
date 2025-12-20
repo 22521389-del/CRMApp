@@ -161,32 +161,6 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_input_box"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:textColorHint="@color/icon_infor">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/company_detail"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="@string/company_description"
-                        android:background="@android:color/transparent"
-                        android:textStyle="normal"
-                        android:textSize="14sp"
-                        android:minLines="6"
-                        android:gravity="top|start"
-                        android:autofillHints="name"
-                        android:inputType="none"
-                        android:paddingStart="4dp"
-                        android:paddingEnd="4dp"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
             <!--End Company Information-->
 
@@ -369,8 +343,8 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:textColorHint="@color/icon_infor">
-                    <EditText
-                        android:id="@+id/specal_notes"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/special_notes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/special_notes"
@@ -449,7 +423,7 @@
                 android:hint="@string/label_evaluation"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 app:endIconMode="dropdown_menu">
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/tv_valuation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -34,10 +34,10 @@ import java.util.concurrent.Executors;
 
 public class another_lead_information extends Fragment {
     private TextInputEditText company_name, edt_tax, number_of_employees, edt_district,
-            edt_address, edt_province, edt_nation, job_name,et_description;
+            edt_address, edt_province, edt_nation, job_name,et_description, special_notes;
     private ViewModelLead viewModelLead;
     private Lead lead;
-    private MaterialAutoCompleteTextView tv_sendto, edt_revenue;
+    private MaterialAutoCompleteTextView tv_sendto, edt_revenue,tv_valuation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,14 +64,8 @@ public class another_lead_information extends Fragment {
         bindViewModeltoEditext(viewModelLead.Job, job_name);
         bindViewModeltoEditext(viewModelLead.Revenue, edt_revenue);
         bindViewModeltoEditext(viewModelLead.description, et_description);
-
-        Bundle args = getArguments();
-        if (args != null && args.getSerializable(AppConstant.KEY_LEAD_DATA) != null){ //edit lead
-            lead = (Lead) args.getSerializable(AppConstant.KEY_LEAD_DATA);
-            getValueViewModel();
-        }else{
-            setEmptyEditText();
-        }
+        bindViewModeltoEditext(viewModelLead.Evaluate, tv_valuation);
+        bindViewModeltoEditext(viewModelLead.Note, special_notes);
 
         bindEditTexttoViewModel(tv_sendto, s -> viewModelLead.SendtoName.setValue(s));
         bindEditTexttoViewModel(company_name, s -> viewModelLead.company.setValue(s));
@@ -84,35 +78,8 @@ public class another_lead_information extends Fragment {
         bindEditTexttoViewModel(job_name, s -> viewModelLead.Job.setValue(s));
         bindEditTexttoViewModel(edt_revenue, s-> viewModelLead.Revenue.setValue(s));
         bindEditTexttoViewModel(et_description, s -> viewModelLead.description.setValue(s));
-    }
-
-    private void setEmptyEditText() {
-        viewModelLead.SendtoName.setValue("");
-        viewModelLead.SendtoID.setValue(null);
-        viewModelLead.company.setValue("");
-        viewModelLead.Tax.setValue("");
-        viewModelLead.number_of_employees.setValue("");
-        viewModelLead.District.setValue("");
-        viewModelLead.Address.setValue("");
-        viewModelLead.Province.setValue("");
-        viewModelLead.Nation.setValue("");
-        viewModelLead.Job.setValue("");
-        viewModelLead.Revenue.setValue("");
-        viewModelLead.description.setValue("");
-    }
-
-    private void getValueViewModel() {
-        viewModelLead.SendtoID.setValue(lead.getGiaochoID());
-        viewModelLead.company.setValue(lead.getCongty());
-        viewModelLead.Tax.setValue(lead.getMaThue());
-        viewModelLead.number_of_employees.setValue(lead.getSoNV());
-        viewModelLead.District.setValue(lead.getQuanHuyen());
-        viewModelLead.Address.setValue(lead.getDiachi());
-        viewModelLead.Province.setValue(lead.getTinh());
-        viewModelLead.Nation.setValue(lead.getQuocGia());
-        viewModelLead.Job.setValue(lead.getNganhnghe());
-        viewModelLead.Revenue.setValue(lead.getDoanhThu());
-        viewModelLead.description.setValue(lead.getMota());
+        bindEditTexttoViewModel(tv_valuation, s -> viewModelLead.Evaluate.setValue(s));
+        bindEditTexttoViewModel(special_notes, s -> viewModelLead.Note.setValue(s));
     }
 
     private void initVariables(View view) {
@@ -126,12 +93,16 @@ public class another_lead_information extends Fragment {
         String[] revenue_list = {"< 100 triệu", "100 - 500 triệu", "500 triệu - 1 tỷ", "1 - 5 tỷ", "> 5 tỷ"};
         ArrayAdapter<String> AdapterRevenue = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, revenue_list);
         edt_revenue.setAdapter(AdapterRevenue);
-
+        special_notes = view.findViewById(R.id.special_notes);
         edt_district = view.findViewById(R.id.edt_district);
         edt_address = view.findViewById(R.id.edt_address);
         edt_province = view.findViewById(R.id.edt_province);
         edt_nation = view.findViewById(R.id.edt_nation);
         et_description = view.findViewById(R.id.et_description);
+        tv_valuation = view.findViewById(R.id.tv_valuation);
+        String[] potential = {"Ít quan tâm", "Cần theo dõi", "Cần quan tâm", ""};
+        ArrayAdapter<String> AdapterPotetial = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, potential);
+        tv_valuation.setAdapter(AdapterPotetial);
     }
 
     private void initSendto() {

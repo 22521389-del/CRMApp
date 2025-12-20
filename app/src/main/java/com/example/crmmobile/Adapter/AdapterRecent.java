@@ -19,10 +19,15 @@ import java.util.List;
 public class AdapterRecent extends RecyclerView.Adapter<AdapterRecent.RecentHolder> {
     private static final String TAG = "RECENT_ADAPTER";
     private List<Recent> recent_list;
+    private OnItemClickListener listener;
 
-    public AdapterRecent(List<Recent> recent_list) {
+    public interface OnItemClickListener{
+        void onItemClick(Recent recent);
+    }
+
+    public AdapterRecent(List<Recent> recent_list, OnItemClickListener listener) {
         this.recent_list = recent_list;
-
+        this.listener = listener;
     }
 
     public void updateData(List<Recent> recent_list){
@@ -49,6 +54,12 @@ public class AdapterRecent extends RecyclerView.Adapter<AdapterRecent.RecentHold
         holder.tv_time.setText(InitClass.getTimeAgo(item.getTime()));
         Log.e(TAG, "Name: " + item.getName());
         Log.e(TAG, "Object type" + item.getObjectType());
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null){
+                listener.onItemClick(item);
+            }
+        });
     }
 
     @Override

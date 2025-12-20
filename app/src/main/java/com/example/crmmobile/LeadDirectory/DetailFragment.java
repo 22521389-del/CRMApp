@@ -36,7 +36,7 @@ public class DetailFragment extends Fragment {
     private TextView tv_full_name, tv_first_name, tv_sex, tv_birthday, tv_phone,
             tv_email, tv_state, tv_revenue, tv_tax, tv_job_name,tv_address,
             tv_district, tv_province, tv_nation, tv_description, tv_company,
-            tv_number_of_employees;
+            tv_number_of_employees, tv_special_notes;
     private Lead lead;
 
     public DetailFragment() {
@@ -86,6 +86,7 @@ public class DetailFragment extends Fragment {
         bindLiveDataToTextView(viewModelLead.description, tv_description);
         bindLiveDataToTextView(viewModelLead.company, tv_company);
         bindLiveDataToTextView(viewModelLead.number_of_employees, tv_number_of_employees);
+        bindLiveDataToTextView(viewModelLead.Note, tv_special_notes);
 
         setupaddInfor(iv_addinforaddress, cl_addinforaddress);
         setupaddInfor(iv_addinforlead, cl_inforlead);
@@ -117,6 +118,7 @@ public class DetailFragment extends Fragment {
         tv_description = view.findViewById(R.id.tv_description);
         tv_company = view.findViewById(R.id.tv_company);
         tv_number_of_employees = view.findViewById(R.id.tv_number_of_employees);
+        tv_special_notes = view.findViewById(R.id.tv_special_notes);
 
         iv_addinforlead = view.findViewById(R.id.iv_addinfor);
         cl_inforlead = view.findViewById(R.id.cl_infor_lead);

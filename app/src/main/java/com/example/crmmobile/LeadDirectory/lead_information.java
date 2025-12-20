@@ -38,9 +38,9 @@ public class lead_information extends Fragment {
     private ViewModelLead viewModelLead;
     private Lead lead;
     private TextInputLayout birthday_layout,day_contact_layout;
-    private TextInputEditText state_detail, edt_birthday, edt_family_name,
+    private TextInputEditText edt_birthday, edt_family_name,
             edt_first_name, edt_phone_number, edt_email, edt_contact_day;
-    private MaterialAutoCompleteTextView edtTitle, edt_sex, edt_potential, edt_state,edt_created_by;
+    private MaterialAutoCompleteTextView edtTitle, edt_sex, edt_state,edt_created_by;
 
     public interface StringUpdater{
         void update(String s);
@@ -70,14 +70,6 @@ public class lead_information extends Fragment {
         bindViewModeltoEditext(viewModelLead.contact_day, edt_contact_day);
         bindViewModeltoEditext(viewModelLead.CreatedByName, edt_created_by);
 
-        Bundle args = getArguments();
-        if (args != null && args.getSerializable(AppConstant.KEY_LEAD_DATA) != null){ //edit lead
-            lead = (Lead) args.getSerializable(AppConstant.KEY_LEAD_DATA);
-            getValueViewModel();
-        }else{
-            setEmptyEditText();
-        }
-
         //lưu giá trị mỗi khi user nhập
         bindEditTexttoViewModel(edtTitle, s -> viewModelLead.title.setValue(s));
         bindEditTexttoViewModel(edt_family_name, s -> viewModelLead.hovatendem.setValue(s));
@@ -87,36 +79,8 @@ public class lead_information extends Fragment {
         bindEditTexttoViewModel(edt_sex, s -> viewModelLead.Sex.setValue(s));
         bindEditTexttoViewModel(edt_birthday, s -> viewModelLead.Birthday.setValue(s));
         bindEditTexttoViewModel(edt_state, s-> viewModelLead.state.setValue(s));
-        bindEditTexttoViewModel(edt_potential, s -> viewModelLead.potential.setValue(s));
         bindEditTexttoViewModel(edt_contact_day, s -> viewModelLead.contact_day.setValue(s));
         bindEditTexttoViewModel(edt_created_by, s -> viewModelLead.CreatedByName.setValue(s));
-    }
-
-    private void getValueViewModel() {
-        viewModelLead.title.setValue(lead.getTitle());
-        viewModelLead.hovatendem.setValue(lead.getHovaTendem());
-        viewModelLead.first_name.setValue(lead.getTen());
-        viewModelLead.phonenumber.setValue(lead.getDienThoai());
-        viewModelLead.Email.setValue(lead.getEmail());
-        viewModelLead.Sex.setValue(lead.getGioitinh());
-        viewModelLead.Birthday.setValue(lead.getNgaysinh());
-        viewModelLead.state.setValue(lead.getTinhTrang());
-        viewModelLead.contact_day.setValue(lead.getNgayLienHe());
-        viewModelLead.CreatedByID.setValue(lead.getNguoitaoID());
-    }
-
-    private void setEmptyEditText() {
-        viewModelLead.title.setValue("");
-        viewModelLead.hovatendem.setValue("");
-        viewModelLead.first_name.setValue("");
-        viewModelLead.phonenumber.setValue("");
-        viewModelLead.Email.setValue("");
-        viewModelLead.Sex.setValue("");
-        viewModelLead.Birthday.setValue("");
-        viewModelLead.state.setValue("");
-        viewModelLead.contact_day.setValue("");
-        viewModelLead.CreatedByName.setValue("");
-        viewModelLead.CreatedByID.setValue(null);
     }
 
     private void bindViewModeltoEditext(MutableLiveData<String> title, EditText editText) {
@@ -161,8 +125,6 @@ public class lead_information extends Fragment {
         String[] states = {"Mới", "Chưa liên hệ được", "Liên hệ sau", "Đã liên hệ", "Ngừng chăm sóc", "Đã chuyển đổi", ""};
         ArrayAdapter<String> AdapterStates = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1, states);
         edt_state.setAdapter(AdapterStates);
-
-        edt_potential = view.findViewById(R.id.edt_potential);
 
         edt_contact_day = view.findViewById(R.id.edt_contact_day);
         day_contact_layout = view.findViewById(R.id.day_contact_layout);
@@ -212,7 +174,6 @@ public class lead_information extends Fragment {
 
     private void showBirthDayPicker(TextInputEditText edtBirthday) {
         final Calendar calendar = Calendar.getInstance();
-
 
         int year = 2004;
         int month = calendar.get(Calendar.MONTH);

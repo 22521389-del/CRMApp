@@ -17,6 +17,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.crmmobile.Adapter.AdapterTab;
 import com.example.crmmobile.AppConstant;
+import com.example.crmmobile.DataBase.LeadRepository;
 import com.example.crmmobile.DataBase.NhanVienRepository;
 import com.example.crmmobile.DataBase.RecentRepository;
 import com.example.crmmobile.MainDirectory.InitClass;
@@ -42,8 +43,9 @@ public class DetailLeadActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
     private Lead lead;
-    private Chip chip_status;
+    private TextView chip_status;
     private Map<String, Integer> stateColor;
+    private String mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -51,20 +53,30 @@ public class DetailLeadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_lead);
         initVariables();
         viewModelLead = new ViewModelProvider(this).get(ViewModelLead.class);
-        lead = (Lead) getIntent().getSerializableExtra(AppConstant.LEAD_OBJECT);
-        saveRecentLead();
+        mode = getIntent().getStringExtra(AppConstant.LEAD_MODE);
+        int leadID = getIntent().getIntExtra("id", -1);
+        if (leadID != -1){
+            LeadRepository leadRepository = new LeadRepository(this);
+            lead = leadRepository.getLeadByID(leadID);
+        }
+        if (lead != null){
+            setValues();
+            if (!AppConstant.CURRENT_MODE.equals(mode)){
+                saveRecentLead();
+            }
 
-        String full_name = lead.getTitle() + " " + lead.getHovaTendem() +" " + lead.getTen();
-        tv_user.setText(full_name);
-        tv_phone.setText(lead.getDienThoai());
-        tv_email.setText(lead.getEmail());
-        tv_company.setText(lead.getCongty());
-        Log.e(TAG, "Send to: " + lead.getGiaocho());
-        tv_created_by.setText(lead.getNguoitao());
-        setStateChip();
-
-        setValues();
-        MapIDtoNameText();
+            String full_name = lead.getTitle() + " " + lead.getHovaTendem() +" " + lead.getTen();
+            tv_user.setText(full_name);
+            tv_phone.setText(lead.getDienThoai());
+            tv_email.setText(lead.getEmail());
+            tv_company.setText(lead.getCongty());
+            chip_status.setText(lead.getDanhgia());
+            Log.e(TAG, "Send to: " + lead.getGiaocho());
+            tv_created_by.setText(lead.getNguoitao());
+            MapIDtoNameText();
+        }else {
+            return;
+        }
 
         iv_back.setOnClickListener(v -> {
             finish();
@@ -129,29 +141,6 @@ public class DetailLeadActivity extends AppCompatActivity {
         });
     }
 
-    private void setStateChip() {
-        stateColor = new HashMap<>();
-        stateColor.put("Mới", Color.parseColor("#BBE2EC"));
-        stateColor.put("Chưa liên hệ được", Color.parseColor("#FADA7A"));
-        stateColor.put("Liên hệ sau", Color.parseColor("#C5BAFF"));
-        stateColor.put("Ngừng chăm sóc", Color.parseColor("#BD2E2D"));
-        stateColor.put("Đã chuyển đổi", Color.parseColor("#38A4F9"));
-        stateColor.put("Đã liên hệ", Color.parseColor("#78C1F3"));
-        stateColor.put("", Color.LTGRAY);
-
-        String status = lead.getTinhTrang();
-
-        if (status == null || status.isEmpty()){
-            chip_status.setVisibility(View.GONE);
-        }else{
-            //set chip color
-            chip_status.setVisibility(View.VISIBLE);
-            Integer color = stateColor.getOrDefault(status, Color.LTGRAY);
-            chip_status.setChipBackgroundColor(ColorStateList.valueOf(color));
-            chip_status.setText(status);
-        }
-    }
-
     private void setValues() {
         viewModelLead.title.setValue(lead.getTitle());
         viewModelLead.hovatendem.setValue(lead.getHovaTendem());
@@ -170,9 +159,10 @@ public class DetailLeadActivity extends AppCompatActivity {
         viewModelLead.number_of_employees.setValue(lead.getSoNV());
         viewModelLead.Revenue.setValue(lead.getDoanhThu());
         viewModelLead.state.setValue(lead.getTinhTrang());
-        viewModelLead.state_detail.setValue(lead.getMota());
         viewModelLead.Tax.setValue(lead.getMaThue());
         viewModelLead.description.setValue(lead.getMota());
+        viewModelLead.Note.setValue(lead.getGhichu());
+        viewModelLead.Evaluate.setValue(lead.getDanhgia());
         viewModelLead.SendtoID.setValue(lead.getGiaochoID());
         viewModelLead.CreatedByID.setValue(lead.getNguoitaoID());
         int level = InitClass.getIconNhanVien(lead.getGiaochoID());

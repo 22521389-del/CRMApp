@@ -70,17 +70,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/filter_button"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_sliders"
-            android:contentDescription="@string/desc_Search"
-            android:background="@drawable/bg_filter"
-            android:backgroundTint="@color/icon_search"
-            android:layout_marginStart="10dp"
-            app:tint="@color/color_icon" />
-
     </LinearLayout>
 
     <!--Chip scroll-->

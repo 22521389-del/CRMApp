@@ -10,6 +10,7 @@ import androidx.viewpager2.adapter.FragmentViewHolder;
 
 import com.example.crmmobile.AppConstant;
 import com.example.crmmobile.LeadDirectory.Lead;
+import com.example.crmmobile.LeadDirectory.ViewModelLead;
 import com.example.crmmobile.LeadDirectory.another_lead_information;
 import com.example.crmmobile.LeadDirectory.lead_information;
 
@@ -20,9 +21,10 @@ public class AdapterEditLead extends FragmentStateAdapter {
     public static final int TAB_ANOTHER_INFORMATION = 1;
 
     private Lead lead;
-    public AdapterEditLead(@NonNull FragmentActivity fragmentActivity, Lead lead) {
+    ViewModelLead viewModelLead;
+    public AdapterEditLead(@NonNull FragmentActivity fragmentActivity, ViewModelLead viewModelLead) {
         super(fragmentActivity);
-        this.lead = lead;
+        this.viewModelLead = viewModelLead;
     }
 
     @Override
@@ -40,10 +42,6 @@ public class AdapterEditLead extends FragmentStateAdapter {
         else{
             fragment =  new another_lead_information();
         }
-
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(AppConstant.KEY_LEAD_DATA, lead);
-        fragment.setArguments(bundle);
         return fragment;
     }
 

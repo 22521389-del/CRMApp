@@ -1,6 +1,7 @@
 package com.example.crmmobile.MainDirectory;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,7 +19,11 @@ import android.view.ViewGroup;
 
 import com.example.crmmobile.Adapter.AdapterModule;
 import com.example.crmmobile.Adapter.AdapterRecent;
+import com.example.crmmobile.AppConstant;
+import com.example.crmmobile.DataBase.LeadRepository;
 import com.example.crmmobile.DataBase.RecentRepository;
+import com.example.crmmobile.LeadDirectory.DetailLeadActivity;
+import com.example.crmmobile.LeadDirectory.Lead;
 import com.example.crmmobile.R;
 
 import java.util.ArrayList;
@@ -117,7 +122,15 @@ public class main_screen extends Fragment {
                 (int) getResources().getDisplayMetrics().density * 30
         ));
         recycler_recent.setLayoutManager(layout);
-        adapter_recent = new AdapterRecent(new ArrayList<>());
+        adapter_recent = new AdapterRecent(new ArrayList<>(), new AdapterRecent.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(Recent recent) {
+                if ("LEAD".equals(recent.getObjectType())){
+                    OpenLeadDetail(recent);
+                }
+            }
+        });
         recycler_recent.setAdapter(adapter_recent);
 
         recentViewModel.getRecentList()
@@ -125,6 +138,15 @@ public class main_screen extends Fragment {
                     adapter_recent.updateData(recents);
                 });
         return view;
+    }
+
+    private void OpenLeadDetail(Recent recent) {
+        Integer leadId = recent.getObjectID();
+        if (leadId == null) return;
+        Intent intent = new Intent(getContext(), DetailLeadActivity.class);
+        intent.putExtra(AppConstant.LEAD_MODE, AppConstant.CURRENT_MODE);
+        intent.putExtra("id", leadId);
+        startActivity(intent);
     }
 
     @Override

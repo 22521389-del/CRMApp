@@ -32,6 +32,8 @@ public class EditLeadActivity extends AppCompatActivity {
     private ViewPager2 vp_tab;
     private ViewModelLead viewModelLead;
     private Lead lead;
+    private int leadId = -1;
+    private String mode;
     private MaterialButton btn_abort;
     private LeadRepository db;
     private MaterialButton btn_save;
@@ -42,13 +44,20 @@ public class EditLeadActivity extends AppCompatActivity {
         viewModelLead = new ViewModelProvider(this).get(ViewModelLead.class);
 
         initVariables();
-        lead = (Lead) getIntent().getSerializableExtra(AppConstant.LEAD_OBJECT);
 
-        if(lead != null){
-            setValues();
+        mode = getIntent().getStringExtra(AppConstant.LEAD_MODE);
+        leadId = getIntent().getIntExtra("id", -1);
+
+        if (AppConstant.EDIT_MODE.equals(mode) && leadId != -1){
+            Executors.newSingleThreadExecutor().execute(()->{
+                db = new LeadRepository(this);
+                lead = db.getLeadByID(leadId);
+                if (lead != null){
+                    runOnUiThread(this::setValues);
+                }
+            });
         }
-
-        AdapterEditLead adapterEdit = new AdapterEditLead(this, lead);
+        AdapterEditLead adapterEdit = new AdapterEditLead(this, viewModelLead);
         vp_tab.setAdapter(adapterEdit);
 
         new TabLayoutMediator(tabLayout, vp_tab, ((tab, i) -> {
@@ -109,10 +118,10 @@ public class EditLeadActivity extends AppCompatActivity {
         lead.setMaThue(viewModelLead.Tax.getValue());
         lead.setNgayLienHe(viewModelLead.contact_day.getValue());
         lead.setMota(viewModelLead.description.getValue());
+        lead.setDanhgia(viewModelLead.Evaluate.getValue());
+        lead.setGhichu(viewModelLead.Note.getValue());
 
         db.updateLead(lead);
-
-        intent.putExtra(AppConstant.LEAD_OBJECT, lead);
         setResult(RESULT_OK, intent);// resend lead to update
         finish();
     }
@@ -142,6 +151,9 @@ public class EditLeadActivity extends AppCompatActivity {
         viewModelLead.number_of_employees.setValue(lead.getSoNV());
         viewModelLead.Revenue.setValue(lead.getDoanhThu());
         viewModelLead.description.setValue(lead.getMota());
+        viewModelLead.title.setValue(lead.getTitle());
+        viewModelLead.Evaluate.setValue(lead.getDanhgia());
+        viewModelLead.Note.setValue(lead.getGhichu());
 
         Executor executor = Executors.newSingleThreadExecutor();
         Handler mainHandler = new Handler(Looper.getMainLooper());

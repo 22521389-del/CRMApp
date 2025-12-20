@@ -19,6 +19,7 @@ import com.example.crmmobile.DataBase.CaNhanRepository;
 import com.example.crmmobile.DataBase.LeadRepository;
 import com.example.crmmobile.DataBase.NhanVienRepository;
 import com.example.crmmobile.IndividualDirectory.CaNhan;
+import com.example.crmmobile.MainDirectory.InitClass;
 import com.example.crmmobile.R;
 import com.google.android.material.button.MaterialButton;
 
@@ -34,6 +35,7 @@ public class ConvertLeadActivity extends AppCompatActivity {
     private CheckBox cb_new_personal, cb_chance, cb_organization;
     private ImageView iv_back;
     private Lead lead;
+    private int leadId = -1;
     private CaNhanRepository caNhanRepository;
     private ViewModelLead viewModelLead;
 
@@ -44,7 +46,7 @@ public class ConvertLeadActivity extends AppCompatActivity {
         initVariables();
 
         viewModelLead = new ViewModelProvider(this).get(ViewModelLead.class);
-        lead = (Lead)getIntent().getSerializableExtra(AppConstant.LEAD_OBJECT);
+        leadId = getIntent().getIntExtra("id", -1);
         caNhanRepository = new CaNhanRepository(this);
 
         setRequiredLabel(et_chance, R.string.chance);
@@ -70,13 +72,68 @@ public class ConvertLeadActivity extends AppCompatActivity {
         cb_chance.setOnCheckedChangeListener(setchanceChecked);
         cb_organization.setOnCheckedChangeListener(setOrganizationChecked);
 
+        if (leadId != -1){
+            LeadRepository leadRepository = new LeadRepository(this);
+            lead = leadRepository.getLeadByID(leadId);
+        }
         if (lead != null){
-            setText();
+            bindLeadtoViewModel();
+            bindViewModeltoUI();
         }
 
         save_button.setOnClickListener(v -> {
             ConvertFromLeadtoContact();
+
         });
+    }
+
+    private void bindViewModeltoUI() {
+        et_firstname.setText(viewModelLead.first_name.getValue());
+        ed_first_lastName.setText(viewModelLead.hovatendem.getValue());
+        ed_email.setText(viewModelLead.Email.getValue());
+        et_phonenumber.setText(viewModelLead.phonenumber.getValue());
+        et_companyname.setText(viewModelLead.company.getValue());
+        et_job.setText(viewModelLead.Job.getValue());
+        int Send_toID = lead.getGiaochoID();
+        Log.e(TAG, "ID send: " + Send_toID);
+
+        Executor executor = Executors.newSingleThreadExecutor();
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        executor.execute(()->{
+            NhanVienRepository nhanVienRepository = new NhanVienRepository(this);
+            String tenNV = nhanVienRepository.getNameByID(lead.getGiaochoID());
+            mainHandler.post(()->{
+                viewModelLead.SendtoID.setValue(Send_toID);
+                viewModelLead.SendtoName.setValue(tenNV);
+                et_ship.setText(tenNV);
+                Log.e(TAG, "Tên người phụ trách:" + tenNV);
+            });
+        });
+    }
+
+    private void bindLeadtoViewModel() {
+        viewModelLead.title.setValue(lead.getTitle());
+        viewModelLead.hovatendem.setValue(lead.getHovaTendem());
+        viewModelLead.first_name.setValue(lead.getTen());
+        viewModelLead.Sex.setValue(lead.getGioitinh());
+        viewModelLead.Birthday.setValue(lead.getNgaysinh());
+        viewModelLead.phonenumber.setValue(lead.getDienThoai());
+        viewModelLead.Email.setValue(lead.getEmail());
+        viewModelLead.state.setValue(lead.getTinhTrang());
+        viewModelLead.Address.setValue(lead.getDiachi());
+        viewModelLead.Province.setValue(lead.getTinh());
+        viewModelLead.company.setValue(lead.getCongty());
+        viewModelLead.District.setValue(lead.getQuanHuyen());
+        viewModelLead.Nation.setValue(lead.getQuocGia());
+        viewModelLead.Job.setValue(lead.getNganhnghe());
+        viewModelLead.number_of_employees.setValue(lead.getSoNV());
+        viewModelLead.Revenue.setValue(lead.getDoanhThu());
+        viewModelLead.state.setValue(lead.getTinhTrang());
+        viewModelLead.Tax.setValue(lead.getMaThue());
+        viewModelLead.description.setValue(lead.getMota());
+        viewModelLead.SendtoID.setValue(lead.getGiaochoID());
+        viewModelLead.CreatedByID.setValue(lead.getNguoitaoID());
     }
 
     private void ConvertFromLeadtoContact() {
@@ -101,6 +158,7 @@ public class ConvertLeadActivity extends AppCompatActivity {
         cn.setTinhTP(lead.getTinh());
         cn.setQuocGia(lead.getQuocGia());
         cn.setMoTa(lead.getMota());
+        cn.setGhiChu(lead.getGhichu());
 
         long contactID = caNhanRepository.add(cn);
 
@@ -114,28 +172,6 @@ public class ConvertLeadActivity extends AppCompatActivity {
         else {
             Toast.makeText(this, "Chuyển đổi thất bại", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void setText() {
-        et_firstname.setText(lead.getTen());
-        ed_first_lastName.setText(lead.getHovaTendem());
-        ed_email.setText(lead.getEmail());
-        et_phonenumber.setText(lead.getDienThoai());
-        int Send_toID = lead.getGiaochoID();
-        Log.e(TAG, "ID send: " + Send_toID);
-        Executor executor = Executors.newSingleThreadExecutor();
-        Handler mainHandler = new Handler(Looper.getMainLooper());
-
-        executor.execute(()->{
-            NhanVienRepository nhanVienRepository = new NhanVienRepository(this);
-            String tenNV = nhanVienRepository.getNameByID(lead.getGiaochoID());
-            mainHandler.post(()->{
-                viewModelLead.SendtoID.setValue(Send_toID);
-                viewModelLead.SendtoName.setValue(tenNV);
-                et_ship.setText(tenNV);
-                Log.e(TAG, "Tên người phụ trách:" + tenNV);
-            });
-        });
     }
 
     private void setCheckInit() {

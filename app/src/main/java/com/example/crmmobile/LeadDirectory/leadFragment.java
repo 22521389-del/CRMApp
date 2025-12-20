@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 public class leadFragment extends Fragment {
+    private static final String TAG = "SEARCH";
     private RecyclerView recyclerLead;
     private AdapterLead adapter;
     private List<Lead> leadDB;
@@ -45,7 +47,6 @@ public class leadFragment extends Fragment {
     private LeadRepository db;
     private ConstraintLayout serch_bar_Lead;
     private EditText text_search;
-    private ImageView filter_button;
 
     public ActivityResultLauncher<Intent> editLeadLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -81,7 +82,6 @@ public class leadFragment extends Fragment {
         lead_create_button = view.findViewById(R.id.btn_add_lead);
         serch_bar_Lead = view.findViewById(R.id.serch_bar_Lead);
         text_search = view.findViewById(R.id.text_search);
-        filter_button = view.findViewById(R.id.filter_button);
 
         recyclerLead.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -130,7 +130,8 @@ public class leadFragment extends Fragment {
                     @Override
                     public void onEdit(Lead lead) {
                         Intent intent = new Intent(getContext(), EditLeadActivity.class);
-                        intent.putExtra(AppConstant.LEAD_OBJECT, lead);
+                        intent.putExtra(AppConstant.LEAD_MODE, AppConstant.EDIT_MODE);
+                        intent.putExtra("id", lead.getID());
                         editLeadLauncher.launch(intent);
                     }
 
@@ -147,7 +148,8 @@ public class leadFragment extends Fragment {
                     @Override
                     public void onConvertLead(Lead lead) {
                         Intent intent = new Intent(getContext(), ConvertLeadActivity.class);
-                        intent.putExtra(AppConstant.LEAD_OBJECT, lead);
+                        intent.putExtra(AppConstant.LEAD_MODE, AppConstant.CONVERT_MODE);
+                        intent.putExtra("id", lead.getID());
                         convertLeadLauncher.launch(intent);
                     }
 
@@ -155,9 +157,9 @@ public class leadFragment extends Fragment {
             }
 
             @Override
-            public void onMenuClick(Lead lead) {
+            public void onMenuClick(Lead lead, int id) {
                 Intent intent = new Intent(getContext(), DetailLeadActivity.class);
-                intent.putExtra(AppConstant.LEAD_OBJECT, lead);
+                intent.putExtra("id", id);
                 startActivity(intent);
             }
         });
@@ -174,9 +176,12 @@ public class leadFragment extends Fragment {
             leadList.addAll(leadDB);
         }else {
             for (Lead lead : leadDB){
-                if (lead.getTen().toLowerCase().contains(key)
-                        || lead.getHovaTendem().toLowerCase().contains(key)
-                        || lead.getTitle().toLowerCase().contains(key)){
+                String name = (lead.getTen() != null) ? lead.getTen().toLowerCase() : "";
+                String hovatendem = (lead.getHovaTendem() != null) ? lead.getHovaTendem().toLowerCase() : "";
+                String title = (lead.getTitle() != null) ? lead.getTitle().toLowerCase() : "";
+                Log.e(TAG, "Danh xung: " + lead.getTitle());
+                String fullname = title + " " + hovatendem + " " + name;
+                if (fullname.contains(key)){
                     leadList.add(lead);
                 }
             }

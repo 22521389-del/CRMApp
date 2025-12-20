@@ -2,7 +2,7 @@ package com.example.crmmobile.LeadDirectory;
 
 import java.io.Serializable;
 
-public class Lead implements Serializable {
+public class Lead{
     private Integer ID;
     private String HovaTendem;
     private String Title;
@@ -17,6 +17,8 @@ public class Lead implements Serializable {
     private String TinhTrang;
     private String Mota;
     private String Ghichu;
+    private String Tiemnang;
+    private String Danhgia;
     private String Nguoitao;
     private Integer NguoitaoID;
     private String Giaocho;
@@ -41,6 +43,22 @@ public class Lead implements Serializable {
         this.Congty = congty;
         this.Email = Email;
         this.TinhTrang = TinhTrang;
+    }
+
+    public String getTiemnang() {
+        return Tiemnang;
+    }
+
+    public void setTiemnang(String tiemnang) {
+        Tiemnang = tiemnang;
+    }
+
+    public String getDanhgia() {
+        return Danhgia;
+    }
+
+    public void setDanhgia(String danhgia) {
+        Danhgia = danhgia;
     }
 
     public String getNguoitao() {
