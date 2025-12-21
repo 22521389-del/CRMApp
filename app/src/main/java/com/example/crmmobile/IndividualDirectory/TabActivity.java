@@ -22,7 +22,7 @@ import com.example.crmmobile.R;
 
 public class TabActivity extends AppCompatActivity {
 
-    private TextView tabTongQuan, tabChiTiet, tabHoatDong, tabCoHoi;
+    private TextView tabTongQuan, tabChiTiet;
     private ImageView icBack;
 
     private TextView tvHeaderTen, tvHeaderSdt, tvHeaderEmail, tvHeaderCongTy, tvHeaderNguoiTao, tvHeaderNguoiPhuTrach;
@@ -109,8 +109,8 @@ public class TabActivity extends AppCompatActivity {
     private void initViews() {
         tabTongQuan = findViewById(R.id.tab_tongquan);
         tabChiTiet = findViewById(R.id.tab_chitiet);
-        tabHoatDong = findViewById(R.id.tab_hoatdong);
-        tabCoHoi = findViewById(R.id.tab_cohoi);
+//        tabHoatDong = findViewById(R.id.tab_hoatdong);
+//        tabCoHoi = findViewById(R.id.tab_cohoi);
         icBack = findViewById(R.id.ic_back);
 
         // Header Views
@@ -151,11 +151,11 @@ public class TabActivity extends AppCompatActivity {
         tabChiTiet.setTextColor(getResources().getColor(R.color.grey));
         tabChiTiet.setBackgroundResource(android.R.color.transparent);
 
-        tabHoatDong.setTextColor(getResources().getColor(R.color.grey));
-        tabHoatDong.setBackgroundResource(android.R.color.transparent);
-
-        tabCoHoi.setTextColor(getResources().getColor(R.color.grey));
-        tabCoHoi.setBackgroundResource(android.R.color.transparent);
+//        tabHoatDong.setTextColor(getResources().getColor(R.color.grey));
+//        tabHoatDong.setBackgroundResource(android.R.color.transparent);
+//
+//        tabCoHoi.setTextColor(getResources().getColor(R.color.grey));
+//        tabCoHoi.setBackgroundResource(android.R.color.transparent);
 
         // Tab được chọn hiển thị màu xanh + viền dưới
         selectedTab.setTextColor(getResources().getColor(R.color.blue));
