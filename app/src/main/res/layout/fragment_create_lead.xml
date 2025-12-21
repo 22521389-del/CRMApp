@@ -13,9 +13,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="24dp">
+        android:background="@color/white"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="24dp">
 
         <!-- Back button -->
         <ImageButton
@@ -41,7 +42,13 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:tabTextColor="#8C8C8C"
+        app:tabIndicatorColor="#1B74E4"
+        app:tabIndicatorFullWidth="true"
+        app:tabSelectedTextColor="#1B74E4"
+        />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp_tab"

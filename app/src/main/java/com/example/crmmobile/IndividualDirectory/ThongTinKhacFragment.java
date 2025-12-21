@@ -1,6 +1,8 @@
 package com.example.crmmobile.IndividualDirectory;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +14,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.crmmobile.R;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 
 public class ThongTinKhacFragment extends Fragment {
     private AutoCompleteTextView actQuanHuyen, actTinhTP, actGiaoCho;
     private EditText edtQuocGia, edtDiaChi, edtGhiChu, edtMota;
 
     private CaNhan caNhan; // để populate khi edit
+    private ViewModelCanhan viewModelCanhan;
+    public interface StringUpdater{
+        void update(String s);
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -31,32 +40,66 @@ public class ThongTinKhacFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewModelCanhan = new ViewModelProvider(requireActivity()).get(ViewModelCanhan.class);
+        initViews(view);
+        InitAdapter();
 
-        // --- Khối 1: Thông tin địa chỉ ---
-        TextView thongTinDiaChi = view.findViewById(R.id.thongtindiachi);
-        LinearLayout layoutDiaChi = view.findViewById(R.id.layoutThongTinDiaChiChiTiet);
-        setupToggle(thongTinDiaChi, layoutDiaChi);
+        //thêm dữ liệu vào EditText(edit mode)
+        bindViewModeltoEditext(viewModelCanhan.quanHuyen, actQuanHuyen);
+        bindViewModeltoEditext(viewModelCanhan.tinhTP, actTinhTP);
+        bindViewModeltoEditext(viewModelCanhan.giaoCho, actGiaoCho);
+        bindViewModeltoEditext(viewModelCanhan.quocGia, edtQuocGia);
+        bindViewModeltoEditext(viewModelCanhan.diachi, edtDiaChi);
+        bindViewModeltoEditext(viewModelCanhan.ghiChu, edtGhiChu);
+        bindViewModeltoEditext(viewModelCanhan.moTa, edtMota);
 
-        // --- Khối 2: Thông tin mô tả ---
-        TextView thongTinMoTa = view.findViewById(R.id.thongtinmota);
-        LinearLayout layoutMoTa = view.findViewById(R.id.layoutThongTinMoTaChiTiet);
-        setupToggle(thongTinMoTa, layoutMoTa);
+        //thêm dữ liệu vào viewModel
+        bindEditTexttoViewModel(actQuanHuyen, s -> viewModelCanhan.quanHuyen.setValue(s));
+        bindEditTexttoViewModel(actTinhTP, s -> viewModelCanhan.tinhTP.setValue(s));
+        bindEditTexttoViewModel(actGiaoCho, s -> viewModelCanhan.giaoCho.setValue(s));
+        bindEditTexttoViewModel(edtQuocGia, s -> viewModelCanhan.quocGia.setValue(s));
+        bindEditTexttoViewModel(edtDiaChi, s -> viewModelCanhan.diachi.setValue(s));
+        bindEditTexttoViewModel(edtGhiChu, s -> viewModelCanhan.ghiChu.setValue(s));
+        bindEditTexttoViewModel(edtMota, s -> viewModelCanhan.moTa.setValue(s));
+    }
 
-        // --- Khối 3: Thông tin quản lý ---
-        TextView thongTinQuanLy = view.findViewById(R.id.thongtinquanly);
-        LinearLayout layoutQuanLy = view.findViewById(R.id.layoutThongTinQuanLyChiTiet);
-        setupToggle(thongTinQuanLy, layoutQuanLy);
+    private void bindViewModeltoEditext(MutableLiveData<String> title, EditText editText) {
+        title.observe(getViewLifecycleOwner(), v->{
+            if (v == null) return;
+            String curr = editText.getText() != null ? editText.getText().toString() : "";
+            if (!v.equals(curr)){
+                if(editText instanceof MaterialAutoCompleteTextView){
+                    ((MaterialAutoCompleteTextView)editText).setText(v,false);
+                }else{
+                    if (!editText.hasFocus()){
+                        editText.setText(v);
+                    }
+                }
+            }
+        });
+    }
 
-        // --- Bind các view ---
-        actQuanHuyen = view.findViewById(R.id.actQuanHuyen);
-        actTinhTP = view.findViewById(R.id.actTinhTP);
-        actGiaoCho = view.findViewById(R.id.actgiaocho);
+    private void bindEditTexttoViewModel(EditText editText, StringUpdater updater) {
+        editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void afterTextChanged(Editable s) {
 
-        edtQuocGia = view.findViewById(R.id.edtquocgia);
-        edtDiaChi = view.findViewById(R.id.edtdiachi);
-        edtGhiChu = view.findViewById(R.id.edtghichu);
-        edtMota = view.findViewById(R.id.edtmota);
+                }
 
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    updater.update(s.toString());
+                }
+            }
+        );
+    }
+
+    private void InitAdapter() {
         // --- Adapter Quận/Huyện ---
         ArrayAdapter<String> adapterQuanHuyen = new ArrayAdapter<>(
                 requireContext(),
@@ -108,36 +151,34 @@ public class ThongTinKhacFragment extends Fragment {
         actGiaoCho.setFocusable(false);
         actGiaoCho.setClickable(true);
         actGiaoCho.setOnClickListener(v -> actGiaoCho.showDropDown());
-
-        // Nếu đã có CaNhan được set -> populate
-        if (caNhan != null) {
-            populateFromCaNhan();
-        }
     }
 
-    private void populateFromCaNhan() {
-        if (caNhan == null) return;
-        actQuanHuyen.setText(nullToEmpty(caNhan.getQuanHuyen()));
-        actTinhTP.setText(nullToEmpty(caNhan.getTinhTP()));
-        actGiaoCho.setText(nullToEmpty(caNhan.getGiaoCho()));
-        edtQuocGia.setText(nullToEmpty(caNhan.getQuocGia()));
-        edtDiaChi.setText(nullToEmpty(caNhan.getDiaChi()));
-        edtGhiChu.setText(nullToEmpty(caNhan.getGhiChu()));
-        edtMota.setText(nullToEmpty(caNhan.getMoTa()));
+    private void initViews(View view) {
+        // --- Khối 1: Thông tin địa chỉ ---
+        TextView thongTinDiaChi = view.findViewById(R.id.thongtindiachi);
+        LinearLayout layoutDiaChi = view.findViewById(R.id.layoutThongTinDiaChiChiTiet);
+        setupToggle(thongTinDiaChi, layoutDiaChi);
+
+        // --- Khối 2: Thông tin mô tả ---
+        TextView thongTinMoTa = view.findViewById(R.id.thongtinmota);
+        LinearLayout layoutMoTa = view.findViewById(R.id.layoutThongTinMoTaChiTiet);
+        setupToggle(thongTinMoTa, layoutMoTa);
+
+        // --- Khối 3: Thông tin quản lý ---
+        TextView thongTinQuanLy = view.findViewById(R.id.thongtinquanly);
+        LinearLayout layoutQuanLy = view.findViewById(R.id.layoutThongTinQuanLyChiTiet);
+        setupToggle(thongTinQuanLy, layoutQuanLy);
+
+        // --- Bind các view ---
+        actQuanHuyen = view.findViewById(R.id.actQuanHuyen);
+        actTinhTP = view.findViewById(R.id.actTinhTP);
+        actGiaoCho = view.findViewById(R.id.actgiaocho);
+
+        edtQuocGia = view.findViewById(R.id.edtquocgia);
+        edtDiaChi = view.findViewById(R.id.edtdiachi);
+        edtGhiChu = view.findViewById(R.id.edtghichu);
+        edtMota = view.findViewById(R.id.edtmota);
     }
-
-    private String nullToEmpty(String s) {
-        return s == null ? "" : s;
-    }
-
-    public void setCaNhan(CaNhan cn) {
-        this.caNhan = cn;
-        if (getView() != null) {
-            populateFromCaNhan();
-        }
-    }
-
-
     /**
      * Hàm gắn sự kiện mở rộng / thu gọn cho 1 tiêu đề và layout chi tiết.
      */

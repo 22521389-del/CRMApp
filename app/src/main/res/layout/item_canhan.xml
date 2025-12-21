@@ -1,160 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:padding="16dp"
-    android:background="@drawable/rounded_input_box">
+    android:layout_marginHorizontal="14dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="3dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/light_gray">
 
-    <!-- Icon liên hệ -->
-    <ImageView
-        android:id="@+id/ic_contact"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/ic_contact"
-        android:tint="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/layout_name"
-        android:orientation="horizontal"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@id/ic_contact"
-        app:layout_constraintTop_toTopOf="@id/ic_contact"
-        app:layout_constraintEnd_toStartOf="@id/ic_more">
+        android:background="@color/white"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp">
+        <!-- Icon liên hệ -->
+        <ImageView
+            android:id="@+id/ic_contact"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_contact"
+            app:tint="@color/color_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <LinearLayout
+            android:id="@+id/layout_name"
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/ic_contact"
+            app:layout_constraintTop_toTopOf="@id/ic_contact"
+            app:layout_constraintEnd_toStartOf="@id/ic_more">
+
+            <TextView
+                android:id="@+id/tvDanhXung"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="4dp"/>
+
+            <TextView
+                android:id="@+id/tvHoTen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/black"
+                android:layout_marginEnd="4dp"/>
+
+            <TextView
+                android:id="@+id/tvTen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+        <!-- Icon more -->
+        <ImageView
+            android:id="@+id/ic_more"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_more_vert"
+            app:tint="@color/gray_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ic_contact" />
+
+        <!-- Icon công ty -->
+        <ImageView
+            android:id="@+id/ic_congty"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_congty"
+            app:tint="@color/color_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ic_contact" />
+
+        <!-- Tên công ty -->
         <TextView
-            android:id="@+id/tvDanhXung"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvCongTy"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginEnd="4dp"/>
-
-        <TextView
-            android:id="@+id/tvHoTen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end"
             android:textColor="@color/black"
-            android:layout_marginEnd="4dp"/>
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/ic_congty"
+            app:layout_constraintTop_toTopOf="@id/ic_congty"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Icon calendar -->
+        <ImageView
+            android:id="@+id/ic_calendar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_calendar"
+            app:tint="@color/color_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ic_congty" />
+
+        <!-- Ngày tạo -->
         <TextView
-            android:id="@+id/tvTen"
+            android:id="@+id/tvNgay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textColor="@color/black"/>
-    </LinearLayout>
+            android:textSize="14sp"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@id/ic_calendar"
+            app:layout_constraintTop_toTopOf="@id/ic_calendar" />
 
-    <!-- Icon more -->
-    <ImageView
-        android:id="@+id/ic_more"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/ic_more"
-        android:tint="@color/blue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/ic_contact" />
+        <!-- Icon call -->
+        <ImageView
+            android:id="@+id/ic_call"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_call"
+            app:tint="@color/icon_comment"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ic_calendar" />
 
-    <!-- Icon công ty -->
-    <ImageView
-        android:id="@+id/ic_congty"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_congty"
-        android:tint="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ic_contact" />
+        <!-- Số cuộc gọi -->
+        <TextView
+            android:id="@+id/fill_cuocgoi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/ic_call"
+            app:layout_constraintTop_toTopOf="@id/ic_call" />
 
-    <!-- Tên công ty -->
-    <TextView
-        android:id="@+id/tvCongTy"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textColor="@color/black"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@id/ic_congty"
-        app:layout_constraintTop_toTopOf="@id/ic_congty"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <!-- Icon meeting -->
+        <ImageView
+            android:id="@+id/ic_meeting"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_meeting"
+            android:tint="@color/icon_comment"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/fill_cuocgoi"
+            app:layout_constraintTop_toTopOf="@id/ic_call" />
 
-    <!-- Icon calendar -->
-    <ImageView
-        android:id="@+id/ic_calendar"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_calendar"
-        android:tint="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ic_congty" />
+        <!-- Số cuộc họp -->
+        <TextView
+            android:id="@+id/fill_meeting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/ic_meeting"
+            app:layout_constraintTop_toTopOf="@id/ic_meeting" />
 
-    <!-- Ngày tạo -->
-    <TextView
-        android:id="@+id/tvNgay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginStart="8dp"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@id/ic_calendar"
-        app:layout_constraintTop_toTopOf="@id/ic_calendar" />
-
-    <!-- Icon call -->
-    <ImageView
-        android:id="@+id/ic_call"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/ic_call"
-        android:tint="@color/icon_comment"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ic_calendar" />
-
-    <!-- Số cuộc gọi -->
-    <TextView
-        android:id="@+id/fill_cuocgoi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@id/ic_call"
-        app:layout_constraintTop_toTopOf="@id/ic_call" />
-
-    <!-- Icon meeting -->
-    <ImageView
-        android:id="@+id/ic_meeting"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/ic_meeting"
-        android:tint="@color/icon_comment"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@id/fill_cuocgoi"
-        app:layout_constraintTop_toTopOf="@id/ic_call" />
-
-    <!-- Số cuộc họp -->
-    <TextView
-        android:id="@+id/fill_meeting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@id/ic_meeting"
-        app:layout_constraintTop_toTopOf="@id/ic_meeting" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

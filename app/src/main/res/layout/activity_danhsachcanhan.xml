@@ -4,90 +4,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:padding="16dp">
+    android:background="@drawable/bg_color_main_screen">
 
     <!-- Header -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/header"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:padding="8dp">
-
-        <ImageView
-            android:id="@+id/ic_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/arrow_back"
-            android:tint="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <TextView
-            android:id="@+id/canhan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cá nhân"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@id/ic_back"
-            app:layout_constraintTop_toTopOf="@id/ic_back"
-            app:layout_constraintBottom_toBottomOf="@id/ic_back"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- Thanh tìm kiếm -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/searchBar"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_input_box"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        app:layout_constraintTop_toBottomOf="@id/header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <ImageView
-            android:id="@+id/ic_search"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_search"
-            android:tint="@color/grey"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <EditText
-            android:id="@+id/edt_search"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:hint="Tìm kiếm cá nhân"
-            android:background="@android:color/transparent"
-            app:layout_constraintStart_toEndOf="@id/ic_search"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ic_search"
-            app:layout_constraintBottom_toBottomOf="@id/ic_search"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        android:id="@+id/header_canhan"
+        layout="@layout/header_canhan"/>
 
     <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCaNhan"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/searchBar"
-        app:layout_constraintBottom_toTopOf="@id/btn_add_contact"
+        app:layout_constraintTop_toBottomOf="@id/header_canhan"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:clipToPadding="false"
-        android:paddingBottom="16dp"/>
+        android:paddingBottom="16dp"
+        android:paddingStart="@dimen/margin20"
+        android:paddingEnd="@dimen/margin20"/>
 
     <!-- Nút thêm -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -97,6 +33,7 @@
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/blue_primary"
         app:tint="@color/white"
+        android:layout_margin="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

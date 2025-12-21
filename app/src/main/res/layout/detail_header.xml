@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingBottom="@dimen/margin_action"
-    android:background="@color/bg_lead">
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,51 +34,6 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_margin="@dimen/margin_action"/>
-
-        <ImageView
-            android:id="@+id/left_Lead"
-            android:layout_width="21dp"
-            android:layout_height="21dp"
-            android:layout_margin="10dp"
-            android:src="@drawable/arrow_back"
-            android:padding="@dimen/margin_icon"
-            app:tint="@color/color_icon"
-            android:background="@drawable/bg_icon"
-            android:contentDescription="@null" />
-
-        <ImageView
-            android:id="@+id/right_Lead"
-            android:layout_width="21dp"
-            android:layout_height="21dp"
-            android:src="@drawable/ic_next"
-            android:layout_margin="@dimen/start_margin"
-            android:padding="@dimen/margin_icon"
-            app:tint="@color/color_icon"
-            android:background="@drawable/bg_icon"
-            android:contentDescription="@null" />
-
-        <ImageView
-            android:id="@+id/edit_detail"
-            android:layout_width="21dp"
-            android:layout_height="21dp"
-            android:src="@drawable/ic_pencil"
-            android:layout_margin="@dimen/start_margin"
-            android:padding="@dimen/margin_icon"
-            app:tint="@color/color_icon"
-            android:background="@drawable/bg_icon"
-            android:contentDescription="@null" />
-
-        <ImageView
-            android:id="@+id/choose_active"
-            android:layout_width="21dp"
-            android:layout_height="21dp"
-            android:src="@drawable/ic_more"
-            android:layout_margin="@dimen/start_margin"
-            android:padding="@dimen/margin_icon"
-            app:tint="@color/color_icon"
-            android:background="@drawable/bg_icon"
-            android:contentDescription="@null"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -92,7 +47,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:background="@color/bg_lead"
             android:layout_marginStart="@dimen/margin20"
             android:layout_marginEnd="@dimen/margin20">
             

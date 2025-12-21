@@ -44,7 +44,6 @@ public class DetailLeadActivity extends AppCompatActivity {
     private ViewPager2 viewPager2;
     private Lead lead;
     private TextView chip_status;
-    private Map<String, Integer> stateColor;
     private String mode;
 
     @Override

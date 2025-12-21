@@ -2,14 +2,18 @@ package com.example.crmmobile.IndividualDirectory;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.crmmobile.MainDirectory.Recent;
+import com.example.crmmobile.MainDirectory.RecentViewModel;
 import com.example.crmmobile.R;
 
 /**
@@ -24,19 +28,21 @@ public class TabActivity extends AppCompatActivity {
     private TextView tvHeaderTen, tvHeaderSdt, tvHeaderEmail, tvHeaderCongTy, tvHeaderNguoiTao, tvHeaderNguoiPhuTrach;
 
     private CaNhan currentCaNhan;
+    private ViewModelCanhan viewModelCanhan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nguoilienhe);
 
+        viewModelCanhan = new ViewModelProvider(this).get(ViewModelCanhan.class);
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("CANHAN_OBJECT")) {
             currentCaNhan = (CaNhan) intent.getSerializableExtra("CANHAN_OBJECT");
         }
 
         initViews();
-
+        SetRecentCanhan();
         fillHeaderData();
 
         // --- Mặc định hiển thị tab Tổng quan ---
@@ -79,6 +85,22 @@ public class TabActivity extends AppCompatActivity {
 //            setFragment(new CoHoiFragment());
 //            setActiveTab(tabCoHoi);
 //        });
+    }
+
+    private void SetRecentCanhan() {
+        if (currentCaNhan == null) return;
+
+        RecentViewModel recentViewModel = new ViewModelProvider(this).get(RecentViewModel.class);
+
+        Recent recent = new Recent();
+        recent.setObjectType("CANHAN");
+        recent.setObjectID(currentCaNhan.getId());
+        String full_name = currentCaNhan.getDanhXung() + " " + currentCaNhan.getHoVaTen() + " " + currentCaNhan.getTen();
+        recent.setName(full_name);
+        recent.setTime(System.currentTimeMillis());
+        recentViewModel.upsertRecent(recent);
+        Log.e("RECENT", "Saved recent lead: " + recent.getName());
+        Log.e("RECENT", "Saved Name: " + currentCaNhan.getTen());
     }
 
     /**

@@ -109,6 +109,8 @@ public class create_Lead extends Fragment {
         String Revenue = viewModelLead.Revenue.getValue();
         String description = viewModelLead.description.getValue();
         Integer Created_by_ID = viewModelLead.CreatedByID.getValue();
+        String evaluation = viewModelLead.Evaluate.getValue();
+        String note = viewModelLead.Note.getValue();
 
         LeadRepository db = new LeadRepository(requireContext());
         if(TextUtils.isEmpty(first_name)){
@@ -149,8 +151,11 @@ public class create_Lead extends Fragment {
         lead.setSoNV(Number_of_Employees);
         lead.setDoanhThu(Revenue);
         lead.setNguoitaoID(Created_by_ID);
+        lead.setGhichu(note);
+        lead.setDanhgia(evaluation);
 
         db.addLead(lead);
+        viewModelLead.clearCreateData();
         Log.e(TAG, "SendtoID = " + viewModelLead.SendtoID.getValue());
         Log.e(TAG, "Send to Name = " + viewModelLead.SendtoName.getValue());
         Log.e(TAG, "CreatedByID = " + viewModelLead.CreatedByID.getValue());

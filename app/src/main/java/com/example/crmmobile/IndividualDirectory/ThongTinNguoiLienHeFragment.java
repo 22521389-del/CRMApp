@@ -1,18 +1,25 @@
 package com.example.crmmobile.IndividualDirectory;
+import com.example.crmmobile.LeadDirectory.lead_information;
 import com.example.crmmobile.R;
 import android.app.DatePickerDialog; // Import thêm
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker; // Import thêm
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat; // Import format ngày
@@ -25,12 +32,52 @@ public class ThongTinNguoiLienHeFragment extends Fragment {
     private TextInputEditText edtHoVaTenDem, edtTen, edtDiDong, edtEmail, edtNgaySinh;
     private CaNhan pendingData;
 
+    private ViewModelCanhan viewModelCanhan;
+    public interface StringUpdater{
+        void update(String s);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_thong_tin_nguoi_lien_he, container, false);
+        return view;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModelCanhan = new ViewModelProvider(requireActivity()).get(ViewModelCanhan.class);
         // 1. Ánh xạ View
+        InitViews(view);
+        // 2. Setup Dropdown (Giới tính, Công ty...)
+        setupDropdowns();
+
+        // 3. Setup Chọn ngày sinh (MỚI THÊM)
+        setupDatePicker();
+
+        //thêm dữ liệu vào EditText(edit mode)
+        bindViewModeltoEditext(viewModelCanhan.Danhxung, actDanhXung);
+        bindViewModeltoEditext(viewModelCanhan.hoTen, edtHoVaTenDem);
+        bindViewModeltoEditext(viewModelCanhan.ten, edtTen);
+        bindViewModeltoEditext(viewModelCanhan.congTy, actCongTy);
+        bindViewModeltoEditext(viewModelCanhan.gioiTinh, actGioiTinh);
+        bindViewModeltoEditext(viewModelCanhan.diDong, edtDiDong);
+        bindViewModeltoEditext(viewModelCanhan.email, edtEmail);
+        bindViewModeltoEditext(viewModelCanhan.ngaySinh, edtNgaySinh);
+
+        //thêm dữ liệu vào viewModel
+        bindEditTexttoViewModel(actDanhXung, s -> viewModelCanhan.Danhxung.setValue(s));
+        bindEditTexttoViewModel(edtHoVaTenDem, s -> viewModelCanhan.hoTen.setValue(s));
+        bindEditTexttoViewModel(edtTen, s -> viewModelCanhan.ten.setValue(s));
+        bindEditTexttoViewModel(actCongTy, s -> viewModelCanhan.congTy.setValue(s));
+        bindEditTexttoViewModel(actGioiTinh, s -> viewModelCanhan.gioiTinh.setValue(s));
+        bindEditTexttoViewModel(edtDiDong, s -> viewModelCanhan.diDong.setValue(s));
+        bindEditTexttoViewModel(edtEmail, s -> viewModelCanhan.email.setValue(s));
+        bindEditTexttoViewModel(edtNgaySinh, s -> viewModelCanhan.ngaySinh.setValue(s));
+    }
+
+    private void InitViews(View view) {
         actDanhXung = view.findViewById(R.id.actdanhxung);
         edtHoVaTenDem = view.findViewById(R.id.edthovatendem);
         edtTen = view.findViewById(R.id.edtten);
@@ -39,19 +86,42 @@ public class ThongTinNguoiLienHeFragment extends Fragment {
         edtDiDong = view.findViewById(R.id.edtdidong);
         edtEmail = view.findViewById(R.id.edtemail);
         edtNgaySinh = view.findViewById(R.id.edtngaysinh);
+    }
 
-        // 2. Setup Dropdown (Giới tính, Công ty...)
-        setupDropdowns();
+    private void bindViewModeltoEditext(MutableLiveData<String> title, EditText editText) {
+        title.observe(getViewLifecycleOwner(), v->{
+            if (v == null) return;
+            String curr = editText.getText() != null ? editText.getText().toString() : "";
+            if (!v.equals(curr)){
+                if(editText instanceof MaterialAutoCompleteTextView){
+                    ((MaterialAutoCompleteTextView)editText).setText(v,false);
+                }else{
+                    if (!editText.hasFocus()){
+                        editText.setText(v);
+                    }
+                }
+            }
+        });
+    }
 
-        // 3. Setup Chọn ngày sinh (MỚI THÊM)
-        setupDatePicker();
+    private void bindEditTexttoViewModel(EditText editText, StringUpdater updater) {
+        editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void afterTextChanged(Editable s) {
 
-        // 4. Fill dữ liệu nếu có (Edit mode)
-        if (pendingData != null) {
-            fillData(pendingData);
-        }
+                }
 
-        return view;
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    updater.update(s.toString());
+                }
+            }
+        );
     }
 
     // --- HÀM XỬ LÝ LỊCH (DATE PICKER) ---

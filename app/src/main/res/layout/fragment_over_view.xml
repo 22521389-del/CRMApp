@@ -252,37 +252,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
         <!-- End Scheduled activities-->
 
-        <!--Comment-->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/comment_action"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toBottomOf="@id/scheduled_action"
-            android:layout_marginTop="@dimen/start_margin"
-            android:background="@color/white">
-
-            <TextView
-                android:id="@+id/tv_comment1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/comment"
-                android:textSize="20sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                />
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/ic_arrow_up"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="@dimen/margin_action"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@null"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <!--End Comment-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>
