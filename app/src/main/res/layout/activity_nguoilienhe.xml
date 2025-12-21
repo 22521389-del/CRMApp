@@ -43,50 +43,7 @@
                     android:text="@string/chitietnguoilienhe"
                     android:textSize="@dimen/text_large"
                     android:layout_marginStart="8dp"/>
-
-                <!-- arrow_left -->
-                <ImageView
-                    android:id="@+id/ic_left"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:background="@drawable/rounded_input_box_small"
-                    android:src="@drawable/ic_arrow_back_ios"
-                    android:scaleType="centerInside"
-                    android:layout_marginStart="40dp"/>
-
-                <!-- arrow_right -->
-                <ImageView
-                    android:id="@+id/ic_right"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:background="@drawable/rounded_input_box_small"
-                    android:src="@drawable/ic_next"
-                    android:scaleType="centerInside"
-                    android:layout_marginStart="8dp"/>
-
-                <!-- edit -->
-                <ImageView
-                    android:id="@+id/ic_edit"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:background="@drawable/rounded_input_box_small"
-                    android:src="@drawable/ic_edit"
-                    android:scaleType="centerInside"
-                    android:layout_marginStart="8dp"/>
-
-                <!-- more -->
-                <ImageView
-                    android:id="@+id/ic_more"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:background="@drawable/rounded_input_box_small"
-                    android:src="@drawable/ic_more"
-                    android:scaleType="centerInside"
-                    android:layout_marginStart="8dp"/>
-
             </LinearLayout>
-
-
 
             <!-- Contact -->
             <LinearLayout
@@ -115,8 +72,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/margin_basex3">
+                android:layout_marginTop="@dimen/margin_basex3"
+                android:orientation="horizontal">
 
                 <!-- Số điện thoại -->
                 <LinearLayout
@@ -124,16 +81,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/sodienthoai"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
                         android:text="Số điện thoại"
-                        android:textSize="@dimen/text_small"
-                        android:layout_marginStart="8dp" />
+                        android:textSize="@dimen/text_small" />
 
                     <ImageView
                         android:id="@+id/ic_phone"
@@ -149,16 +106,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="48dp"
                         android:text="Email"
-                        android:textSize="@dimen/text_small"
-                        android:layout_marginStart="48dp"/>
+                        android:textSize="@dimen/text_small" />
 
                     <ImageView
                         android:id="@+id/ic_mail"
@@ -187,43 +144,6 @@
                 android:gravity="center_vertical"
                 android:layout_marginTop="@dimen/margin_basex3">
 
-                <!-- Người tạo -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:id="@+id/ic_face"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="8dp"
-                        android:src="@drawable/ic_face" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="8dp">
-
-                        <TextView
-                            android:id="@+id/nguoitao"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/nguoitao"
-                            android:textColor="@color/grey"
-                            android:textSize="@dimen/text_small" />
-
-                        <TextView
-                            android:id="@+id/tennguoitao"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Nguyễn Thị Tú Vân"
-                            android:textSize="@dimen/text_small" />
-                    </LinearLayout>
-                </LinearLayout>
 
                 <!-- Người phụ trách -->
                 <LinearLayout
@@ -269,53 +189,55 @@
     <!-- 🔹 TAB NAVIGATION -->
     <LinearLayout
         android:id="@+id/tab_header"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="8dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/margin_basex3"
         app:layout_constraintTop_toBottomOf="@id/headerScroll"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:id="@+id/tab_tongquan"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Tổng quan"
+            android:layout_weight="1"
+            android:text="@string/tongquan"
             android:textColor="@color/blue"
-            android:textSize="14sp"
-            android:padding="8dp" />
+            android:gravity="center"
+            android:background="@drawable/edittext_line"
+            android:textSize="@dimen/text_small" />
+
 
         <TextView
             android:id="@+id/tab_chitiet"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Chi tiết"
-            android:textColor="@color/grey"
-            android:textSize="14sp"
-            android:padding="8dp"
-            android:layout_marginStart="16dp" />
+            android:layout_weight="1"
+            android:text="@string/chitiet"
+            android:gravity="center"
+            android:textSize="@dimen/text_small" />
 
-        <TextView
-            android:id="@+id/tab_hoatdong"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hoạt động"
-            android:textColor="@color/grey"
-            android:textSize="14sp"
-            android:padding="8dp"
-            android:layout_marginStart="16dp" />
+<!--        <TextView-->
+<!--            android:id="@+id/tab_hoatdong"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Hoạt động"-->
+<!--            android:textColor="@color/grey"-->
+<!--            android:textSize="14sp"-->
+<!--            android:padding="8dp"-->
+<!--            android:layout_marginStart="16dp" />-->
 
-        <TextView
-            android:id="@+id/tab_cohoi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cơ hội"
-            android:textColor="@color/grey"
-            android:textSize="14sp"
-            android:padding="8dp"
-            android:layout_marginStart="16dp" />
+<!--        <TextView-->
+<!--            android:id="@+id/tab_cohoi"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Cơ hội"-->
+<!--            android:textColor="@color/grey"-->
+<!--            android:textSize="14sp"-->
+<!--            android:padding="8dp"-->
+<!--            android:layout_marginStart="16dp" />-->
     </LinearLayout>
 
     <!-- 🔹 NỘI DUNG FRAGMENT THAY ĐỔI -->
